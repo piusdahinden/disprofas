@@ -1,0 +1,33 @@
+Package: disprofas
+Type: Package
+Title: Non-parametric Dissolution Profile Analysis
+Version: 0.0.0.9005
+Authors@R: c(person(given = "Pius",
+                    family = "Dahinden",
+                    role = c("aut", "cre"),
+                    email = "pius.dahinden@tillotts.com"),
+             person(given = "Tillotts Pharma AG",
+                    email = "tillotts@tillotts.com",
+                    role = c("cph", "fnd")))
+Description: Similarity of dissolution profiles is assessed using the similarity
+    factor f2 according to the EMA guideline (European Medicines Agency 2010)
+    'On the investigation of bioequivalence'. Dissolution profiles are regarded
+    as similar if the f2 value is between 50 and 100. For the applicability
+    of the similarity factor f2, the variability between profiles needs to be
+    within certain limits. Often, this constraint is violated. One possibility
+    in this situation is to resample the measured profiles to obtain a so-called
+    bootstrap estimate of f2. In the literature it is proposed that the lower
+    90% bias corrected and accelerated (BCA) confidence interval (CI) limit of
+    the bootstrap f2 data should be > 50. Other alternatives for the assessment
+    of highly variable dissolution profiles is using the model-independent,
+    non-parametric multivariate confidence region (MCR) procedure or the T2-test
+    for equivalence procedure. Functions for estimation of f1, f2, bootstrap
+    f2 as well as the model-independent MCR procedure and the T2-test for
+    equivalence procedure are implemented in this package.
+Depends: R (>= 3.5)
+Imports: boot, ggplot2
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+Suggests: testthat
+RoxygenNote: 7.1.1

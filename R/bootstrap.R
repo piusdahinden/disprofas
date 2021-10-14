@@ -366,12 +366,11 @@ get_jackknife_values <- function(grouping, stat_fun, data, ...) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   n <- nrow(data) / 2
-  u <- rep(0, n)
 
-  for (i in 1:n) {
-    selection <- (1:(2 * n))[-c(i, (i + n))]
-    u[i] <- stat_fun(data = data, ins = selection, grouping = grouping, ...)
-  }
+  l_index <- lapply(1:n, function(x) (1:(2 * n))[-c(x, (x + n))])
+  u <- vapply(l_index, function(x)
+    stat_fun(data = data, ins = x, grouping = grouping, ...),
+    numeric(1))
 
   theta_hat <- stat_fun(data = data, ins = 1:(2 * n), grouping = grouping, ...)
   pseudo_values <- n * theta_hat - (n - 1) * u

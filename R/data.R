@@ -24,14 +24,13 @@
 #' }
 #'
 #' @references
-#' Tsong, Y., Hammerstrom, T., Sathe, P., and Shah, V.P. Statistical
-#' Assessment of Mean Differences Between Two Dissolution Data Sets.
-#' \emph{Drug Inf J} (1996) \strong{30}: 1105-1112. \cr
-#' Example data set shown in Table 1.
+#' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
+#' assessment of mean differences between two dissolution data sets.
+#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
+#' \doi{10.1177/F009286159603000427}
 #'
 #' @source
-#' \href{http://www.reocities.com/HotSprings/Spa/6896/dj304851.pdf}{
-#'       Tsong \emph{et al}., \emph{Drug Inf J} 1996}
+#' See reference: Example data set shown in Table 1.
 #'
 #' @examples
 #' \dontrun{dip1}
@@ -63,14 +62,13 @@
 #' }
 #'
 #' @references
-#' Shah, V.P., Tsong, Y., Sathe, P., and Liu, J.-P. \emph{In Vitro} Dissolution
-#' Profile Comparison - Statistics and Analysis of the Similarity Factor, f2.
-#' \emph{Pharm Res} (1998) \strong{15}(6): 889-896. \cr
-#' Example data set shown in Table 4.
+#' Shah, V. P., Tsong, Y., Sathe, P., and Liu, J. P. \emph{In vitro} dissolution
+#' profile comparison - statistics and analysis of the similarity factor,
+#' \eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.\cr
+#' \doi{10.1023/A:1011976615750}
 #'
 #' @source
-#' \href{https://link.springer.com/article/10.1023/A:1011976615750}{
-#'       Shah \emph{et al}., \emph{Pharm Res} 1998}
+#' See reference: Example data set shown in Table 4.
 #'
 #' @examples
 #' \dontrun{dip2}
@@ -102,13 +100,12 @@
 #'
 #' @references
 #' Hoffelder, T., Goessl, R., and Wellek, S. Multivariate equivalence tests for
-#' use in pharmaceutical development.
-#' \emph{J Biopharm Stat} (2015) \strong{25}(3): 417-437. \cr
-#' Example data set shown in Table 1.
+#' use in pharmaceutical development. \emph{J Biopharm Stat} (2015)
+#' \strong{25}(3): 417-437.\cr
+#' \doi{10.1080/10543406.2014.920344}
 #'
 #' @source
-#' \href{https://www.ncbi.nlm.nih.gov/pubmed/24896319}{
-#'       Hoffelder \emph{et al}., \emph{J Biopharm Stat} 2015}
+#' See reference: Example data set shown in Table 1.
 #'
 #' @examples
 #' \dontrun{dip3}
@@ -135,14 +132,13 @@
 #' }
 #'
 #' @references
-#' Hoffelder, T. Highly variable dissolution profiles: Comparison of \eqn{T^2}-
-#' Test for equivalence of \eqn{f_2} based methods.
-#' \emph{Pharmind} (2016) \strong{78}(4): 587-592. \cr
-#' Example data set underlying Figure 1.
+#' Hoffelder, T. Highly variable dissolution profiles. Comparison of
+#' \eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
+#' 2016; \strong{78}(4): 587-592.\cr
+#' \url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @source
-#' \href{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}{
-#'       Hoffelder, T., \emph{Pharmind} 2016}
+#' See reference: Example data set underlying Figure 1.
 #'
 #' @examples
 #' \dontrun{dip4}
@@ -153,7 +149,7 @@
 #'
 #' The \code{response} values of this data set correspond to the values
 #'   published in the SAS/QC(R) 13.1 (2013) User's Guide, Chapter 5 (The
-#'   Capability Procedure). The data set is described on page 199: The fluid
+#'   CAPABILITY Procedure). The data set is described on page 199: The fluid
 #'   weights of 100 drink cans were measured in ounces. The filling process is
 #'   assumed to be in statistical control.
 #'
@@ -170,12 +166,13 @@
 #'
 #' @references
 #' SAS Institute Inc. 2013. \emph{SAS/QC(R) 13.1 User's Guide}. Cary, NC:
-#' SAS Institute Inc.
+#' SAS Institute Inc.\cr
+#' \url{https://support.sas.com/documentation/cdl/en/qcug/66857/PDF/
+#' default/qcug.pdf}
 #'
 #' @source
-#' \href{https://support.sas.com/documentation/cdl/en/qcug/66857/PDF/
-#' default/qcug.pdf}{
-#'       \emph{SAS/QC(R) 13.1 User's Guide} 2013}
+#' See reference: Chapter 5 (The CAPABILITY Procedure), Cans data set shown
+#' on page 199.
 #'
 #' @examples
 #' \dontrun{dip5}

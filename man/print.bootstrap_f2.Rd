@@ -7,24 +7,24 @@
 \method{print}{bootstrap_f2}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{bootstrap_f2} returned by the
+\item{x}{An object of class \sQuote{\code{bootstrap_f2}} returned by the
 \code{\link{bootstrap_f2}()} function.}
 
-\item{...}{further arguments passed to or from other methods or arguments
+\item{...}{Further arguments passed to or from other methods or arguments
 that can be passed down to the \code{\link[boot]{print.boot}()} and
 \code{\link[boot]{print.bootci}()} functions.}
 }
 \value{
-The \code{bootstrap_f2} object passed to the \code{object} parameter
-is returned invisibly.
+The \sQuote{\code{bootstrap_f2}} object passed to the \code{object}
+parameter is returned invisibly.
 }
 \description{
 This is a method for the function \code{print()} for objects of class
-\code{bootstrap_f2}.
+\sQuote{\code{bootstrap_f2}}.
 }
 \details{
 The function \code{print.bootstrap_f2()} prints the most relevant
-information in an \code{bootstrap_f2} object.
+information in a \sQuote{\code{bootstrap_f2}} object.
 }
 \seealso{
 \code{\link{bootstrap_f2}}, \code{\link[boot]{boot}},

@@ -20,8 +20,7 @@ A data frame with 72 observations and 8 variables:
 }
 }
 \source{
-\href{https://link.springer.com/article/10.1023/A:1011976615750}{
-      Shah \emph{et al}., \emph{Pharm Res} 1998}
+See reference: Example data set shown in Table 4.
 }
 \usage{
 data(dip2)
@@ -35,9 +34,9 @@ A data set containing the dissolution data of one reference batch and five
 \dontrun{dip2}
 }
 \references{
-Shah, V.P., Tsong, Y., Sathe, P., and Liu, J.-P. \emph{In Vitro} Dissolution
-Profile Comparison - Statistics and Analysis of the Similarity Factor, f2.
-\emph{Pharm Res} (1998) \strong{15}(6): 889-896. \cr
-Example data set shown in Table 4.
+Shah, V. P., Tsong, Y., Sathe, P., and Liu, J. P. \emph{In vitro} dissolution
+profile comparison - statistics and analysis of the similarity factor,
+\eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.\cr
+\doi{10.1023/A:1011976615750}
 }
 \keyword{datasets}

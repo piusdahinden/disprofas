@@ -33,26 +33,18 @@ returned:
 \description{
 The function \code{get_jackknife_values()} is required for generation of
 vector \eqn{L} for the BCA confidence interval estimation by the
-\code{boot.ci()} function from the \code{boot} package.
+\code{boot.ci()} function from the \sQuote{\code{boot}} package.
 }
 \details{
 For the calculation of BCa bootstrap confidence intervals empirical
 influence values of the statistic of interest for the observed data are
 required. If \eqn{L} is not provided to the \code{boot.ci()} function from
-the \code{boot} package, the values are calculated, if needed, using the
-\code{empinf()} function (also from the \code{boot} package). Since the
-results returned by \code{empinf()} are not appropriate in this case,
-the \eqn{L} values are determined using \code{get_jackknife_values()}.
-
-The review article by Davison & Kuonen (2002) gives a short introduction
-to the bootstrap topic. It can be found under this
-\href{https://pdfs.semanticscholar.org/0203/
-d0902185dd819bf38c8dacd077df0122b89d.pdf}{LINK}.
-Very useful are also the worked examples of Hung Chen from the Department
-of Mathematics from the National Taiwan University with the title
-\dQuote{Bootstrap and Jackkniffe Calculations in R} which can be found under
-this \href{http://www.math.ntu.edu.tw/~hchen/teaching/LargeSample/
-references/R-bootstrap.pdf}{LINK}.
+the \sQuote{\code{boot}} package, the values are calculated, if needed,
+using the \code{empinf()} function (also from the \sQuote{\code{boot}}
+package). Since the results returned by \code{empinf()} are not appropriate
+in this case, the \eqn{L} values are determined using
+\code{get_jackknife_values()}. The jackknife calculations are done by
+calculating the leave-one-out estimates.
 }
 \examples{
 \dontrun{
@@ -74,9 +66,9 @@ references/R-bootstrap.pdf}{LINK}.
 # [1] -0.01933776
 }
 \references{
-Davison, A.C., and Kuonen, D. An introduction to the bootstrap with
-applications in R. \emph{Stat Comp Graphics Newsletter} (2002) \strong{13}:
-6-11.
+Chen, H. Bootstrap and Jackknife Calculations in R. 2004.\cr
+\url{http://www.math.ntu.edu.tw/~hchen/teaching/LargeSample/references/
+R-bootstrap.pdf}
 }
 \seealso{
 \code{\link{bootstrap_f2}}, \code{\link[boot]{boot}},

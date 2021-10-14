@@ -20,7 +20,7 @@
 #'   \code{shape} is \code{"long"} a numeric value, specifying the column
 #'   containing the \% release values. If the data frame is in \code{wide}
 #'   format it is reshaped using the function \code{reshape()} from the
-#'   \code{stats} package.
+#'   \sQuote{\code{stats}} package.
 #' @param grouping A string variable specifying the column in \code{data} that
 #'   contains the group names (i.e. a factorial variable, e.g., for the
 #'   differentiation of batches or formulations of a drug product).
@@ -34,7 +34,7 @@
 #' @param cap A logical variable specifying if the calculated tolerance limits
 #'   should be limited (i.e. \emph{cap}ped). The default is \code{TRUE}.
 #' @param rellim A numeric vector of the form \code{c(lower, upper)} specifying
-#'   the \sQuote{lower} and \sQuote{upper} limits of \% drug release at which
+#'   the \dQuote{lower} and \dQuote{upper} limits of \% drug release at which
 #'   the calculated tolerance interval limits should be capped (see parameter
 #'   \eqn{cap}. This parameter is only relevant if \code{cap = TRUE}. The
 #'   default is \code{c(0, 100)}.
@@ -89,8 +89,8 @@
 #' Howe (Howe 1969). The reason might be due to the less stringent requirements
 #' imposed by Hahn's method with respect to the normality of the data.
 #'
-#' @return An object of class \code{mztia} is returned, containing the following
-#' list elements:
+#' @return An object of class \sQuote{\code{mztia}} is returned, containing the
+#' following list elements:
 #' \item{Variables}{A list of the variables and the corresponding values}
 #' \item{Limits}{A data frame of the limits calculated for each time point}
 #' \item{Data}{A data frame consisting of the provided data, complemented by
@@ -99,19 +99,20 @@
 #' @references
 #' Martinez, M.N., and Zhao, X. A simple approach for comparing the
 #' \emph{in vitro} dissolution profiles of highly variable drug products: a
-#' proposal. \emph{AAPS Journal}. (2018); \strong{20}: 78.
+#' proposal. \emph{AAPS Journal}. (2018); \strong{20}: 78.\cr
+#' \doi{10.1208/s12248-018-0238-1}
 #'
 #' Howe, W.G. Two-sided tolerance limits for normal populations - some
-#' improvements. \emph{J Am Stat Assoc}. (1969); \strong{64}: 610-620.
+#' improvements. \emph{J Am Stat Assoc}. (1969); \strong{64}: 610-620.\cr
+#' \doi{10.2307/2283644}
 #'
 #' Hahn, G.J., and Meeker, W. Q. Statistical intervals: A guide for
 #' practitioners. (1991); John Wiley & Sons, New York.
 #' Hahn's method is also described in: SAS/QC 13.1: User's Guide. Chapter 5,
 #' sub-chapter \dQuote{Details: INTERVALS Statement}, pp 421-424. SAS Institute
-#' Inc. 2013. Cary, NC. \cr
-#' \href{https://support.sas.com/documentation/cdl/en/qcug/66857/PDF/
-#' default/qcug.pdf}{LINK}
-#' Accessed 22. September 2020.
+#' Inc. 2013. Cary, NC.\cr
+#' \url{https://support.sas.com/documentation/cdl/en/qcug/66857/PDF/
+#' default/qcug.pdf}
 #'
 #' U.S. Pharmacopoeia. 2016 U.S. Pharmacopoeia-National Formulary
 #' (USP 39 NF 34). Volume 1. Rockville, Md: United States Pharmacopeial
@@ -341,20 +342,20 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
 #' The function \code{plot_mztia()} makes a graphical representation of the
 #' estimates done by the \code{mztia()} function.
 #'
-#' @param x An object of class \code{mztia} returned by the
+#' @param x An object of class \sQuote{\code{mztia}} returned by the
 #'   \code{\link{mztia}()} function.
 #' @param ... Additional parameters that can be passed down to the
 #'   \code{\link[ggplot2]{ggplot}()} function.
 #'
 #' @details The function \code{plot_mztia()} uses the data and the information
 #' in the \code{Data} element of the object that is returned by \code{mztia()}.
-#' It uses the \code{\link[ggplot2]{ggplot}()} function from the \code{ggplot2}
-#' package for plotting.
+#' It uses the \code{\link[ggplot2]{ggplot}()} function from the
+#' \sQuote{\code{ggplot2}} package for plotting.
 #'
-#' @return A list of the elements of the \code{mztia} object and an additional
-#' element named \code{Graph} is returned invisibly. The element \code{Graph}
-#' is a \code{ggplot} object, returned by the \code{\link[ggplot2]{ggplot}()}
-#' function.
+#' @return A list of the elements of the \sQuote{\code{mztia}} object and an
+#' additional element named \code{Graph} is returned invisibly. The element
+#' \code{Graph} is a \sQuote{\code{ggplot}} object, returned by the
+#' \code{\link[ggplot2]{ggplot}()} function.
 #'
 #' @seealso \code{\link{mztia}}, \code{\link[ggplot2]{ggplot}}.
 #'

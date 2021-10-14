@@ -13,9 +13,8 @@ A data frame with 100 observations and 3 variables:
 }
 }
 \source{
-\href{https://support.sas.com/documentation/cdl/en/qcug/66857/PDF/
-default/qcug.pdf}{
-      \emph{SAS/QC(R) 13.1 User's Guide} 2013}
+See reference: Chapter 5 (The CAPABILITY Procedure), Cans data set shown
+on page 199.
 }
 \usage{
 data(dip5)
@@ -23,7 +22,7 @@ data(dip5)
 \description{
 The \code{response} values of this data set correspond to the values
   published in the SAS/QC(R) 13.1 (2013) User's Guide, Chapter 5 (The
-  Capability Procedure). The data set is described on page 199: The fluid
+  CAPABILITY Procedure). The data set is described on page 199: The fluid
   weights of 100 drink cans were measured in ounces. The filling process is
   assumed to be in statistical control.
 }
@@ -32,6 +31,8 @@ The \code{response} values of this data set correspond to the values
 }
 \references{
 SAS Institute Inc. 2013. \emph{SAS/QC(R) 13.1 User's Guide}. Cary, NC:
-SAS Institute Inc.
+SAS Institute Inc.\cr
+\url{https://support.sas.com/documentation/cdl/en/qcug/66857/PDF/
+default/qcug.pdf}
 }
 \keyword{datasets}

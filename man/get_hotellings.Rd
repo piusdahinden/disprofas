@@ -13,7 +13,7 @@ get_hotellings(m1, m2, signif)
 with the data of the test group.}
 
 \item{signif}{A positive numeric value between 0 and 1 specifying the
-significance level for the calculation of the \sQuote{Confidence Region}
+significance level for the calculation of the \dQuote{Confidence Region}
 (CR). The coverage of CR is \eqn{(1 - signif) 100}\%. The default value
 is \code{0.05}.}
 }
@@ -91,11 +91,13 @@ The following assumptions concerning the data are made:
 }
 \references{
 Hotelling, H. The generalisation of Student's ratio. \emph{Ann Math Stat}.
-1931; \strong{2}(3): 360-378.
+1931; \strong{2}(3): 360-378.\cr
+\url{https://www.jstor.org/stable/2957535}
 
-Hotelling, H. Multivariate Quality Control. In C. Eisenhart, M.W. Hastay,
-and W.A. Wallis, eds. \emph{Techniques of Statistical Analysis}. 1947;
-New York: McGraw-Hill.
+Hotelling, H. (1947) \emph{Multivariate quality control illustrated by air
+testing of sample bombsights}. In: Eisenhart, C., Hastay, M.W., and Wallis,
+W.A., Eds., Techniques of Statistical Analysis, McGraw Hill, New York,
+111-184.
 }
 \seealso{
 \code{\link{mimcr}}, \code{\link{get_sim_lim}}.

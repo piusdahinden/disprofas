@@ -3,9 +3,9 @@
 #' The function \code{mimcr()} assesses the equivalence of highly variable
 #' dissolution profiles. It does so by applying different methods proposed in
 #' the literature, i.e. it implements the non-parametric
-#' \sQuote{Model-Independent Multivariate Confidence Region} (MIMCR) procedure,
-#' including the \eqn{T^2} test for equivalence of dissolution data as proposed
-#' by Hoffelder (2016).
+#' \dQuote{Model-Independent Multivariate Confidence Region} (MIMCR) procedure,
+#' including the \dQuote{\eqn{T^2} test for equivalence} of dissolution data
+#' as proposed by Hoffelder (2016).
 #'
 #' @param data A data frame with the dissolution profile data in wide format.
 #'   Since the information on the time points of dissolution testing is
@@ -32,7 +32,7 @@
 #'   time point (in \%). The default value is \code{10}. It determines the the
 #'   size of the similarity limit \eqn{\bm{d}_g}{d_g}.
 #' @param signif A positive numeric value between 0 and 1 specifying the
-#'   significance level for the calculation of the \sQuote{Confidence Region}
+#'   significance level for the calculation of the \dQuote{Confidence Region}
 #'   (CR). The coverage of CR is \eqn{(1 - signif) 100}\%. The default value
 #'   is \code{0.05}.
 #' @param max_trial A positive integer specifying the maximum number of
@@ -70,10 +70,10 @@
 #' alternative to the \eqn{f_2} method. This can be done using the following
 #' stepwise procedure:
 #' \enumerate{
-#' \item Establish a similarity limit in terms of \sQuote{Multivariate
+#' \item Establish a similarity limit in terms of \dQuote{Multivariate
 #'   Statistical Distance} (MSD) based on inter-batch differences in \% drug
 #'   release from reference (standard approved) formulations, i.e. the so-
-#'   called \sQuote{Equivalence Margin} (EM).
+#'   called \dQuote{Equivalence Margin} (EM).
 #' \item Calculate the MSD between test and reference mean dissolutions.
 #' \item Estimate the 90\% confidence interval (CI) of the true MSD as
 #'   determined in step 2.
@@ -102,7 +102,7 @@
 #' variance-covariance matrices of the test and reference profiles.
 #'
 #' In order to determine the similarity limits in terms of the
-#' \sQuote{Multivariate Statistical Distance} (MSD), i.e. the Mahalanobis
+#' \dQuote{Multivariate Statistical Distance} (MSD), i.e. the Mahalanobis
 #' distance between the two multivariate means of the dissolution profiles
 #' of the formulations to be compared, Tsong et al. (1996) proposed to use
 #' the equation
@@ -154,7 +154,7 @@
 #'   (n_T + n_R - p - 1) / ((n_T + n_R - 2) p) T^2 ,}
 #'
 #' where \eqn{\alpha} is the significance level and \eqn{ncp} is the so-called
-#' \sQuote{\emph{non-centrality parameter}} that is calculated by
+#' \dQuote{\emph{non-centrality parameter}} that is calculated by
 #'
 #' \deqn{\frac{n_T n_R}{n_T + n_R} \left( D_M^{max} \right)^2 .}{%
 #'   (n_T n_R) / (n_T + n_R) (D_M^{max})^2 .}
@@ -168,15 +168,15 @@
 #' As mentioned previously, \eqn{\bm{d}_g}{d_g} is a \eqn{1 \times p}{1 x p}
 #' vector with all \eqn{p} elements equal to an empirically defined limit
 #' \eqn{d_g}. Thus, the components of the vector \eqn{\bm{d}_g}{d_g} can be
-#' interpreted as upper bound for a kind of \sQuote{\emph{average}} allowed
-#' difference between test and reference profiles, the \sQuote{\emph{global
+#' interpreted as upper bound for a kind of \dQuote{\emph{average}} allowed
+#' difference between test and reference profiles, the \dQuote{\emph{global
 #' similarity limit}}. Since the EMA requires that \dQuote{similarity acceptance
 #' limits should be pre-defined and justified and not be greater than a 10\%
 #' difference}, it is recommended to use 10\%, not 15\% as proposed by Tsong
 #' et al., for the maximum tolerable difference at all time points.
 #'
-#' @return An object of class \code{mimcr} is returned, containing the following
-#' list elements:
+#' @return An object of class \sQuote{\code{mimcr}} is returned, containing
+#' the following list elements:
 #' \item{Similarity}{Conclusion concerning similarity}
 #' \item{Parameters}{Parameters calculated during the assessment}
 #' \item{NR.CI}{List with results from the Newton-Raphson (NR) search}
@@ -219,55 +219,39 @@
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' dissolution testing of immediate release solid oral dosage forms. 1997.\cr
-#' \href{https://www.fda.gov/media/70936/download}{LINK}
-#' Accessed 05. Mai 2019.
-#'
-#' United States Food and Drug Administration (FDA). Guidance for industry:
-#' waiver of \emph{in vivo} bioavailability and bioequivalence studies for
-#' immediate release solid oral dosage forms based on a biopharmaceutics
-#' classification system. 2000.\cr
-#' \href{https://www.fda.gov/media/70963/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70936/download}
 #'
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' immediate release solid oral dosage form: scale-up and post-approval
 #' changes, chemistry, manufacturing and controls, \emph{in vitro} dissolution
 #' testing, and \emph{in vivo} bioequivalence documentation (SUPAC-IR). 1995.\cr
-#' \href{https://www.fda.gov/media/70949/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70949/download}
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 #' CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-#' \href{http://www.ema.europa.eu/docs/en_GB/document_library/
-#'   Scientific_guideline/2010/01/WC500070039.pdf}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
+#' guideline-investigation-bioequivalence-rev1_en.pdf}
 #'
 #' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
-#' Assessment of Mean Differences Between Two Dissolution Data Sets.
-#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.
+#' assessment of mean differences between two dissolution data sets.
+#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
+#' \doi{10.1177/F009286159603000427}
 #'
 #' Tsong, Y., Hammerstrom, T., and Chen, J.J. Multipoint dissolution
 #' specification and acceptance sampling rule based on profile modeling and
 #' principal component analysis. \emph{J Biopharm Stat}. 1997; \strong{7}(3):
-#' 423-439.
+#' 423-439.\cr
+#' \doi{10.1080/10543409708835198}
 #'
-#' Wellek S. Testing Statistical Hypotheses of Equivalence and Noninferiority,
-#' 2nd Edition, Chapman & Hall /CRC Press LLC, 2010.
+#' Wellek S. (2010) \emph{Testing statistical hypotheses of equivalence and
+#' noninferiority} (2nd ed.). Chapman & Hall/CRC, Boca Raton.\cr
+#' \doi{10.1201/EBK1439808184}
 #'
-#' Hoffelder, T. Highly Variable Dissolution Profiles. Comparison of
-#' \eqn{T^2}-Test for Equivalence and \eqn{f_2} Based Methods. \emph{Pharm Ind}.
+#' Hoffelder, T. Highly variable dissolution profiles. Comparison of
+#' \eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
 #' 2016; \strong{78}(4): 587-592.\cr
-#' \href{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}{LINK}
-#' Accessed 22. September 2020.
-#'
-#' Hoffelder, T. EMA (2018) Q\&A on Mahalanobis distance (MD) to assess drug
-#' dissolution profiles - Statistical critique \& demonstration of adequacy
-#' of T2EQ approach (based on MD); 4th EFSPI Workshop on Regulatory Statistics;
-#' September 23-24, 2019.\cr
-#' \href{https://www.efspi.org/Documents/Events/Events%202019/Reg%20Stats/
-#' Presentations/6_4_Hoffelder.pdf}{LINK}
-#' Accessed 22. September 2020.
+#' \url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @seealso \code{\link{gep_by_nera}}, \code{\link{bootstrap_f2}},
 #'   \code{\link{mztia}},

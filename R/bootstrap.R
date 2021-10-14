@@ -81,53 +81,48 @@
 #' \eqn{d = 1}) and a maximum of one mean value per formulation is \eqn{> 85}\%
 #' dissolved. In the literature it is suggested to make use of the lower 90\%
 #' bias corrected and accelerated (BCA) confidence interval (CI) limit to come
-#' to a decision in terms of similarity (Stevens 2015).
+#' to a decision in terms of similarity (Stevens (2015)).
 #'
-#' @return An object of class \code{bootstrap_f2} is returned, containing
-#' the following list elements:
-#' \item{Boot}{Object of class \code{boot} with the corresponding components.}
+#' @return An object of class \sQuote{\code{bootstrap_f2}} is returned,
+#' containing the following list elements:
+#' \item{Boot}{An Object of class \sQuote{\code{boot}} with the corresponding
+#'   components.}
 #' \item{Profile.TP}{A named numeric vector of the profile time points.}
 #' \item{L}{A vector of the Jackknife leave-one-out-values.}
-#' \item{CI}{An object of class \code{bootci} which contains the intervals.}
+#' \item{CI}{An object of class \sQuote{\code{bootci}} which contains the
+#'   intervals.}
 #' \item{BCa_CI}{The lower and upper limits of the BCa interval calculated
-#'   by the \code{boot.ci()} function from the \code{boot} package.}
+#'   by the \code{boot.ci()} function from the \sQuote{\code{boot}} package.}
 #' \item{ShahBCa_CI}{The lower and upper limits of the BCa interval calculated
 #'   according to Shah (Shah 1998).}
 #'
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' dissolution testing of immediate release solid oral dosage forms. 1997.\cr
-#' \href{https://www.fda.gov/media/70936/download}{LINK}
-#' Accessed 05. Mai 2019.
-#'
-#' United States Food and Drug Administration (FDA). Guidance for industry:
-#' waiver of \emph{in vivo} bioavailability and bioequivalence studies for
-#' immediate release solid oral dosage forms based on a biopharmaceutics
-#' classification system. 2000.\cr
-#' \href{https://www.fda.gov/media/70963/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70936/download}
 #'
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' immediate release solid oral dosage form: scale-up and post-approval
 #' changes, chemistry, manufacturing and controls, \emph{in vitro} dissolution
 #' testing, and \emph{in vivo} bioequivalence documentation (SUPAC-IR). 1995.\cr
-#' \href{https://www.fda.gov/media/70949/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70949/download}
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 #' CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-#' \href{http://www.ema.europa.eu/docs/en_GB/document_library/
-#' Scientific_guideline/2010/01/WC500070039.pdf}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
+#' guideline-investigation-bioequivalence-rev1_en.pdf}
 #'
-#' Stevens, R. E., Gray, V., Dorantes, A. & Gold, L. Scientific and Regulatory
-#' Standards for Assessing Product Performance Using the Similarity Factor,
-#' \eqn{f_2}. \emph{AAPS Journal}. 2015; \strong{17}(2): 301-306.
+#' Stevens, R. E., Gray, V., Dorantes, A., Gold, L., and Pham, L. Scientific
+#' and regulatory standards for assessing product performance using the
+#' similarity factor, \eqn{f_2}. \emph{AAPS Journal}. 2015; \strong{17}(2):
+#' 301-306.\cr
+#' \doi{10.1208/s12248-015-9723-y}
 #'
-#' Shah, V. P., Tsong, Y., Sathe, P. & Liu, J. P. \emph{In vitro} dissolution
+#' Shah, V. P., Tsong, Y., Sathe, P., and Liu, J. P. \emph{In vitro} dissolution
 #' profile comparison - statistics and analysis of the similarity factor,
-#' \eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.
+#' \eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.\cr
+#' \doi{10.1023/A:1011976615750}
 #'
 #' @seealso \code{\link{get_jackknife_values}}, \code{\link[boot]{boot}},
 #'   \code{\link[boot]{boot.ci}}, \code{\link{mimcr}}, \code{\link{mztia}}.
@@ -319,7 +314,7 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
 #'
 #' The function \code{get_jackknife_values()} is required for generation of
 #' vector \eqn{L} for the BCA confidence interval estimation by the
-#' \code{boot.ci()} function from the \code{boot} package.
+#' \code{boot.ci()} function from the \sQuote{\code{boot}} package.
 #'
 #' @param stat_fun The name of the function calculating the statistic of
 #'   interest. The statistic function must return a single number.
@@ -332,21 +327,12 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
 #' @details For the calculation of BCa bootstrap confidence intervals empirical
 #' influence values of the statistic of interest for the observed data are
 #' required. If \eqn{L} is not provided to the \code{boot.ci()} function from
-#' the \code{boot} package, the values are calculated, if needed, using the
-#' \code{empinf()} function (also from the \code{boot} package). Since the
-#' results returned by \code{empinf()} are not appropriate in this case,
-#' the \eqn{L} values are determined using \code{get_jackknife_values()}.
-#'
-#' @details
-#' The review article by Davison & Kuonen (2002) gives a short introduction
-#' to the bootstrap topic. It can be found under this
-#' \href{https://pdfs.semanticscholar.org/0203/
-#' d0902185dd819bf38c8dacd077df0122b89d.pdf}{LINK}.
-#' Very useful are also the worked examples of Hung Chen from the Department
-#' of Mathematics from the National Taiwan University with the title
-#' \dQuote{Bootstrap and Jackkniffe Calculations in R} which can be found under
-#' this \href{http://www.math.ntu.edu.tw/~hchen/teaching/LargeSample/
-#' references/R-bootstrap.pdf}{LINK}.
+#' the \sQuote{\code{boot}} package, the values are calculated, if needed,
+#' using the \code{empinf()} function (also from the \sQuote{\code{boot}}
+#' package). Since the results returned by \code{empinf()} are not appropriate
+#' in this case, the \eqn{L} values are determined using
+#' \code{get_jackknife_values()}. The jackknife calculations are done by
+#' calculating the leave-one-out estimates.
 #'
 #' @return A list of the jackknife assessment with the following elements is
 #' returned:
@@ -358,9 +344,9 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
 #' \item{pseudo.values}{The pseudo values}
 #'
 #' @references
-#' Davison, A.C., and Kuonen, D. An introduction to the bootstrap with
-#' applications in R. \emph{Stat Comp Graphics Newsletter} (2002) \strong{13}:
-#' 6-11.
+#' Chen, H. Bootstrap and Jackknife Calculations in R. 2004.\cr
+#' \url{http://www.math.ntu.edu.tw/~hchen/teaching/LargeSample/references/
+#' R-bootstrap.pdf}
 #'
 #' @seealso \code{\link{bootstrap_f2}}, \code{\link[boot]{boot}},
 #'   \code{\link[boot]{boot.ci}}.

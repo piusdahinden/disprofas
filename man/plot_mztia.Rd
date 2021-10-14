@@ -7,17 +7,17 @@
 plot_mztia(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{mztia} returned by the
+\item{x}{An object of class \sQuote{\code{mztia}} returned by the
 \code{\link{mztia}()} function.}
 
 \item{...}{Additional parameters that can be passed down to the
 \code{\link[ggplot2]{ggplot}()} function.}
 }
 \value{
-A list of the elements of the \code{mztia} object and an additional
-element named \code{Graph} is returned invisibly. The element \code{Graph}
-is a \code{ggplot} object, returned by the \code{\link[ggplot2]{ggplot}()}
-function.
+A list of the elements of the \sQuote{\code{mztia}} object and an
+additional element named \code{Graph} is returned invisibly. The element
+\code{Graph} is a \sQuote{\code{ggplot}} object, returned by the
+\code{\link[ggplot2]{ggplot}()} function.
 }
 \description{
 The function \code{plot_mztia()} makes a graphical representation of the
@@ -26,8 +26,8 @@ estimates done by the \code{mztia()} function.
 \details{
 The function \code{plot_mztia()} uses the data and the information
 in the \code{Data} element of the object that is returned by \code{mztia()}.
-It uses the \code{\link[ggplot2]{ggplot}()} function from the \code{ggplot2}
-package for plotting.
+It uses the \code{\link[ggplot2]{ggplot}()} function from the
+\sQuote{\code{ggplot2}} package for plotting.
 }
 \seealso{
 \code{\link{mztia}}, \code{\link[ggplot2]{ggplot}}.

@@ -15,8 +15,7 @@ A data frame with 24 observations and 2 variables:
 }
 }
 \source{
-\href{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}{
-      Hoffelder, T., \emph{Pharmind} 2016}
+See reference: Example data set underlying Figure 1.
 }
 \usage{
 data(dip4)
@@ -30,9 +29,9 @@ A data set containing the dissolution data of one reference batch and one
 \dontrun{dip4}
 }
 \references{
-Hoffelder, T. Highly variable dissolution profiles: Comparison of \eqn{T^2}-
-Test for equivalence of \eqn{f_2} based methods.
-\emph{Pharmind} (2016) \strong{78}(4): 587-592. \cr
-Example data set underlying Figure 1.
+Hoffelder, T. Highly variable dissolution profiles. Comparison of
+\eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
+2016; \strong{78}(4): 587-592.\cr
+\url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 }
 \keyword{datasets}

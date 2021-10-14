@@ -67,9 +67,8 @@
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 #' CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-#' \href{http://www.ema.europa.eu/docs/en_GB/document_library/
-#' Scientific_guideline/2010/01/WC500070039.pdf}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
+#' guideline-investigation-bioequivalence-rev1_en.pdf}
 #'
 #' @keywords internal
 
@@ -435,10 +434,10 @@ rand_indiv_points <- function(data, mle) {
 #' Points on confidence region (found by Newton-Raphson search)
 #'
 #' The function \code{gep_by_nera()} is a function for finding points on
-#' confidence region (\eqn{CR}) bounds by aid of the \sQuote{Method of Lagrange
-#' Multipliers} (MLM) and by \sQuote{Newton-Raphson} (nera) optimisation. The
+#' confidence region (\eqn{CR}) bounds by aid of the \dQuote{Method of Lagrange
+#' Multipliers} (MLM) and by \dQuote{Newton-Raphson} (nera) optimisation. The
 #' multivariate confidence interval for profiles with four time points, e.g.,
-#' is an \sQuote{ellipse} in four dimensions.
+#' is an \dQuote{ellipse} in four dimensions.
 #'
 #' @param n_p A positive integer specifying the \dQuote{number of (time)
 #'   points}.
@@ -458,8 +457,8 @@ rand_indiv_points <- function(data, mle) {
 #'
 #' @details The function \code{gep_by_nera()} determines the points on the
 #' \eqn{CR} bounds for each of the \code{n_p} time points. It does so by aid
-#' of the \sQuote{Method of Lagrange Multipliers} (MLM) and by
-#' \sQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
+#' of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
+#' \dQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
 #' Connolly (Connolly 2000).
 #'
 #' For more information, see the sections \dQuote{Comparison of highly variable
@@ -485,43 +484,33 @@ rand_indiv_points <- function(data, mle) {
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' dissolution testing of immediate release solid oral dosage forms. 1997.\cr
-#' \href{https://www.fda.gov/media/70936/download}{LINK}
-#' Accessed 05. Mai 2019.
-#'
-#' United States Food and Drug Administration (FDA). Guidance for industry:
-#' waiver of \emph{in vivo} bioavailability and bioequivalence studies for
-#' immediate release solid oral dosage forms based on a biopharmaceutics
-#' classification system. 2000.\cr
-#' \href{https://www.fda.gov/media/70963/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70936/download}
 #'
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' immediate release solid oral dosage form: scale-up and post-approval
 #' changes, chemistry, manufacturing and controls, \emph{in vitro} dissolution
 #' testing, and \emph{in vivo} bioequivalence documentation (SUPAC-IR). 1995.\cr
-#' \href{https://www.fda.gov/media/70949/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70949/download}
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 #' CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-#' \href{http://www.ema.europa.eu/docs/en_GB/document_library/
-#' Scientific_guideline/2010/01/WC500070039.pdf}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
+#' guideline-investigation-bioequivalence-rev1_en.pdf}
 #'
 #' Moore, J.W., and Flanner, H.H. Mathematical comparison of curves with an
 #' emphasis on \emph{in-vitro} dissolution profiles. \emph{Pharm Tech}. 1996;
 #' \strong{20}(6): 64-74.
 #'
-#' Tsong, Y., Hammerstrom, T., Sathe, P., and Shah, V.P. Statistical
-#' Assessment of Mean Differences Between Two Dissolution Data Sets.
-#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.
+#' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
+#' assessment of mean differences between two dissolution data sets.
+#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
+#' \doi{10.1177/F009286159603000427}
 #'
-#' Connolly, M. SAS(R) IML Code to Calculate an Upper Confidence Limit for
-#' Multivariate Statistical Distance; 2000; Wyeth Lederle Vaccines, Pearl River,
-#' NY. \cr
-#' \href{https://analytics.ncsu.edu/sesug/2000/p-902.pdf}{LINK}
-#' Accessed 14. September 2020.
+#' Connolly, M. SAS(R) IML Code to calculate an upper confidence limit for
+#' multivariate statistical distance; 2000; Wyeth Lederle Vaccines, Pearl River,
+#' NY.\cr
+#' \url{https://analytics.ncsu.edu/sesug/2000/p-902.pdf}
 #'
 #' @seealso \code{\link{mimcr}}, \code{\link{bootstrap_f2}}.
 #'

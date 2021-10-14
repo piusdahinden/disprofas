@@ -76,11 +76,13 @@
 #'
 #' @references
 #' Hotelling, H. The generalisation of Student's ratio. \emph{Ann Math Stat}.
-#' 1931; \strong{2}(3): 360-378.
+#' 1931; \strong{2}(3): 360-378.\cr
+#' \url{https://www.jstor.org/stable/2957535}
 #'
-#' Hotelling, H. Multivariate Quality Control. In C. Eisenhart, M.W. Hastay,
-#' and W.A. Wallis, eds. \emph{Techniques of Statistical Analysis}. 1947;
-#' New York: McGraw-Hill.
+#' Hotelling, H. (1947) \emph{Multivariate quality control illustrated by air
+#' testing of sample bombsights}. In: Eisenhart, C., Hastay, M.W., and Wallis,
+#' W.A., Eds., Techniques of Statistical Analysis, McGraw Hill, New York,
+#' 111-184.
 #'
 #' @seealso \code{\link{mimcr}}, \code{\link{get_sim_lim}}.
 #'
@@ -172,7 +174,7 @@ get_hotellings <- function(m1, m2, signif) {
 #' Similarity limit
 #'
 #' The function \code{get_sim_lim()} estimates similarity limit in terms of
-#' the \sQuote{Multivariate Statistical Distance} (MSD).
+#' the \dQuote{Multivariate Statistical Distance} (MSD).
 #'
 #' @param lhs A list of the estimates of Hotelling's two-sample \eqn{T^2}
 #'   statistic for small samples as returned by the function
@@ -180,7 +182,7 @@ get_hotellings <- function(m1, m2, signif) {
 #' @inheritParams mimcr
 #'
 #' @details Details about the estimation of similarity limits in terms of
-#' the \sQuote{Multivariate Statistical Distance} (MSD) are explained in
+#' the \dQuote{Multivariate Statistical Distance} (MSD) are explained in
 #' the corresponding section below.
 #'
 #' @inheritSection mimcr Similarity limits in terms of MSD
@@ -214,25 +216,18 @@ get_hotellings <- function(m1, m2, signif) {
 #'
 #' @references
 #' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
-#' Assessment of Mean Differences Between Two Dissolution Data Sets.
-#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.
+#' assessment of mean differences between two dissolution data sets.
+#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
+#' \doi{10.1177/F009286159603000427}
 #'
-#' Wellek S. Testing Statistical Hypotheses of Equivalence and Noninferiority,
-#' 2nd Edition, Chapman & Hall /CRC Press LLC, 2010.
+#' Wellek S. (2010) \emph{Testing statistical hypotheses of equivalence and
+#' noninferiority} (2nd ed.). Chapman & Hall/CRC, Boca Raton.\cr
+#' \doi{10.1201/EBK1439808184}
 #'
-#' Hoffelder, T. Highly Variable Dissolution Profiles. Comparison of
-#' \eqn{T^2}-Test for Equivalence and \eqn{f_2} Based Methods. \emph{Pharm Ind}.
+#' Hoffelder, T. Highly variable dissolution profiles. Comparison of
+#' \eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
 #' 2016; \strong{78}(4): 587-592.\cr
-#' \href{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}{LINK}
-#' Accessed 22. September 2020.
-#'
-#' Hoffelder, T. EMA (2018) Q\&A on Mahalanobis distance (MD) to assess drug
-#' dissolution profiles - Statistical critique \& demonstration of adequacy
-#' of T2EQ approach (based on MD); 4th EFSPI Workshop on Regulatory Statistics;
-#' September 23-24, 2019.\cr
-#' \href{https://www.efspi.org/Documents/Events/Events%202019/Reg%20Stats/
-#' Presentations/6_4_Hoffelder.pdf}{LINK}
-#' Accessed 22. September 2020.
+#' \url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @seealso \code{\link{mimcr}}, \code{\link{get_hotellings}}.
 #'
@@ -353,29 +348,19 @@ get_sim_lim <- function(mtad, lhs) {
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' dissolution testing of immediate release solid oral dosage forms. 1997.\cr
-#' \href{https://www.fda.gov/media/70936/download}{LINK}
-#' Accessed 05. Mai 2019.
-#'
-#' United States Food and Drug Administration (FDA). Guidance for industry:
-#' waiver of \emph{in vivo} bioavailability and bioequivalence studies for
-#' immediate release solid oral dosage forms based on a biopharmaceutics
-#' classification system. 2000.\cr
-#' \href{https://www.fda.gov/media/70963/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70936/download}
 #'
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' immediate release solid oral dosage form: scale-up and post-approval
 #' changes, chemistry, manufacturing and controls, \emph{in vitro} dissolution
 #' testing, and \emph{in vivo} bioequivalence documentation (SUPAC-IR). 1995.\cr
-#' \href{https://www.fda.gov/media/70949/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70949/download}
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 #' CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-#' \href{http://www.ema.europa.eu/docs/en_GB/document_library/
-#' Scientific_guideline/2010/01/WC500070039.pdf}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
+#' guideline-investigation-bioequivalence-rev1_en.pdf}
 #'
 #' @seealso \code{\link{f2}}.
 #'
@@ -647,43 +632,34 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' dissolution testing of immediate release solid oral dosage forms. 1997.\cr
-#' \href{https://www.fda.gov/media/70936/download}{LINK}
-#' Accessed 05. Mai 2019.
-#'
-#' United States Food and Drug Administration (FDA). Guidance for industry:
-#' waiver of \emph{in vivo} bioavailability and bioequivalence studies for
-#' immediate release solid oral dosage forms based on a biopharmaceutics
-#' classification system. 2000.\cr
-#' \href{https://www.fda.gov/media/70963/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70936/download}
 #'
 #' United States Food and Drug Administration (FDA). Guidance for industry:
 #' immediate release solid oral dosage form: scale-up and post-approval
 #' changes, chemistry, manufacturing and controls, \emph{in vitro} dissolution
 #' testing, and \emph{in vivo} bioequivalence documentation (SUPAC-IR). 1995.\cr
-#' \href{https://www.fda.gov/media/70949/download}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.fda.gov/media/70949/download}
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 #' CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-#' \href{http://www.ema.europa.eu/docs/en_GB/document_library/
-#' Scientific_guideline/2010/01/WC500070039.pdf}{LINK}
-#' Accessed 05. Mai 2019.
+#' \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
+#' guideline-investigation-bioequivalence-rev1_en.pdf}
 #'
-#' Shah, V. P., Tsong, Y., Sathe, P. & Liu, J. P. \emph{In vitro} dissolution
+#' Shah, V. P., Tsong, Y., Sathe, P., and Liu, J. P. \emph{In vitro} dissolution
 #' profile comparison - statistics and analysis of the similarity factor,
-#' \eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.
+#' \eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.\cr
+#' \doi{10.1023/A:1011976615750}
 #'
 #' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
-#' Assessment of Mean Differences Between Two Dissolution Data Sets.
-#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.
+#' assessment of mean differences between two dissolution data sets.
+#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
+#' \doi{10.1177/F009286159603000427}
 #'
-#' Hoffelder, T. Highly Variable Dissolution Profiles. Comparison of
-#' \eqn{T^2}-Test for Equivalence and \eqn{f_2} Based Methods. \emph{Pharm Ind}.
+#' Hoffelder, T. Highly variable dissolution profiles. Comparison of
+#' \eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
 #' 2016; \strong{78}(4): 587-592.\cr
-#' \href{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}{LINK}
-#' Accessed 22. September 2020.
+#' \url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @seealso \code{\link{f1}}.
 #'

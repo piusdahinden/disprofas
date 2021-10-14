@@ -7,23 +7,23 @@
 \method{print}{mimcr}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{mimcr} returned by the
+\item{x}{An object of class \sQuote{\code{mimcr}} returned by the
 \code{\link{mimcr}()} function.}
 
-\item{...}{further arguments passed to or from other methods or arguments
-that can be passed down to the \code{\link[base]{formatC}} function.}
+\item{...}{Further arguments passed to or from other methods or arguments
+that can be passed down to the \code{\link[base]{formatC}()} function.}
 }
 \value{
-The \code{mimcr} object passed to the \code{object} parameter
-is returned invisibly.
+The \sQuote{\code{mimcr}} object passed to the \code{object}
+parameter is returned invisibly.
 }
 \description{
 This is a method for the function \code{print()} for objects of class
-\code{mimcr}.
+\sQuote{\code{mimcr}}.
 }
 \details{
 The function \code{print.mimcr()} prints the most relevant
-information in an \code{mimcr} object.
+information in an \sQuote{\code{mimcr}} object.
 }
 \seealso{
 \code{\link{mimcr}}, \code{\link[base]{formatC}},

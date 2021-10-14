@@ -32,7 +32,7 @@ extractable numeric information. For example, from the column names
 \code{shape} is \code{"long"} a numeric value, specifying the column
 containing the \% release values. If the data frame is in \code{wide}
 format it is reshaped using the function \code{reshape()} from the
-\code{stats} package.}
+\sQuote{\code{stats}} package.}
 
 \item{grouping}{A string variable specifying the column in \code{data} that
 contains the group names (i.e. a factorial variable, e.g., for the
@@ -52,7 +52,7 @@ default is \code{0.99}.}
 should be limited (i.e. \emph{cap}ped). The default is \code{TRUE}.}
 
 \item{rellim}{A numeric vector of the form \code{c(lower, upper)} specifying
-the \sQuote{lower} and \sQuote{upper} limits of \% drug release at which
+the \dQuote{lower} and \dQuote{upper} limits of \% drug release at which
 the calculated tolerance interval limits should be capped (see parameter
 \eqn{cap}. This parameter is only relevant if \code{cap = TRUE}. The
 default is \code{c(0, 100)}.}
@@ -63,8 +63,8 @@ and \eqn{S2} acceptance criteria of USP chapter <711> on dissolution. The
 default is \code{c(5, 15)}.}
 }
 \value{
-An object of class \code{mztia} is returned, containing the following
-list elements:
+An object of class \sQuote{\code{mztia}} is returned, containing the
+following list elements:
 \item{Variables}{A list of the variables and the corresponding values}
 \item{Limits}{A data frame of the limits calculated for each time point}
 \item{Data}{A data frame consisting of the provided data, complemented by
@@ -143,19 +143,20 @@ tmp <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
 \references{
 Martinez, M.N., and Zhao, X. A simple approach for comparing the
 \emph{in vitro} dissolution profiles of highly variable drug products: a
-proposal. \emph{AAPS Journal}. (2018); \strong{20}: 78.
+proposal. \emph{AAPS Journal}. (2018); \strong{20}: 78.\cr
+\doi{10.1208/s12248-018-0238-1}
 
 Howe, W.G. Two-sided tolerance limits for normal populations - some
-improvements. \emph{J Am Stat Assoc}. (1969); \strong{64}: 610-620.
+improvements. \emph{J Am Stat Assoc}. (1969); \strong{64}: 610-620.\cr
+\doi{10.2307/2283644}
 
 Hahn, G.J., and Meeker, W. Q. Statistical intervals: A guide for
 practitioners. (1991); John Wiley & Sons, New York.
 Hahn's method is also described in: SAS/QC 13.1: User's Guide. Chapter 5,
 sub-chapter \dQuote{Details: INTERVALS Statement}, pp 421-424. SAS Institute
-Inc. 2013. Cary, NC. \cr
-\href{https://support.sas.com/documentation/cdl/en/qcug/66857/PDF/
-default/qcug.pdf}{LINK}
-Accessed 22. September 2020.
+Inc. 2013. Cary, NC.\cr
+\url{https://support.sas.com/documentation/cdl/en/qcug/66857/PDF/
+default/qcug.pdf}
 
 U.S. Pharmacopoeia. 2016 U.S. Pharmacopoeia-National Formulary
 (USP 39 NF 34). Volume 1. Rockville, Md: United States Pharmacopeial

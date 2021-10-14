@@ -19,8 +19,7 @@ A data frame with 24 observations and 6 variables:
 }
 }
 \source{
-\href{https://www.ncbi.nlm.nih.gov/pubmed/24896319}{
-      Hoffelder \emph{et al}., \emph{J Biopharm Stat} 2015}
+See reference: Example data set shown in Table 1.
 }
 \usage{
 data(dip3)
@@ -35,8 +34,8 @@ A data set containing the dissolution data of one reference batch and one
 }
 \references{
 Hoffelder, T., Goessl, R., and Wellek, S. Multivariate equivalence tests for
-use in pharmaceutical development.
-\emph{J Biopharm Stat} (2015) \strong{25}(3): 417-437. \cr
-Example data set shown in Table 1.
+use in pharmaceutical development. \emph{J Biopharm Stat} (2015)
+\strong{25}(3): 417-437.\cr
+\doi{10.1080/10543406.2014.920344}
 }
 \keyword{datasets}

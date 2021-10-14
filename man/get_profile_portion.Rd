@@ -102,8 +102,7 @@ profiles are similar.
 European Medicines Agency (EMA), Committee for Medicinal Products for
 Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-\href{http://www.ema.europa.eu/docs/en_GB/document_library/
-Scientific_guideline/2010/01/WC500070039.pdf}{LINK}
-Accessed 05. Mai 2019.
+\url{https://www.ema.europa.eu/en/documents/scientific-guideline/
+guideline-investigation-bioequivalence-rev1_en.pdf}
 }
 \keyword{internal}

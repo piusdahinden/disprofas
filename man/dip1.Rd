@@ -21,8 +21,7 @@ A data frame with 12 observations and 10 variables:
 }
 }
 \source{
-\href{http://www.reocities.com/HotSprings/Spa/6896/dj304851.pdf}{
-      Tsong \emph{et al}., \emph{Drug Inf J} 1996}
+See reference: Example data set shown in Table 1.
 }
 \usage{
 data(dip1)
@@ -36,9 +35,9 @@ A data set containing the dissolution data of one reference batch and one
 \dontrun{dip1}
 }
 \references{
-Tsong, Y., Hammerstrom, T., Sathe, P., and Shah, V.P. Statistical
-Assessment of Mean Differences Between Two Dissolution Data Sets.
-\emph{Drug Inf J} (1996) \strong{30}: 1105-1112. \cr
-Example data set shown in Table 1.
+Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
+assessment of mean differences between two dissolution data sets.
+\emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
+\doi{10.1177/F009286159603000427}
 }
 \keyword{datasets}

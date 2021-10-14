@@ -44,11 +44,11 @@ A vector containing the following information is returned:
 }
 \description{
 The function \code{get_sim_lim()} estimates similarity limit in terms of
-the \sQuote{Multivariate Statistical Distance} (MSD).
+the \dQuote{Multivariate Statistical Distance} (MSD).
 }
 \details{
 Details about the estimation of similarity limits in terms of
-the \sQuote{Multivariate Statistical Distance} (MSD) are explained in
+the \dQuote{Multivariate Statistical Distance} (MSD) are explained in
 the corresponding section below.
 }
 \section{Similarity limits in terms of MSD}{
@@ -71,7 +71,7 @@ the vectors of the sample means for the test (\eqn{T}) and reference
 variance-covariance matrices of the test and reference profiles.
 
 In order to determine the similarity limits in terms of the
-\sQuote{Multivariate Statistical Distance} (MSD), i.e. the Mahalanobis
+\dQuote{Multivariate Statistical Distance} (MSD), i.e. the Mahalanobis
 distance between the two multivariate means of the dissolution profiles
 of the formulations to be compared, Tsong et al. (1996) proposed to use
 the equation
@@ -125,7 +125,7 @@ the formula
   (n_T + n_R - p - 1) / ((n_T + n_R - 2) p) T^2 ,}
 
 where \eqn{\alpha} is the significance level and \eqn{ncp} is the so-called
-\sQuote{\emph{non-centrality parameter}} that is calculated by
+\dQuote{\emph{non-centrality parameter}} that is calculated by
 
 \deqn{\frac{n_T n_R}{n_T + n_R} \left( D_M^{max} \right)^2 .}{%
   (n_T n_R) / (n_T + n_R) (D_M^{max})^2 .}
@@ -139,8 +139,8 @@ The test statistic being used is Hotelling's \eqn{T^2} that is given as
 As mentioned previously, \eqn{\bm{d}_g}{d_g} is a \eqn{1 \times p}{1 x p}
 vector with all \eqn{p} elements equal to an empirically defined limit
 \eqn{d_g}. Thus, the components of the vector \eqn{\bm{d}_g}{d_g} can be
-interpreted as upper bound for a kind of \sQuote{\emph{average}} allowed
-difference between test and reference profiles, the \sQuote{\emph{global
+interpreted as upper bound for a kind of \dQuote{\emph{average}} allowed
+difference between test and reference profiles, the \dQuote{\emph{global
 similarity limit}}. Since the EMA requires that \dQuote{similarity acceptance
 limits should be pre-defined and justified and not be greater than a 10\%
 difference}, it is recommended to use 10\%, not 15\% as proposed by Tsong
@@ -149,25 +149,18 @@ et al., for the maximum tolerable difference at all time points.
 
 \references{
 Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
-Assessment of Mean Differences Between Two Dissolution Data Sets.
-\emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.
+assessment of mean differences between two dissolution data sets.
+\emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
+\doi{10.1177/F009286159603000427}
 
-Wellek S. Testing Statistical Hypotheses of Equivalence and Noninferiority,
-2nd Edition, Chapman & Hall /CRC Press LLC, 2010.
+Wellek S. (2010) \emph{Testing statistical hypotheses of equivalence and
+noninferiority} (2nd ed.). Chapman & Hall/CRC, Boca Raton.\cr
+\doi{10.1201/EBK1439808184}
 
-Hoffelder, T. Highly Variable Dissolution Profiles. Comparison of
-\eqn{T^2}-Test for Equivalence and \eqn{f_2} Based Methods. \emph{Pharm Ind}.
+Hoffelder, T. Highly variable dissolution profiles. Comparison of
+\eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
 2016; \strong{78}(4): 587-592.\cr
-\href{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}{LINK}
-Accessed 22. September 2020.
-
-Hoffelder, T. EMA (2018) Q\&A on Mahalanobis distance (MD) to assess drug
-dissolution profiles - Statistical critique \& demonstration of adequacy
-of T2EQ approach (based on MD); 4th EFSPI Workshop on Regulatory Statistics;
-September 23-24, 2019.\cr
-\href{https://www.efspi.org/Documents/Events/Events%202019/Reg%20Stats/
-Presentations/6_4_Hoffelder.pdf}{LINK}
-Accessed 22. September 2020.
+\url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 }
 \seealso{
 \code{\link{mimcr}}, \code{\link{get_hotellings}}.

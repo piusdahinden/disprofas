@@ -108,29 +108,19 @@ tmp2 <- f1(data = dip2[dip2$batch \%in\% c("b0", "b1"), ], tcol = 5:8,
 \references{
 United States Food and Drug Administration (FDA). Guidance for industry:
 dissolution testing of immediate release solid oral dosage forms. 1997.\cr
-\href{https://www.fda.gov/media/70936/download}{LINK}
-Accessed 05. Mai 2019.
-
-United States Food and Drug Administration (FDA). Guidance for industry:
-waiver of \emph{in vivo} bioavailability and bioequivalence studies for
-immediate release solid oral dosage forms based on a biopharmaceutics
-classification system. 2000.\cr
-\href{https://www.fda.gov/media/70963/download}{LINK}
-Accessed 05. Mai 2019.
+\url{https://www.fda.gov/media/70936/download}
 
 United States Food and Drug Administration (FDA). Guidance for industry:
 immediate release solid oral dosage form: scale-up and post-approval
 changes, chemistry, manufacturing and controls, \emph{in vitro} dissolution
 testing, and \emph{in vivo} bioequivalence documentation (SUPAC-IR). 1995.\cr
-\href{https://www.fda.gov/media/70949/download}{LINK}
-Accessed 05. Mai 2019.
+\url{https://www.fda.gov/media/70949/download}
 
 European Medicines Agency (EMA), Committee for Medicinal Products for
 Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-\href{http://www.ema.europa.eu/docs/en_GB/document_library/
-Scientific_guideline/2010/01/WC500070039.pdf}{LINK}
-Accessed 05. Mai 2019.
+\url{https://www.ema.europa.eu/en/documents/scientific-guideline/
+guideline-investigation-bioequivalence-rev1_en.pdf}
 }
 \seealso{
 \code{\link{f2}}.

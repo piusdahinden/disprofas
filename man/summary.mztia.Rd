@@ -7,21 +7,21 @@
 \method{summary}{mztia}(object, ...)
 }
 \arguments{
-\item{object}{An object of class \code{mztia} returned by the
+\item{object}{An object of class \sQuote{\code{mztia}} returned by the
 \code{\link{mztia}()} function.}
 
-\item{...}{further arguments passed to or from other methods or arguments
+\item{...}{Further arguments passed to or from other methods or arguments
 that can be passed down to the \code{\link[base]{print.data.frame}()}
 function.}
 }
 \description{
 This is a method for the function \code{summary()} for objects of class
-\code{mztia}.
+\sQuote{\code{mztia}}.
 }
 \details{
-The function \code{summary.mztia()} prints the \dQuote{limits} part
-(see column \dQuote{frame}) of the data frame that is contained in the
-\sQuote{Data} element of the \code{mztia} object.
+The function \code{summary.mztia()} prints the \dQuote{limits}
+subset (see column \dQuote{frame}) of the data frame that is contained in
+the \dQuote{Data} element of the \sQuote{\code{mztia}} object.
 }
 \seealso{
 \code{\link{mztia}}, \code{\link[base]{print.data.frame}},

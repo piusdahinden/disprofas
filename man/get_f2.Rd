@@ -74,43 +74,34 @@ Hoffelder 2016.
 \references{
 United States Food and Drug Administration (FDA). Guidance for industry:
 dissolution testing of immediate release solid oral dosage forms. 1997.\cr
-\href{https://www.fda.gov/media/70936/download}{LINK}
-Accessed 05. Mai 2019.
-
-United States Food and Drug Administration (FDA). Guidance for industry:
-waiver of \emph{in vivo} bioavailability and bioequivalence studies for
-immediate release solid oral dosage forms based on a biopharmaceutics
-classification system. 2000.\cr
-\href{https://www.fda.gov/media/70963/download}{LINK}
-Accessed 05. Mai 2019.
+\url{https://www.fda.gov/media/70936/download}
 
 United States Food and Drug Administration (FDA). Guidance for industry:
 immediate release solid oral dosage form: scale-up and post-approval
 changes, chemistry, manufacturing and controls, \emph{in vitro} dissolution
 testing, and \emph{in vivo} bioequivalence documentation (SUPAC-IR). 1995.\cr
-\href{https://www.fda.gov/media/70949/download}{LINK}
-Accessed 05. Mai 2019.
+\url{https://www.fda.gov/media/70949/download}
 
 European Medicines Agency (EMA), Committee for Medicinal Products for
 Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-\href{http://www.ema.europa.eu/docs/en_GB/document_library/
-Scientific_guideline/2010/01/WC500070039.pdf}{LINK}
-Accessed 05. Mai 2019.
+\url{https://www.ema.europa.eu/en/documents/scientific-guideline/
+guideline-investigation-bioequivalence-rev1_en.pdf}
 
-Shah, V. P., Tsong, Y., Sathe, P. & Liu, J. P. \emph{In vitro} dissolution
+Shah, V. P., Tsong, Y., Sathe, P., and Liu, J. P. \emph{In vitro} dissolution
 profile comparison - statistics and analysis of the similarity factor,
-\eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.
+\eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.\cr
+\doi{10.1023/A:1011976615750}
 
 Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
-Assessment of Mean Differences Between Two Dissolution Data Sets.
-\emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.
+assessment of mean differences between two dissolution data sets.
+\emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
+\doi{10.1177/F009286159603000427}
 
-Hoffelder, T. Highly Variable Dissolution Profiles. Comparison of
-\eqn{T^2}-Test for Equivalence and \eqn{f_2} Based Methods. \emph{Pharm Ind}.
+Hoffelder, T. Highly variable dissolution profiles. Comparison of
+\eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
 2016; \strong{78}(4): 587-592.\cr
-\href{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}{LINK}
-Accessed 22. September 2020.
+\url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 }
 \seealso{
 \code{\link{get_f1}}.

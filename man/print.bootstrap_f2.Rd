@@ -15,7 +15,7 @@ that can be passed down to the \code{\link[boot]{print.boot}()} and
 \code{\link[boot]{print.bootci}()} functions.}
 }
 \value{
-The \sQuote{\code{bootstrap_f2}} object passed to the \code{object}
+The \sQuote{\code{bootstrap_f2}} object passed to the \code{x}
 parameter is returned invisibly.
 }
 \description{

@@ -112,7 +112,10 @@ summary.bootstrap_f2 <- function(object, ...) {
 #' @details The function \code{print.bootstrap_f2()} prints the most relevant
 #' information in a \sQuote{\code{bootstrap_f2}} object.
 #'
-#' @inherit summary.bootstrap_f2 return seealso
+#' @return The \sQuote{\code{bootstrap_f2}} object passed to the \code{x}
+#' parameter is returned invisibly.
+#'
+#' @inherit summary.bootstrap_f2 seealso
 #'
 #' @export
 
@@ -217,7 +220,10 @@ summary.mimcr <- function(object, ...) {
 #' @details The function \code{print.mimcr()} prints the most relevant
 #' information in an \sQuote{\code{mimcr}} object.
 #'
-#' @inherit summary.mimcr return seealso
+#' @return The \sQuote{\code{mimcr}} object passed to the \code{x}
+#' parameter is returned invisibly.
+#'
+#' @inherit summary.mimcr seealso
 #'
 #' @export
 
@@ -244,6 +250,9 @@ print.mimcr <- function(x, ...) {
 #' @details The function \code{summary.mztia()} prints the \dQuote{limits}
 #' subset (see column \dQuote{frame}) of the data frame that is contained in
 #' the \dQuote{Data} element of the \sQuote{\code{mztia}} object.
+#'
+#' @return The \sQuote{\code{mztia}} object passed to the \code{object}
+#' parameter is returned invisibly.
 #'
 #' @seealso \code{\link{mztia}}, \code{\link[base]{print.data.frame}},
 #' \code{\link[utils]{methods}}.
@@ -293,7 +302,10 @@ summary.mztia <- function(object, ...) {
 #' subset (see column \dQuote{frame}) of the data frame that is contained in
 #' the \dQuote{Data} element of the \sQuote{\code{mztia}} object.
 #'
-#' @inherit summary.mztia return seealso
+#' @return The \sQuote{\code{mztia}} object passed to the \code{x}
+#' parameter is returned invisibly.
+#'
+#' @inherit summary.mztia seealso
 #'
 #' @export
 

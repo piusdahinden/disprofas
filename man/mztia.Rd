@@ -25,20 +25,20 @@ extractable numeric information. For example, from the column names
 \code{(t_0, t_5, t_10)} the time points are determined to be
 \code{(0, 5, 10)}.}
 
-\item{shape}{A string variable specifying if the data frame is in
+\item{shape}{A character string specifying if the data frame is in
 \code{"long"} or in \code{"wide"} format. The default is \code{"wide"}.}
 
 \item{tcol}{If \code{shape} is \code{"wide"} a vector of indices, if
 \code{shape} is \code{"long"} a numeric value, specifying the column
 containing the \% release values. If the data frame is in \code{wide}
-format it is reshaped using the function \code{reshape()} from the
-\sQuote{\code{stats}} package.}
+format it is reshaped using the function \code{\link[stats]{reshape}()}
+from the \sQuote{\code{stats}} package.}
 
-\item{grouping}{A string variable specifying the column in \code{data} that
+\item{grouping}{A character string specifying the column in \code{data} that
 contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 
-\item{reference}{A string variable specifying the name of the reference
+\item{reference}{A character string specifying the name of the reference
 group from the \code{grouping} variable.}
 
 \item{alpha}{A numeric value between 0 and 1 specifying the probability
@@ -64,11 +64,11 @@ default is \code{c(5, 15)}.}
 }
 \value{
 An object of class \sQuote{\code{mztia}} is returned, containing the
-following list elements:
-\item{Variables}{A list of the variables and the corresponding values}
-\item{Limits}{A data frame of the limits calculated for each time point}
+following elements:
+\item{Variables}{A list of the variables and the corresponding values.}
+\item{Limits}{A data frame of the limits calculated for each time point.}
 \item{Data}{A data frame consisting of the provided data, complemented by
-  the calculated tolerance interval results}
+  the calculated tolerance interval results.}
 }
 \description{
 The \emph{Martinez & Zhao Tolerance Interval Approach} (\code{mztia}) is a
@@ -86,24 +86,25 @@ propose to calculate for each time point of a set of reference dissolution
 profiles a tolerance interval (\eqn{TI}), i.e. intervals containing \eqn{P}\%
 of the population of potential values for reference product at a probability
 level of \eqn{alpha / 2} per tail (i.e., \eqn{(1 - alpha) 100}\% confidence).
-Based on these \eqn{TI}s the dissolution profiles of the test batch(es) are
-(is) compared, i.e. the corresponding data points should lie within the
+Based on these \eqn{TI}s the dissolution profiles of the test batch(es) is
+(are) compared, i.e. the corresponding data points should lie within the
 \eqn{TI}s. The \eqn{TI}s are calculated as
 
 \deqn{Y_{utl,ltl} = \bar{Y} \pm k \times s}{Y_{utl,ltl} = Y.bar +- k*s}
 
 where \eqn{\bar{Y}}{Y.bar} is the average, \eqn{s} is the sample standard
-deviation, and the factor \eqn{k} is proposed to be calculated according to
-Hahn (Hahn & Meeker 1991).
+deviation, and the factor \eqn{k} is calculated according to Hahn (Hahn &
+Meeker (1991)), as proposed in Martinez & Zhao (2018).
 
 Since the goal of the comparison is not to confirm simply
 \dQuote{\emph{statistical sameness}} but \dQuote{product comparability},
 Martinez & Zhao propose allowing acceptable deviations by utilizing the
-concepts described by the United States Pharmacopoeia (USP) for defining
-the \emph{allowable deviations from a set of product specifications}
-(\eqn{Q}). The \eqn{TI}s serve as the target value \eqn{Q} at each sampling
-time. The allowable deviations about \eqn{Q} are defined by the \eqn{S1} and
-\eqn{S2} acceptance criteria of USP chapter <711> on dissolution:
+concepts described by the United States Pharmacopoeia (USP), chapter <711>
+on dissolution, defining \emph{allowable deviations from a set of product
+specifications} (\eqn{Q}). The \eqn{TI}s serve as the target value \eqn{Q}
+at each sampling time. The allowable deviations about \eqn{Q} are defined
+by the \eqn{S1} and \eqn{S2} acceptance criteria of USP chapter <711> on
+dissolution:
 \enumerate{
 \item The \eqn{S1} level boundary is defined by \eqn{Q \pm 5}{Q +- 5}\%
   at each time point. For every 12 profiles tested, only one profile is
@@ -121,9 +122,9 @@ points because the high variability associated with the early sampling times
 is already factored into the \eqn{TI}s.
 
 \eqn{TI} calculation according to Hahn is proposed because it appeared to be
-more numerically stable and gave more consistent \eqn{TI}s when the sample
-had very large variations than the \eqn{TI} calculation method proposed by
-Howe (Howe 1969). The reason might be due to the less stringent requirements
+more numerically stable and gave more consistent \eqn{TI}s than the \eqn{TI}
+calculation method proposed by Howe (Howe 1969) when samples were very
+variable. The reason might be due to the less stringent requirements
 imposed by Hahn's method with respect to the normality of the data.
 }
 \examples{

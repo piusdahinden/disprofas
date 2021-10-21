@@ -50,7 +50,7 @@
 #'   \item A minimum of three time points (zero excluded).
 #'   \item The time points should be the same for the two formulations.
 #'   \item Twelve individual values for every time point for each formulation.
-#'   \item NOt more than one mean value of > 85\% dissolved for any of the
+#'   \item Not more than one mean value of > 85\% dissolved for any of the
 #'     formulations.
 #'   \item The relative standard deviation or coefficient of variation of any
 #'     product should be less than 20\% for the first time point and less than
@@ -203,13 +203,13 @@ get_profile_portion <- function(data, tcol, groups, useEMA = "yes",
 #' Get time points
 #'
 #' The function \code{get_time_points()} extracts the numeric information from
-#' a vector of strings.
+#' a vector of character strings.
 #'
-#' @param svec A vector of strings.
+#' @param svec A vector of character strings.
 #'
-#' @details The function expects a vector of strings that contain numeric
-#' information. Strings that do not contain numeric information \code{NA} will
-#' be returned for the corresponding string.
+#' @details The function expects a vector of character strings that contain
+#' numeric information. Strings that do not contain numeric information
+#' \code{NA} will be returned for the corresponding character string.
 #'
 #' @return A vector of the same length as \code{svec} with the extracted
 #' numbers as numeric values.
@@ -295,12 +295,12 @@ make_grouping <- function(data, grouping) {
 #' of observations of the two groups specified by \code{groups} is sought. Then,
 #' the number of observations of the two groups are extended according to the
 #' value found. Extension means that the maximal possible number of
-#' observations is duplicated to end up with the required number of
+#' observations is duplicated in order to obtain the required number of
 #' observations. Thus, in the data frame that is returned the two groups will
 #' have the same number of observations. Either the number of observations of
 #' both groups is extended (to match the number of \code{n_obs}), or, if
 #' \code{n_obs} and the number of observations of one of the two groups is
-#' equal, only the number of observations of one of the two groups is extended.
+#' equal, only the number of observations of one of the two groups.
 #'
 #' @return The original data frame extended by the observations necessary to
 #' have a balanced number of observations between the two groups.
@@ -367,7 +367,7 @@ balance_observations <- function(data, groups, n_obs) {
 #' @details The function \code{rand_indiv_points()} samples individual data
 #' points of each profile. The first element of \code{mle} specifies the
 #' number of indices per group (of two groups), i.e. the number of profiles
-#' to take into account from the two groups. The second element of \code{mle}
+#' to take into account from each group. The second element of \code{mle}
 #' specifies the columns in the data frame that represent the dissolution
 #' profiles, i.e. the columns with the \% release data. The data points of
 #' each group and column are randomised.
@@ -439,8 +439,8 @@ rand_indiv_points <- function(data, mle) {
 #' multivariate confidence interval for profiles with four time points, e.g.,
 #' is an \dQuote{ellipse} in four dimensions.
 #'
-#' @param n_p A positive integer specifying the \dQuote{number of (time)
-#'   points}.
+#' @param n_p A positive integer specifying the number of (time) points
+#'   \eqn{n_p}.
 #' @param K A non-negative numeric value specifying the scaling factor \eqn{K}
 #'   for the calculation of the Hotelling's \eqn{T^2} statistic.
 #' @param mean_diff A vector of the mean differences between the dissolution
@@ -451,12 +451,12 @@ rand_indiv_points <- function(data, mle) {
 #'   \eqn{n_p \times n_p}.
 #' @param F_crit The critical \eqn{F} value (i.e. a non-negative numeric).
 #' @param y A numeric vector of \eqn{y} values that serve as starting points
-#'   for the Newton-Raphson search, i.e. values supposed to lie on the
-#'   confidence interval bounds. It must have a length of \eqn{n_p + 1}.
+#'   for the Newton-Raphson search, i.e. values supposed to lie on or close to
+#'   the confidence interval bounds. It must have a length of \eqn{n_p + 1}.
 #' @inheritParams mimcr
 #'
 #' @details The function \code{gep_by_nera()} determines the points on the
-#' \eqn{CR} bounds for each of the \code{n_p} time points. It does so by aid
+#' \eqn{CR} bounds for each of the \eqn{n_p} time points. It does so by aid
 #' of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
 #' \dQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
 #' Connolly (Connolly 2000).
@@ -471,15 +471,15 @@ rand_indiv_points <- function(data, mle) {
 #' @return A list with the following elements is returned:
 #' \item{points}{A matrix with one column and \eqn{n_p + 1} rows is returned,
 #'   where rows \eqn{1} to \eqn{n_p} represent, for each time point, the points
-#'   on the confidence region \eqn{CR}. For symmetry reasons, the points on the
-#'   opposite side are obtained by addition/subtraction. The last row in the
-#'   matrix, with index \eqn{n_p + 1}, represents the \eqn{\lambda} parameter
-#'   of the MLM, also known as \emph{lambda multiplier method}, that is used
-#'   to optimise under constraint(s). The variable \eqn{\lambda} is thus called
+#'   on the \eqn{CR} bounds. For symmetry reasons, the points on the opposite
+#'   side are obtained by addition/subtraction. The last row in the matrix,
+#'   with index \eqn{n_p + 1}, represents the \eqn{\lambda} parameter of the
+#'   MLM, also known as \emph{lambda multiplier method}, that is used to
+#'   optimise under constraint(s). The variable \eqn{\lambda} is thus called
 #'   the \emph{Lagrange multiplier}.}
-#' \item{converged}{A logical stating if the NR algorithm converged or not}
-#' \item{n.trial}{The number of trials until convergence}
-#' \item{max.trial}{The maximal number of trials}
+#' \item{converged}{A logical stating if the NR algorithm converged or not.}
+#' \item{n.trial}{Number of trials until convergence.}
+#' \item{max.trial}{Maximal number of trials.}
 #'
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
@@ -505,7 +505,7 @@ rand_indiv_points <- function(data, mle) {
 #' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
 #' assessment of mean differences between two dissolution data sets.
 #' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
-#' \doi{10.1177/F009286159603000427}
+#' \doi{10.1177/009286159603000427}
 #'
 #' Connolly, M. SAS(R) IML Code to calculate an upper confidence limit for
 #' multivariate statistical distance; 2000; Wyeth Lederle Vaccines, Pearl River,

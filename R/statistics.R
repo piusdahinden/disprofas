@@ -4,9 +4,10 @@
 #' two-sample \eqn{T^2} statistic for small samples.
 #'
 #' @param m1 A matrix with the data of the reference group.
-#' @param m2 A matrix with the same same dimensions as matrix \eqn{m1},
-#'  with the data of the test group.
-#' @inheritParams mimcr
+#' @param m2 A matrix with the same dimensions as matrix \code{m1}, with the
+#'   data of the test group.
+#' @param signif A positive numeric value between \code{0} and \code{1}
+#'   specifying the significance level. The default value is \code{0.05}.
 #'
 #' @details The two-sample Hotelling's \eqn{T^2} test statistic is given by
 #'
@@ -18,8 +19,8 @@
 #'
 #' For large samples, this test statistic will be approximately chi-square
 #' distributed with \eqn{p} degrees of freedom. However, this approximation
-#' does not take into account the variation due to estimating the
-#' variance-covariance matrix. Therefore, Hotelling's \eqn{T^2} statistic
+#' does not take into account the variation due to the variance-covariance
+#' matrix estimation. Therefore, Hotelling's \eqn{T^2} statistic
 #' is transformed into an \eqn{F}-statistic using the expression
 #'
 #' \deqn{F = \frac{n_1 + n_2 - p - 1}{(n_1 + n_2 - 2) p} T^2 ,}{%
@@ -50,29 +51,29 @@
 #'
 #' @return A list with the following elements is returned:
 #' \item{Parameters}{Parameters determined for the estimation of
-#'   Hotelling's \eqn{T^2}}
-#' \item{S.pool}{The pooled variance-covariance matrix}
-#' \item{covs}{A list with the elements \code{S.b1} and \code{S.b2}, the
-#'   variance-covariance matrices of the reference and the test group}
+#'   Hotelling's \eqn{T^2}.}
+#' \item{S.pool}{Pooled variance-covariance matrix.}
+#' \item{covs}{A list with the elements \code{S.b1} and \code{S.b2}, i.e. the
+#'   variance-covariance matrices of the reference and the test group,
+#'   respectively.}
 #' \item{means}{A list with the elements \code{mean.b1}, \code{mean.b2} and
-#'   \code{mean.diff}, the average profile values (for each time point) of
-#'   the reference and the test group and the corresponding difference of
-#'   the averages}
+#'   \code{mean.diff}, i.e. the average profile values (for each time point) of
+#'   the reference and the test group and the corresponding differences of
+#'   the averages, respectively.}
 #'
 #' The \code{Parameters} element contains the following information:
-#' \item{DM}{The Mahalanobis distance of the samples}
-#' \item{df1}{Degrees of freedom (number of variables or time points)}
-#' \item{df2}{Degrees of freedom (number of rows - number of variables - 1)}
-#' \item{alpha}{The provided significance level for the calculation of the
-#'   confidence region}
+#' \item{DM}{Mahalanobis distance of the samples.}
+#' \item{df1}{Degrees of freedom (number of variables or time points).}
+#' \item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
+#' \item{alpha}{Provided significance level.}
 #' \item{K}{Scaling factor for \eqn{F} to account for the distribution of the
-#'   \eqn{T^2} statistic}
+#'   \eqn{T^2} statistic.}
 #' \item{k}{Scaling factor for the squared Mahalanobis distance to obtain
-#'   the \eqn{T^2} statistic}
-#' \item{T2}{Hotelling's \eqn{T^2} statistic (\eqn{F}-distributed)}
-#' \item{F}{The observed \eqn{F} value}
-#' \item{F.crit}{Critical \eqn{F} value}
-#' \item{p.F}{\eqn{p} value for the Hotelling's \eqn{T^2} test statistic}
+#'   the \eqn{T^2} statistic.}
+#' \item{T2}{Hotelling's \eqn{T^2} statistic (\eqn{F}-distributed).}
+#' \item{F}{Observed \eqn{F} value.}
+#' \item{F.crit}{Critical \eqn{F} value.}
+#' \item{p.F}{\eqn{p} value for Hotelling's \eqn{T^2} test statistic.}
 #'
 #' @references
 #' Hotelling, H. The generalisation of Student's ratio. \emph{Ann Math Stat}.
@@ -173,12 +174,12 @@ get_hotellings <- function(m1, m2, signif) {
 
 #' Similarity limit
 #'
-#' The function \code{get_sim_lim()} estimates similarity limit in terms of
+#' The function \code{get_sim_lim()} estimates a similarity limit in terms of
 #' the \dQuote{Multivariate Statistical Distance} (MSD).
 #'
 #' @param lhs A list of the estimates of Hotelling's two-sample \eqn{T^2}
 #'   statistic for small samples as returned by the function
-#'   \code{\link{get_hotellings}}.
+#'   \code{\link{get_hotellings}()}.
 #' @inheritParams mimcr
 #'
 #' @details Details about the estimation of similarity limits in terms of
@@ -190,35 +191,33 @@ get_hotellings <- function(m1, m2, signif) {
 #' @inheritSection mimcr T2 test for equivalence
 #'
 #' @return A vector containing the following information is returned:
-#' \item{DM}{The Mahalanobis distance of the samples}
-#' \item{df1}{Degrees of freedom (number of variables or time points)}
-#' \item{df2}{Degrees of freedom (number of rows - number of variables - 1)}
-#' \item{alpha}{The provided significance level for the calculation of the
-#'   confidence region}
+#' \item{DM}{The Mahalanobis distance of the samples.}
+#' \item{df1}{Degrees of freedom (number of variables or time points).}
+#' \item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
+#' \item{alpha}{The provided significance level.}
 #' \item{K}{Scaling factor for \eqn{F} to account for the distribution of the
-#'   \eqn{T^2} statistic}
+#'   \eqn{T^2} statistic.}
 #' \item{k}{Scaling factor for the squared Mahalanobis distance to obtain
-#'   the \eqn{T^2} statistic}
-#' \item{T2}{Hotelling's \eqn{T^2} statistic (\eqn{F}-distributed)}
-#' \item{F}{The observed \eqn{F} value}
+#'   the \eqn{T^2} statistic.}
+#' \item{T2}{Hotelling's \eqn{T^2} statistic (\eqn{F}-distributed).}
+#' \item{F}{Observed \eqn{F} value.}
 #' \item{ncp.Hoffelder}{Non-centrality parameter for calculation of the \eqn{F}
-#'   statistic (\eqn{T^2} test procedure)}
-#' \item{F.crit}{Critical \eqn{F} value (Tsong's procedure)}
-#' \item{F.crit.Hoffelder}{Critical \eqn{F} value (\eqn{T^2} test procedure)}
-#' \item{p.F}{\eqn{p} value for the Hotelling's \eqn{T^2} test statistic}
-#' \item{p.F.Hoffelder}{\eqn{p} value for the Hotelling's \eqn{T^2} statistic
-#'   based on the non-central \eqn{F} distribution}
-#' \item{MTAD}{The specified \dQuote{maximum tolerable average difference}
-#'   (MTAD) of the profiles of two formulations at each individual time point
-#'   (in \%)}
-#' \item{Sim.Limit}{The critical Mahalanobis distance or similarity limit
-#'   (Tsong's procedure)}
+#'   statistic (\eqn{T^2} test procedure).}
+#' \item{F.crit}{Critical \eqn{F} value (Tsong's procedure).}
+#' \item{F.crit.Hoffelder}{Critical \eqn{F} value (\eqn{T^2} test procedure).}
+#' \item{p.F}{The \eqn{p} value for the Hotelling's \eqn{T^2} test statistic.}
+#' \item{p.F.Hoffelder}{The \eqn{p} value for the Hotelling's \eqn{T^2}
+#'   statistic based on the non-central \eqn{F} distribution.}
+#' \item{MTAD}{Specified \dQuote{maximum tolerable average difference} (MTAD)
+#'   of the profiles of two formulations at each individual time point (in \%).}
+#' \item{Sim.Limit}{Critical Mahalanobis distance or similarity limit
+#'   (Tsong's procedure).}
 #'
 #' @references
 #' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
 #' assessment of mean differences between two dissolution data sets.
 #' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
-#' \doi{10.1177/F009286159603000427}
+#' \doi{10.1177/009286159603000427}
 #'
 #' Wellek S. (2010) \emph{Testing statistical hypotheses of equivalence and
 #' noninferiority} (2nd ed.). Chapman & Hall/CRC, Boca Raton.\cr
@@ -292,7 +291,7 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' The function \code{f1()} calculates the dissimilarity factor \eqn{f_1}.
 #'
-#' @param useEMA A string variable indicating if the dissimilarity factor
+#' @param useEMA A character string indicating if the dissimilarity factor
 #'   \eqn{f_1} should be calculated following the EMA guideline \dQuote{On
 #'   the investigation of bioequivalence} (\code{"yes"}, the default) or not
 #'   (\code{"no"}), i.e. the recommendations concerning the similarity factor
@@ -342,7 +341,7 @@ get_sim_lim <- function(mtad, lhs) {
 #' }
 #'
 #' @return A list with the following elements is returned:
-#' \item{f1}{A numeric value representing the similarity factor \eqn{f_1}}
+#' \item{f1}{A numeric value representing the similarity factor \eqn{f_1}.}
 #' \item{Profile.TP}{A named numeric vector of the profile time points.}
 #'
 #' @references
@@ -571,8 +570,8 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' The function \code{f2()} calculates the similarity factor \eqn{f_2}.
 #'
-#' @param useEMA A string variable indicating if the similarity factor \eqn{f_2}
-#'   should be calculated following the EMA guideline \dQuote{On the
+#' @param useEMA A character string indicating if the similarity factor
+#'   \eqn{f_2} should be calculated following the EMA guideline \dQuote{On the
 #'   investigation of bioequivalence} (\code{"yes"}, the default) or not
 #'   (\code{"no"}). A third option is \code{"ignore"}. If \code{useEMA} is
 #'   \code{"yes"} or \code{"no"} the appropriate profile portion is determined
@@ -589,7 +588,7 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'   \item A minimum of three time points (zero excluded).
 #'   \item The time points should be the same for the two formulations.
 #'   \item Twelve individual values for every time point for each formulation.
-#'   \item NOt more than one mean value of > 85\% dissolved for any of the
+#'   \item Not more than one mean value of > 85\% dissolved for any of the
 #'     formulations.
 #'   \item The relative standard deviation or coefficient of variation of any
 #'     product should be less than 20\% for the first time point and less than
@@ -615,18 +614,8 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #' Dissolution profiles are regarded as similar if the \eqn{f_2} value is
 #' between \eqn{50} and \eqn{100}. \cr
 #'
-#' When the \eqn{f_2} statistic is not suitable, then the similarity may be
-#' compared using model-dependent or model-independent methods. One often
-#' encountered problem is that the \%CV constraint cannot be fulfilled. One
-#' possible model-independent method is the bootstrap \eqn{f_2} method proposed
-#' by Shah 1998. By repeated random sampling the distribution of \eqn{f_2} is
-#' simulated to obtain an unbiased estimate of the expected value of \eqn{f_2}
-#' and the variability of the underlying distribution. Other alternatives are
-#' multivariate methods such as the method proposed by Tsong 1996 or by
-#' Hoffelder 2016.
-#'
 #' @return A list with the following elements is returned:
-#' \item{f2}{A numeric value representing the similarity factor \eqn{f_2}}
+#' \item{f2}{A numeric value representing the similarity factor \eqn{f_2}.}
 #' \item{Profile.TP}{A named numeric vector of the profile time points.}
 #'
 #' @references
@@ -645,21 +634,6 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #' CPMP/EWP/QWP/1401/98 Rev. 1.\cr
 #' \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
 #' guideline-investigation-bioequivalence-rev1_en.pdf}
-#'
-#' Shah, V. P., Tsong, Y., Sathe, P., and Liu, J. P. \emph{In vitro} dissolution
-#' profile comparison - statistics and analysis of the similarity factor,
-#' \eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.\cr
-#' \doi{10.1023/A:1011976615750}
-#'
-#' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
-#' assessment of mean differences between two dissolution data sets.
-#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
-#' \doi{10.1177/F009286159603000427}
-#'
-#' Hoffelder, T. Highly variable dissolution profiles. Comparison of
-#' \eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
-#' 2016; \strong{78}(4): 587-592.\cr
-#' \url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @seealso \code{\link{f1}}.
 #'

@@ -27,11 +27,11 @@ First, the largest common value between \code{n_obs} and the number
 of observations of the two groups specified by \code{groups} is sought. Then,
 the number of observations of the two groups are extended according to the
 value found. Extension means that the maximal possible number of
-observations is duplicated to end up with the required number of
+observations is duplicated in order to obtain the required number of
 observations. Thus, in the data frame that is returned the two groups will
 have the same number of observations. Either the number of observations of
 both groups is extended (to match the number of \code{n_obs}), or, if
 \code{n_obs} and the number of observations of one of the two groups is
-equal, only the number of observations of one of the two groups is extended.
+equal, only the number of observations of one of the two groups.
 }
 \keyword{internal}

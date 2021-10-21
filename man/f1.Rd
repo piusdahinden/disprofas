@@ -18,11 +18,11 @@ extractable numeric information. For example, from the column names
 contain the \% release values. The length of \code{tcol} must be three or
 longer.}
 
-\item{grouping}{A string variable specifying the column in \code{data} that
+\item{grouping}{A character string specifying the column in \code{data} that
 contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 
-\item{useEMA}{A string variable indicating if the dissimilarity factor
+\item{useEMA}{A character string indicating if the dissimilarity factor
 \eqn{f_1} should be calculated following the EMA guideline \dQuote{On
 the investigation of bioequivalence} (\code{"yes"}, the default) or not
 (\code{"no"}), i.e. the recommendations concerning the similarity factor
@@ -42,7 +42,7 @@ this value are ignored. The default is \code{85}.}
 }
 \value{
 A list with the following elements is returned:
-\item{f1}{A numeric value representing the similarity factor \eqn{f_1}}
+\item{f1}{A numeric value representing the similarity factor \eqn{f_1}.}
 \item{Profile.TP}{A named numeric vector of the profile time points.}
 }
 \description{

@@ -10,7 +10,7 @@ make_grouping(data, grouping)
 \item{data}{A data frame with the dissolution profile data in wide format
 and a column for the distinction of the groups to be compared.}
 
-\item{grouping}{A string variable specifying the column in \code{data} that
+\item{grouping}{A character string specifying the column in \code{data} that
 contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 }

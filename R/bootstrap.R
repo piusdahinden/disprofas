@@ -4,8 +4,8 @@
 #' of the similarity factor \eqn{f_2} based on resampling of complete profiles
 #' (nonparametric bootstrap) or on resampling per time point the values
 #' between profiles (parametric bootstrap). Estimates of \dQuote{normal},
-#' \dQuote{basic}, \dQuote{student}, \dQuote{percent} and of bias-corrected,
-#' accelerated (BCa) percentile intervals are returned.
+#' \dQuote{basic}, \dQuote{student}, \dQuote{percent} and of
+#' \dQuote{bias-corrected, accelerated} (BCa) percentile intervals are returned.
 #'
 #' @param data A data frame with the dissolution profile data in wide format.
 #'   Since the information on the time points of dissolution testing is
@@ -16,24 +16,24 @@
 #' @param tcol A vector of indices specifying the columns in \code{data} that
 #'   contain the \% release values. The length of \code{tcol} must be three or
 #'   longer.
-#' @param grouping A string variable specifying the column in \code{data} that
+#' @param grouping A character string specifying the column in \code{data} that
 #'   contains the group names (i.e. a factorial variable, e.g., for the
 #'   differentiation of batches or formulations of a drug product).
-#' @param rand_mode A string indicating if complete profiles shall be randomised
-#'   (\code{"complete"}, the default) or individual data points
+#' @param rand_mode A character string indicating if complete profiles shall be
+#'   randomised (\code{"complete"}, the default) or individual data points
 #'   (\code{"individual"}).
 #' @param R An integer specifying the number of bootstrap replicates. The
 #'   default is \code{999}.
-#' @param each An integer of the number of dissolution profiles to be selected
-#'   per group per randomisation round. The default is \code{12}.
+#' @param each An integer specifying the number of dissolution profiles to be
+#'   selected per group per randomisation round. The default is \code{12}.
 #' @param new_seed An integer for setting the seed for random number generation.
 #'   The default is \code{100}.
 #' @param confid A numeric value between 0 and 1 specifying the confidence limit
 #'   for the calculation of the bootstrap confidence intervals. The default is
 #'   \code{0.9}.
-#' @param useEMA A string variable indicating if the similarity factor \eqn{f_2}
-#'   should be calculated according to the EMA guideline \dQuote{On the
-#'   investigation of bioequivalence} (\code{"yes"}) or not (\code{"no"},
+#' @param useEMA A character string indicating if the similarity factor
+#'   \eqn{f_2} should be calculated according to the EMA guideline \dQuote{On
+#'   the investigation of bioequivalence} (\code{"yes"}) or not (\code{"no"},
 #'   the default). The default is \code{"no"} because the bootstrap \eqn{f_2}
 #'   method is one of the possible solutions if the condition concerning the
 #'   variability between the profiles does not allow the evaluation of \eqn{f_2}
@@ -71,21 +71,21 @@
 #' Dissolution profiles are regarded as similar if the \eqn{f_2} value is
 #' between 50 and 100. \cr
 #'
-#' One often encountered problem for highly variable drugs is that the \%CV
-#' constraint cannot be fulfilled. One possibility in this situation is the
-#' use of the bootstrap \eqn{f_2} method (Shah 1998) by which the distribution
-#' of \eqn{f_2} is simulated to obtain an unbiased estimate of the expected
-#' value of \eqn{f_2} and the variability of the underlying distribution. For
-#' the \eqn{f_2} calculation only those parts of the profiles are taken into
-#' account where the means (per formulation) are \eqn{> d}\% dissolved (e.g.,
-#' \eqn{d = 1}) and a maximum of one mean value per formulation is \eqn{> 85}\%
-#' dissolved. In the literature it is suggested to make use of the lower 90\%
-#' bias corrected and accelerated (BCA) confidence interval (CI) limit to come
-#' to a decision in terms of similarity (Stevens (2015)).
+#' One often encountered problem is that the \%CV constraint cannot be
+#' fulfilled. One possibility in this situation is the use of the bootstrap
+#' \eqn{f_2} method (Shah 1998) by which the distribution of \eqn{f_2} is
+#' simulated to obtain an unbiased estimate of the expected value of \eqn{f_2}
+#' and the variability of the underlying distribution. For the \eqn{f_2}
+#' calculation only those parts of the profiles are taken into account where
+#' the means (per formulation) are \eqn{> d}\% dissolved (e.g., \eqn{d = 1})
+#' and a maximum of one mean value per formulation is \eqn{> 85}\% dissolved.
+#' In the literature it is suggested to make use of the lower 90\% bias
+#' corrected and accelerated (BCA) confidence interval (CI) limit to come to
+#' a decision in terms of similarity (Stevens (2015)).
 #'
 #' @return An object of class \sQuote{\code{bootstrap_f2}} is returned,
 #' containing the following list elements:
-#' \item{Boot}{An Object of class \sQuote{\code{boot}} with the corresponding
+#' \item{Boot}{An object of class \sQuote{\code{boot}} with the corresponding
 #'   components.}
 #' \item{Profile.TP}{A named numeric vector of the profile time points.}
 #' \item{L}{A vector of the Jackknife leave-one-out-values.}
@@ -336,12 +336,12 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
 #'
 #' @return A list of the jackknife assessment with the following elements is
 #' returned:
-#' \item{theta.hat}{The original value of the statistic}
-#' \item{theta.jack}{The jackknife value of the statistic}
-#' \item{jack.se}{The jackknife standard error of the statistic}
-#' \item{jack.bias}{The bias of the statistic}
-#' \item{loo.values}{The leave-one-out values}
-#' \item{pseudo.values}{The pseudo values}
+#' \item{theta.hat}{The original value of the statistic.}
+#' \item{theta.jack}{The jackknife value of the statistic.}
+#' \item{jack.se}{The jackknife standard error of the statistic.}
+#' \item{jack.bias}{The bias of the statistic.}
+#' \item{loo.values}{The leave-one-out values.}
+#' \item{pseudo.values}{The pseudo values.}
 #'
 #' @references
 #' Chen, H. Bootstrap and Jackknife Calculations in R. 2004.\cr

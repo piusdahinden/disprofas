@@ -22,8 +22,8 @@ longer.}
 
 \item{groups}{A logical vector specifying different groups.}
 
-\item{useEMA}{A string variable indicating if the similarity factor \eqn{f_2}
-should be calculated following the EMA guideline \dQuote{On the
+\item{useEMA}{A character string indicating if the similarity factor
+\eqn{f_2} should be calculated following the EMA guideline \dQuote{On the
 investigation of bioequivalence} (\code{"yes"}, the default) or not
 (\code{"no"}). A third option is \code{"ignore"}. If \code{useEMA} is
 \code{"yes"} or \code{"no"} the appropriate profile portion is determined
@@ -88,7 +88,7 @@ Agency (EMA) guideline \dQuote{On the investigation of bioequivalence}):
   \item A minimum of three time points (zero excluded).
   \item The time points should be the same for the two formulations.
   \item Twelve individual values for every time point for each formulation.
-  \item NOt more than one mean value of > 85\% dissolved for any of the
+  \item Not more than one mean value of > 85\% dissolved for any of the
     formulations.
   \item The relative standard deviation or coefficient of variation of any
     product should be less than 20\% for the first time point and less than

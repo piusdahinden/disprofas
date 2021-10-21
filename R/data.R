@@ -27,7 +27,7 @@
 #' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
 #' assessment of mean differences between two dissolution data sets.
 #' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
-#' \doi{10.1177/F009286159603000427}
+#' \doi{10.1177/009286159603000427}
 #'
 #' @source
 #' See reference: Example data set shown in Table 1.
@@ -105,7 +105,11 @@
 #' \doi{10.1080/10543406.2014.920344}
 #'
 #' @source
-#' See reference: Example data set shown in Table 1.
+#' See reference: Example data set shown in Table 1. Data set
+#' \sQuote{\code{ex_data_JoBS}} from package \sQuote{\code{T2EQ}}.
+#'
+#' @seealso \code{\link[T2EQ]{T2EQ-package}},
+#' \code{\link[T2EQ]{ex_data_JoBS}}
 #'
 #' @examples
 #' \dontrun{dip3}
@@ -138,7 +142,11 @@
 #' \url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @source
-#' See reference: Example data set underlying Figure 1.
+#' See reference: Example data set underlying Figure 1. Data set
+#' \sQuote{\code{ex_data_pharmind}} from package \sQuote{\code{T2EQ}}.
+#'
+#' @seealso \code{\link[T2EQ]{T2EQ-package}},
+#' \code{\link[T2EQ]{ex_data_pharmind}}
 #'
 #' @examples
 #' \dontrun{dip4}
@@ -161,7 +169,7 @@
 #'   \describe{
 #'   \item{type}{Factor with the single level \code{reference}}
 #'   \item{batch}{Factor with levels \code{b1} to \code{b100}}
-#'   \item{response}{weight of drink cans}
+#'   \item{response}{Weight of drink cans}
 #' }
 #'
 #' @references

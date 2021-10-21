@@ -14,7 +14,7 @@
 that can be passed down to the \code{\link[base]{formatC}()} function.}
 }
 \value{
-The \sQuote{\code{mimcr}} object passed to the \code{object}
+The \sQuote{\code{mimcr}} object passed to the \code{x}
 parameter is returned invisibly.
 }
 \description{

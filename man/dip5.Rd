@@ -9,7 +9,7 @@ A data frame with 100 observations and 3 variables:
   \describe{
   \item{type}{Factor with the single level \code{reference}}
   \item{batch}{Factor with levels \code{b1} to \code{b100}}
-  \item{response}{weight of drink cans}
+  \item{response}{Weight of drink cans}
 }
 }
 \source{

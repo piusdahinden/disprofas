@@ -7,7 +7,7 @@
 get_time_points(svec)
 }
 \arguments{
-\item{svec}{A vector of strings.}
+\item{svec}{A vector of character strings.}
 }
 \value{
 A vector of the same length as \code{svec} with the extracted
@@ -15,11 +15,11 @@ numbers as numeric values.
 }
 \description{
 The function \code{get_time_points()} extracts the numeric information from
-a vector of strings.
+a vector of character strings.
 }
 \details{
-The function expects a vector of strings that contain numeric
-information. Strings that do not contain numeric information \code{NA} will
-be returned for the corresponding string.
+The function expects a vector of character strings that contain
+numeric information. Strings that do not contain numeric information
+\code{NA} will be returned for the corresponding character string.
 }
 \keyword{internal}

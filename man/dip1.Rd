@@ -38,6 +38,6 @@ A data set containing the dissolution data of one reference batch and one
 Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
 assessment of mean differences between two dissolution data sets.
 \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
-\doi{10.1177/F009286159603000427}
+\doi{10.1177/009286159603000427}
 }
 \keyword{datasets}

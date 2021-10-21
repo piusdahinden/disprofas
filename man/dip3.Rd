@@ -19,7 +19,8 @@ A data frame with 24 observations and 6 variables:
 }
 }
 \source{
-See reference: Example data set shown in Table 1.
+See reference: Example data set shown in Table 1. Data set
+\sQuote{\code{ex_data_JoBS}} from package \sQuote{\code{T2EQ}}.
 }
 \usage{
 data(dip3)
@@ -37,5 +38,9 @@ Hoffelder, T., Goessl, R., and Wellek, S. Multivariate equivalence tests for
 use in pharmaceutical development. \emph{J Biopharm Stat} (2015)
 \strong{25}(3): 417-437.\cr
 \doi{10.1080/10543406.2014.920344}
+}
+\seealso{
+\code{\link[T2EQ]{T2EQ-package}},
+\code{\link[T2EQ]{ex_data_JoBS}}
 }
 \keyword{datasets}

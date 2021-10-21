@@ -7,7 +7,7 @@
 get_jackknife_values(grouping, stat_fun, data, ...)
 }
 \arguments{
-\item{grouping}{A string variable specifying the column in \code{data} that
+\item{grouping}{A character string specifying the column in \code{data} that
 contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 
@@ -23,12 +23,12 @@ function.}
 \value{
 A list of the jackknife assessment with the following elements is
 returned:
-\item{theta.hat}{The original value of the statistic}
-\item{theta.jack}{The jackknife value of the statistic}
-\item{jack.se}{The jackknife standard error of the statistic}
-\item{jack.bias}{The bias of the statistic}
-\item{loo.values}{The leave-one-out values}
-\item{pseudo.values}{The pseudo values}
+\item{theta.hat}{The original value of the statistic.}
+\item{theta.jack}{The jackknife value of the statistic.}
+\item{jack.se}{The jackknife standard error of the statistic.}
+\item{jack.bias}{The bias of the statistic.}
+\item{loo.values}{The leave-one-out values.}
+\item{pseudo.values}{The pseudo values.}
 }
 \description{
 The function \code{get_jackknife_values()} is required for generation of

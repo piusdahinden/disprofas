@@ -26,7 +26,7 @@ each profile.
 The function \code{rand_indiv_points()} samples individual data
 points of each profile. The first element of \code{mle} specifies the
 number of indices per group (of two groups), i.e. the number of profiles
-to take into account from the two groups. The second element of \code{mle}
+to take into account from each group. The second element of \code{mle}
 specifies the columns in the data frame that represent the dissolution
 profiles, i.e. the columns with the \% release data. The data points of
 each group and column are randomised.

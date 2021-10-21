@@ -18,12 +18,12 @@ extractable numeric information. For example, from the column names
 contain the \% release values. The length of \code{tcol} must be three or
 longer.}
 
-\item{grouping}{A string variable specifying the column in \code{data} that
+\item{grouping}{A character string specifying the column in \code{data} that
 contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 
-\item{useEMA}{A string variable indicating if the similarity factor \eqn{f_2}
-should be calculated following the EMA guideline \dQuote{On the
+\item{useEMA}{A character string indicating if the similarity factor
+\eqn{f_2} should be calculated following the EMA guideline \dQuote{On the
 investigation of bioequivalence} (\code{"yes"}, the default) or not
 (\code{"no"}). A third option is \code{"ignore"}. If \code{useEMA} is
 \code{"yes"} or \code{"no"} the appropriate profile portion is determined
@@ -41,7 +41,7 @@ this value are ignored. The default is \code{85}.}
 }
 \value{
 A list with the following elements is returned:
-\item{f2}{A numeric value representing the similarity factor \eqn{f_2}}
+\item{f2}{A numeric value representing the similarity factor \eqn{f_2}.}
 \item{Profile.TP}{A named numeric vector of the profile time points.}
 }
 \description{
@@ -56,7 +56,7 @@ similarity factor is based on the following constraints:
   \item A minimum of three time points (zero excluded).
   \item The time points should be the same for the two formulations.
   \item Twelve individual values for every time point for each formulation.
-  \item NOt more than one mean value of > 85\% dissolved for any of the
+  \item Not more than one mean value of > 85\% dissolved for any of the
     formulations.
   \item The relative standard deviation or coefficient of variation of any
     product should be less than 20\% for the first time point and less than
@@ -81,16 +81,6 @@ In this equation
 
 Dissolution profiles are regarded as similar if the \eqn{f_2} value is
 between \eqn{50} and \eqn{100}. \cr
-
-When the \eqn{f_2} statistic is not suitable, then the similarity may be
-compared using model-dependent or model-independent methods. One often
-encountered problem is that the \%CV constraint cannot be fulfilled. One
-possible model-independent method is the bootstrap \eqn{f_2} method proposed
-by Shah 1998. By repeated random sampling the distribution of \eqn{f_2} is
-simulated to obtain an unbiased estimate of the expected value of \eqn{f_2}
-and the variability of the underlying distribution. Other alternatives are
-multivariate methods such as the method proposed by Tsong 1996 or by
-Hoffelder 2016.
 }
 \examples{
 tmp1 <- f2(data = dip2[dip2$batch \%in\% c("b0", "b1"), ], tcol = 5:8,
@@ -126,21 +116,6 @@ Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
 CPMP/EWP/QWP/1401/98 Rev. 1.\cr
 \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
 guideline-investigation-bioequivalence-rev1_en.pdf}
-
-Shah, V. P., Tsong, Y., Sathe, P., and Liu, J. P. \emph{In vitro} dissolution
-profile comparison - statistics and analysis of the similarity factor,
-\eqn{f_2}. \emph{Pharm Res}. 1998; \strong{15}(6): 889-896.\cr
-\doi{10.1023/A:1011976615750}
-
-Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
-assessment of mean differences between two dissolution data sets.
-\emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
-\doi{10.1177/F009286159603000427}
-
-Hoffelder, T. Highly variable dissolution profiles. Comparison of
-\eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
-2016; \strong{78}(4): 587-592.\cr
-\url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 }
 \seealso{
 \code{\link{f1}}.

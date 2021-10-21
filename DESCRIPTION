@@ -1,21 +1,22 @@
 Package: disprofas
 Type: Package
-Version: 0.0.0.9006
+Version: 0.0.0.9007
 Title: Non-parametric Dissolution Profile Analysis
 Description: Similarity of dissolution profiles is assessed using the similarity
     factor f2 according to the EMA guideline (European Medicines Agency 2010)
-    "On the investigation of bioequivalence". Dissolution profiles are regarded
-    as similar if the f2 value is between 50 and 100. For the applicability
-    of the similarity factor f2, the variability between profiles needs to be
-    within certain limits. Often, this constraint is violated. One possibility
-    in this situation is to resample the measured profiles in order to obtain a
-    bootstrap estimate of f2 (Shah et al. (1998) <doi:10.1023/A:1011976615750>).
-    Other alternatives are the model-independent non-parametric multivariate
-    confidence region (MCR) procedure (Tsong et al. (1996) 
-    <doi:10.1177/F009286159603000427>) or the T2-test for equivalence procedure
-    (Hoffelder (2016) <http://www.ecv.de/suse_item.php?suseId=Z|pi|8430>).
-    Functions for estimation of f1, f2, bootstrap f2, MCR / T2-test for
-    equivalence procedure are implemented.
+    \"On the investigation of bioequivalence\". Dissolution profiles are
+    regarded as similar if the f2 value is between 50 and 100. For the
+    applicability of the similarity factor f2, the variability between profiles
+    needs to be within certain limits. Often, this constraint is violated. One
+    possibility in this situation is to resample the measured profiles in order
+    to obtain a bootstrap estimate of f2
+    (Shah et al. (1998) <doi:10.1023/A:1011976615750>). Other alternatives are
+    the model-independent non-parametric multivariate confidence region (MCR)
+    procedure (Tsong et al. (1996)  <doi:10.1177/F009286159603000427>) or the
+    T2-test for equivalence procedure (Hoffelder (2016)
+    <http://www.ecv.de/suse_item.php?suseId=Z|pi|8430>). Functions for
+    estimation of f1, f2, bootstrap f2, MCR / T2-test for equivalence procedure
+    are implemented.
 Authors@R: c(person(given = "Pius",
                     family = "Dahinden",
                     role = c("aut", "cre"),

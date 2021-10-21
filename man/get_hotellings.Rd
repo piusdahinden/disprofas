@@ -9,40 +9,38 @@ get_hotellings(m1, m2, signif)
 \arguments{
 \item{m1}{A matrix with the data of the reference group.}
 
-\item{m2}{A matrix with the same same dimensions as matrix \eqn{m1},
-with the data of the test group.}
+\item{m2}{A matrix with the same dimensions as matrix \code{m1}, with the
+data of the test group.}
 
-\item{signif}{A positive numeric value between 0 and 1 specifying the
-significance level for the calculation of the \dQuote{Confidence Region}
-(CR). The coverage of CR is \eqn{(1 - signif) 100}\%. The default value
-is \code{0.05}.}
+\item{signif}{A positive numeric value between \code{0} and \code{1}
+specifying the significance level. The default value is \code{0.05}.}
 }
 \value{
 A list with the following elements is returned:
 \item{Parameters}{Parameters determined for the estimation of
-  Hotelling's \eqn{T^2}}
-\item{S.pool}{The pooled variance-covariance matrix}
-\item{covs}{A list with the elements \code{S.b1} and \code{S.b2}, the
-  variance-covariance matrices of the reference and the test group}
+  Hotelling's \eqn{T^2}.}
+\item{S.pool}{Pooled variance-covariance matrix.}
+\item{covs}{A list with the elements \code{S.b1} and \code{S.b2}, i.e. the
+  variance-covariance matrices of the reference and the test group,
+  respectively.}
 \item{means}{A list with the elements \code{mean.b1}, \code{mean.b2} and
-  \code{mean.diff}, the average profile values (for each time point) of
-  the reference and the test group and the corresponding difference of
-  the averages}
+  \code{mean.diff}, i.e. the average profile values (for each time point) of
+  the reference and the test group and the corresponding differences of
+  the averages, respectively.}
 
 The \code{Parameters} element contains the following information:
-\item{DM}{The Mahalanobis distance of the samples}
-\item{df1}{Degrees of freedom (number of variables or time points)}
-\item{df2}{Degrees of freedom (number of rows - number of variables - 1)}
-\item{alpha}{The provided significance level for the calculation of the
-  confidence region}
+\item{DM}{Mahalanobis distance of the samples.}
+\item{df1}{Degrees of freedom (number of variables or time points).}
+\item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
+\item{alpha}{Provided significance level.}
 \item{K}{Scaling factor for \eqn{F} to account for the distribution of the
-  \eqn{T^2} statistic}
+  \eqn{T^2} statistic.}
 \item{k}{Scaling factor for the squared Mahalanobis distance to obtain
-  the \eqn{T^2} statistic}
-\item{T2}{Hotelling's \eqn{T^2} statistic (\eqn{F}-distributed)}
-\item{F}{The observed \eqn{F} value}
-\item{F.crit}{Critical \eqn{F} value}
-\item{p.F}{\eqn{p} value for the Hotelling's \eqn{T^2} test statistic}
+  the \eqn{T^2} statistic.}
+\item{T2}{Hotelling's \eqn{T^2} statistic (\eqn{F}-distributed).}
+\item{F}{Observed \eqn{F} value.}
+\item{F.crit}{Critical \eqn{F} value.}
+\item{p.F}{\eqn{p} value for Hotelling's \eqn{T^2} test statistic.}
 }
 \description{
 The function \code{get_hotellings()} estimates the parameters for Hotelling's
@@ -59,8 +57,8 @@ The two-sample Hotelling's \eqn{T^2} test statistic is given by
 
 For large samples, this test statistic will be approximately chi-square
 distributed with \eqn{p} degrees of freedom. However, this approximation
-does not take into account the variation due to estimating the
-variance-covariance matrix. Therefore, Hotelling's \eqn{T^2} statistic
+does not take into account the variation due to the variance-covariance
+matrix estimation. Therefore, Hotelling's \eqn{T^2} statistic
 is transformed into an \eqn{F}-statistic using the expression
 
 \deqn{F = \frac{n_1 + n_2 - p - 1}{(n_1 + n_2 - 2) p} T^2 ,}{%

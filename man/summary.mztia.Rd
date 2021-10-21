@@ -14,6 +14,10 @@
 that can be passed down to the \code{\link[base]{print.data.frame}()}
 function.}
 }
+\value{
+The \sQuote{\code{mztia}} object passed to the \code{object}
+parameter is returned invisibly.
+}
 \description{
 This is a method for the function \code{summary()} for objects of class
 \sQuote{\code{mztia}}.

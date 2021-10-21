@@ -7,8 +7,8 @@
 gep_by_nera(n_p, K, mean_diff, S_pool, F_crit, y, max_trial, tol)
 }
 \arguments{
-\item{n_p}{A positive integer specifying the \dQuote{number of (time)
-points}.}
+\item{n_p}{A positive integer specifying the number of (time) points
+\eqn{n_p}.}
 
 \item{K}{A non-negative numeric value specifying the scaling factor \eqn{K}
 for the calculation of the Hotelling's \eqn{T^2} statistic.}
@@ -24,8 +24,8 @@ profiles of the reference and the test batch. It must have the dimension
 \item{F_crit}{The critical \eqn{F} value (i.e. a non-negative numeric).}
 
 \item{y}{A numeric vector of \eqn{y} values that serve as starting points
-for the Newton-Raphson search, i.e. values supposed to lie on the
-confidence interval bounds. It must have a length of \eqn{n_p + 1}.}
+for the Newton-Raphson search, i.e. values supposed to lie on or close to
+the confidence interval bounds. It must have a length of \eqn{n_p + 1}.}
 
 \item{max_trial}{A positive integer specifying the maximum number of
 Newton-Raphson search rounds to be performed.}
@@ -37,15 +37,15 @@ difference between two consecutive search rounds.}
 A list with the following elements is returned:
 \item{points}{A matrix with one column and \eqn{n_p + 1} rows is returned,
   where rows \eqn{1} to \eqn{n_p} represent, for each time point, the points
-  on the confidence region \eqn{CR}. For symmetry reasons, the points on the
-  opposite side are obtained by addition/subtraction. The last row in the
-  matrix, with index \eqn{n_p + 1}, represents the \eqn{\lambda} parameter
-  of the MLM, also known as \emph{lambda multiplier method}, that is used
-  to optimise under constraint(s). The variable \eqn{\lambda} is thus called
+  on the \eqn{CR} bounds. For symmetry reasons, the points on the opposite
+  side are obtained by addition/subtraction. The last row in the matrix,
+  with index \eqn{n_p + 1}, represents the \eqn{\lambda} parameter of the
+  MLM, also known as \emph{lambda multiplier method}, that is used to
+  optimise under constraint(s). The variable \eqn{\lambda} is thus called
   the \emph{Lagrange multiplier}.}
-\item{converged}{A logical stating if the NR algorithm converged or not}
-\item{n.trial}{The number of trials until convergence}
-\item{max.trial}{The maximal number of trials}
+\item{converged}{A logical stating if the NR algorithm converged or not.}
+\item{n.trial}{Number of trials until convergence.}
+\item{max.trial}{Maximal number of trials.}
 }
 \description{
 The function \code{gep_by_nera()} is a function for finding points on
@@ -56,7 +56,7 @@ is an \dQuote{ellipse} in four dimensions.
 }
 \details{
 The function \code{gep_by_nera()} determines the points on the
-\eqn{CR} bounds for each of the \code{n_p} time points. It does so by aid
+\eqn{CR} bounds for each of the \eqn{n_p} time points. It does so by aid
 of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
 \dQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
 Connolly (Connolly 2000).
@@ -95,11 +95,12 @@ stepwise procedure:
 
 \section{Similarity limits in terms of MSD}{
 
-For calculating the MSD, the procedure proposed by Tsong et al. (1996) can
-be considered as well-accepted method that is actually recommended by the
-FDA. According to this method, a multivariate statistical distance, called
-Mahalanobis distance, is used to measure the difference between two
-multivariate means. This distance measure is calculated as
+For the calculation of the \dQuote{Multivariate Statistical Distance} (MSD),
+the procedure proposed by Tsong et al. (1996) can be considered as
+well-accepted method that is actually recommended by the FDA. According
+to this method, a multivariate statistical distance, called Mahalanobis
+distance, is used to measure the difference between two multivariate means.
+This distance measure is calculated as
 
 \deqn{D_M = \sqrt{ \left( \bm{x_T} - \bm{x_R} \right)^{\top}
   \bm{S}_{pooled}^{-1} \left( \bm{x_T} - \bm{x_R} \right)} ,}{%
@@ -112,11 +113,10 @@ the vectors of the sample means for the test (\eqn{T}) and reference
 (\eqn{R}) profiles, and \eqn{\bm{S}_T}{S_T} and \eqn{\bm{S}_R}{x_R} are the
 variance-covariance matrices of the test and reference profiles.
 
-In order to determine the similarity limits in terms of the
-\dQuote{Multivariate Statistical Distance} (MSD), i.e. the Mahalanobis
-distance between the two multivariate means of the dissolution profiles
-of the formulations to be compared, Tsong et al. (1996) proposed to use
-the equation
+In order to determine the similarity limits in terms of the MSD, i.e. the
+Mahalanobis distance between the two multivariate means of the dissolution
+profiles of the formulations to be compared, Tsong et al. (1996) proposed
+using the equation
 
 \deqn{D_M^{max} = \sqrt{ \bm{d}_g^{\top} \bm{S}_{pooled}^{-1} \bm{d}_g} ,}{%
   D_M^{max} = sqrt(d_g^{\top} S_{pooled}^{-1} d_g) ,}
@@ -126,7 +126,7 @@ where \eqn{\bm{d}_g}{d_g} is a \eqn{1 \times p}{1 x p} vector with all
 e.g., \eqn{15}\%, for the maximum tolerable difference at all time points,
 and \eqn{p} is the number of sampling points. By assuming that the data
 follow a multivariate normal distribution, the 90\% confidence region
-(\eqn{CR}) for the true difference between the mean vectors,
+(\eqn{CR}) bounds for the true difference between the mean vectors,
 \eqn{\bm{\mu}_T - \bm{\mu}_R}{\mu_T - \mu_R}, can be computed for the
 resultant vector \eqn{\bm{\mu}}{\mu} to satisfy the following condition:
 
@@ -215,7 +215,7 @@ emphasis on \emph{in-vitro} dissolution profiles. \emph{Pharm Tech}. 1996;
 Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
 assessment of mean differences between two dissolution data sets.
 \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
-\doi{10.1177/F009286159603000427}
+\doi{10.1177/009286159603000427}
 
 Connolly, M. SAS(R) IML Code to calculate an upper confidence limit for
 multivariate statistical distance; 2000; Wyeth Lederle Vaccines, Pearl River,

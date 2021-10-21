@@ -8,42 +8,40 @@ get_sim_lim(mtad, lhs)
 }
 \arguments{
 \item{mtad}{A numeric value specifying the \dQuote{maximum tolerable average
-difference} (MTAD) of the profiles of two formulations at each individual
-time point (in \%). The default value is \code{10}. It determines the the
-size of the similarity limit \eqn{\bm{d}_g}{d_g}.}
+difference} (MTAD) of the profiles of two formulations at all time points
+(in \%). The default value is \code{10}. It determines the size of the
+similarity limit \eqn{\bm{d}_g}{d_g}.}
 
 \item{lhs}{A list of the estimates of Hotelling's two-sample \eqn{T^2}
 statistic for small samples as returned by the function
-\code{\link{get_hotellings}}.}
+\code{\link{get_hotellings}()}.}
 }
 \value{
 A vector containing the following information is returned:
-\item{DM}{The Mahalanobis distance of the samples}
-\item{df1}{Degrees of freedom (number of variables or time points)}
-\item{df2}{Degrees of freedom (number of rows - number of variables - 1)}
-\item{alpha}{The provided significance level for the calculation of the
-  confidence region}
+\item{DM}{The Mahalanobis distance of the samples.}
+\item{df1}{Degrees of freedom (number of variables or time points).}
+\item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
+\item{alpha}{The provided significance level.}
 \item{K}{Scaling factor for \eqn{F} to account for the distribution of the
-  \eqn{T^2} statistic}
+  \eqn{T^2} statistic.}
 \item{k}{Scaling factor for the squared Mahalanobis distance to obtain
-  the \eqn{T^2} statistic}
-\item{T2}{Hotelling's \eqn{T^2} statistic (\eqn{F}-distributed)}
-\item{F}{The observed \eqn{F} value}
+  the \eqn{T^2} statistic.}
+\item{T2}{Hotelling's \eqn{T^2} statistic (\eqn{F}-distributed).}
+\item{F}{Observed \eqn{F} value.}
 \item{ncp.Hoffelder}{Non-centrality parameter for calculation of the \eqn{F}
-  statistic (\eqn{T^2} test procedure)}
-\item{F.crit}{Critical \eqn{F} value (Tsong's procedure)}
-\item{F.crit.Hoffelder}{Critical \eqn{F} value (\eqn{T^2} test procedure)}
-\item{p.F}{\eqn{p} value for the Hotelling's \eqn{T^2} test statistic}
-\item{p.F.Hoffelder}{\eqn{p} value for the Hotelling's \eqn{T^2} statistic
-  based on the non-central \eqn{F} distribution}
-\item{MTAD}{The specified \dQuote{maximum tolerable average difference}
-  (MTAD) of the profiles of two formulations at each individual time point
-  (in \%)}
-\item{Sim.Limit}{The critical Mahalanobis distance or similarity limit
-  (Tsong's procedure)}
+  statistic (\eqn{T^2} test procedure).}
+\item{F.crit}{Critical \eqn{F} value (Tsong's procedure).}
+\item{F.crit.Hoffelder}{Critical \eqn{F} value (\eqn{T^2} test procedure).}
+\item{p.F}{The \eqn{p} value for the Hotelling's \eqn{T^2} test statistic.}
+\item{p.F.Hoffelder}{The \eqn{p} value for the Hotelling's \eqn{T^2}
+  statistic based on the non-central \eqn{F} distribution.}
+\item{MTAD}{Specified \dQuote{maximum tolerable average difference} (MTAD)
+  of the profiles of two formulations at each individual time point (in \%).}
+\item{Sim.Limit}{Critical Mahalanobis distance or similarity limit
+  (Tsong's procedure).}
 }
 \description{
-The function \code{get_sim_lim()} estimates similarity limit in terms of
+The function \code{get_sim_lim()} estimates a similarity limit in terms of
 the \dQuote{Multivariate Statistical Distance} (MSD).
 }
 \details{
@@ -53,11 +51,12 @@ the corresponding section below.
 }
 \section{Similarity limits in terms of MSD}{
 
-For calculating the MSD, the procedure proposed by Tsong et al. (1996) can
-be considered as well-accepted method that is actually recommended by the
-FDA. According to this method, a multivariate statistical distance, called
-Mahalanobis distance, is used to measure the difference between two
-multivariate means. This distance measure is calculated as
+For the calculation of the \dQuote{Multivariate Statistical Distance} (MSD),
+the procedure proposed by Tsong et al. (1996) can be considered as
+well-accepted method that is actually recommended by the FDA. According
+to this method, a multivariate statistical distance, called Mahalanobis
+distance, is used to measure the difference between two multivariate means.
+This distance measure is calculated as
 
 \deqn{D_M = \sqrt{ \left( \bm{x_T} - \bm{x_R} \right)^{\top}
   \bm{S}_{pooled}^{-1} \left( \bm{x_T} - \bm{x_R} \right)} ,}{%
@@ -70,11 +69,10 @@ the vectors of the sample means for the test (\eqn{T}) and reference
 (\eqn{R}) profiles, and \eqn{\bm{S}_T}{S_T} and \eqn{\bm{S}_R}{x_R} are the
 variance-covariance matrices of the test and reference profiles.
 
-In order to determine the similarity limits in terms of the
-\dQuote{Multivariate Statistical Distance} (MSD), i.e. the Mahalanobis
-distance between the two multivariate means of the dissolution profiles
-of the formulations to be compared, Tsong et al. (1996) proposed to use
-the equation
+In order to determine the similarity limits in terms of the MSD, i.e. the
+Mahalanobis distance between the two multivariate means of the dissolution
+profiles of the formulations to be compared, Tsong et al. (1996) proposed
+using the equation
 
 \deqn{D_M^{max} = \sqrt{ \bm{d}_g^{\top} \bm{S}_{pooled}^{-1} \bm{d}_g} ,}{%
   D_M^{max} = sqrt(d_g^{\top} S_{pooled}^{-1} d_g) ,}
@@ -84,7 +82,7 @@ where \eqn{\bm{d}_g}{d_g} is a \eqn{1 \times p}{1 x p} vector with all
 e.g., \eqn{15}\%, for the maximum tolerable difference at all time points,
 and \eqn{p} is the number of sampling points. By assuming that the data
 follow a multivariate normal distribution, the 90\% confidence region
-(\eqn{CR}) for the true difference between the mean vectors,
+(\eqn{CR}) bounds for the true difference between the mean vectors,
 \eqn{\bm{\mu}_T - \bm{\mu}_R}{\mu_T - \mu_R}, can be computed for the
 resultant vector \eqn{\bm{\mu}}{\mu} to satisfy the following condition:
 
@@ -114,10 +112,10 @@ Tsong et al. (1996), i.e. the Mahalanobis distance, Hoffelder (2016) proposed
 a statistical equivalence procedure for that distance, the so-called
 \eqn{T^2} test for equivalence (T2EQ). It is used to demonstrate that the
 Mahalanobis distance between reference and test group dissolution profiles
-is smaller than EM. Decision in favour of equivalence is taken if the \eqn{p}
-value of this test statistic is smaller than the pre-specified significance
-level, i.e. if \eqn{p < \alpha}. The \eqn{p} value is calculated by aid of
-the formula
+is smaller than the \dQuote{Equivalence Margin} (EM). Decision in favour of
+equivalence is taken if the \eqn{p} value of this test statistic is smaller
+than the pre-specified significance level \eqn{\alpha}, i.e. if
+\eqn{p < \alpha}. The \eqn{p} value is calculated by aid of the formula
 
 \deqn{p = F_{p, n_T + n_R - p - 1, ncp, \alpha}
   \frac{n_T + n_R - p - 1}{(n_T + n_R - 2) p} T^2 ,}{%
@@ -136,7 +134,7 @@ The test statistic being used is Hotelling's \eqn{T^2} that is given as
   \right)^{\top} \bm{S}_{pooled}^{-1} \left( \bm{x_T} - \bm{x_R} \right) .}{%
   (n_T n_R) / (n_T + n_R) * (x_T - x_R)^{\top} S_{pooled}^{-1} (x_T - x_R) .}
 
-As mentioned previously, \eqn{\bm{d}_g}{d_g} is a \eqn{1 \times p}{1 x p}
+As mentioned elsewhere, \eqn{\bm{d}_g}{d_g} is a \eqn{1 \times p}{1 x p}
 vector with all \eqn{p} elements equal to an empirically defined limit
 \eqn{d_g}. Thus, the components of the vector \eqn{\bm{d}_g}{d_g} can be
 interpreted as upper bound for a kind of \dQuote{\emph{average}} allowed
@@ -144,14 +142,14 @@ difference between test and reference profiles, the \dQuote{\emph{global
 similarity limit}}. Since the EMA requires that \dQuote{similarity acceptance
 limits should be pre-defined and justified and not be greater than a 10\%
 difference}, it is recommended to use 10\%, not 15\% as proposed by Tsong
-et al., for the maximum tolerable difference at all time points.
+et al. (1996), for the maximum tolerable difference at all time points.
 }
 
 \references{
 Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
 assessment of mean differences between two dissolution data sets.
 \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
-\doi{10.1177/F009286159603000427}
+\doi{10.1177/009286159603000427}
 
 Wellek S. (2010) \emph{Testing statistical hypotheses of equivalence and
 noninferiority} (2nd ed.). Chapman & Hall/CRC, Boca Raton.\cr

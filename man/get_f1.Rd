@@ -15,7 +15,7 @@ get_f1(data, ins, tcol, grouping)
 contain the \% release values. The length of \code{tcol} must be three or
 longer.}
 
-\item{grouping}{A string variable specifying the column in \code{data} that
+\item{grouping}{A character string specifying the column in \code{data} that
 contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 }

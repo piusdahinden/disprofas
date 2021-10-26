@@ -1,26 +1,20 @@
 context("Profile portion determination")
 
 test_that("get_profile_portion_succeeds", {
-  time_points <- suppressWarnings(as.numeric(gsub("([^0-9.])([^0-9])", "",
-                                                    colnames(dip1))))
-  tcol <- which(!is.na(time_points))
-
-  # <-><-><-><->
-
   tico_names <- names(get_profile_portion(
-    data = dip1, tcol = tcol, groups = (dip1$type == "R"), useEMA = "yes",
+    data = dip1, tcol = 3:10, groups = (dip1$type == "R"), useEMA = "yes",
     lorellim = 1, uprellim = 80))
 
   res1 <- unname(get_profile_portion(
-    data = dip1, tcol = tcol, groups = (dip1$type == "R"), useEMA = "yes",
+    data = dip1, tcol = 3:10, groups = (dip1$type == "R"), useEMA = "yes",
     lorellim = 1, uprellim = 80))
 
   res2 <- unname(get_profile_portion(
-    data = dip1, tcol = tcol, groups = (dip1$type == "R"), useEMA = "no",
+    data = dip1, tcol = 3:10, groups = (dip1$type == "R"), useEMA = "no",
     lorellim = 1, uprellim = 80))
 
   res3 <- unname(get_profile_portion(
-    data = dip1, tcol = tcol, groups = (dip1$type == "R"), useEMA = "ignore",
+    data = dip1, tcol = 3:10, groups = (dip1$type == "R"), useEMA = "ignore",
     lorellim = 1, uprellim = 85))
 
   expect_equal(
@@ -32,10 +26,6 @@ test_that("get_profile_portion_succeeds", {
 })
 
 test_that("get_profile_portion_fails", {
-  time_points <- suppressWarnings(as.numeric(gsub("([^0-9.])([^0-9])", "",
-                                                  colnames(dip1))))
-  tcol <- which(!is.na(time_points))
-
   tmp0 <- dip1
   tmp0$t.5 <- as.factor(tmp0$t.5)
 
@@ -43,7 +33,7 @@ test_that("get_profile_portion_fails", {
 
   expect_error(
     get_profile_portion(
-      data = as.matrix(dip1[, tcol]), tcol = tcol, groups = (dip1$type == "R"),
+      data = as.matrix(dip1[, 3:10]), tcol = 3:10, groups = (dip1$type == "R"),
       useEMA = "yes", lorellim = 1, uprellim = 80),
     "data must be provided as data frame")
   expect_error(
@@ -55,7 +45,7 @@ test_that("get_profile_portion_fails", {
                         useEMA = "yes", lorellim = 1, uprellim = 80),
     "tcol must be an integer vector")
   expect_error(
-    get_profile_portion(data = dip1, tcol = tcol + 0.1,
+    get_profile_portion(data = dip1, tcol = 3:10 + 0.1,
                         groups = (dip1$type == "R"),
                         useEMA = "yes", lorellim = 1, uprellim = 80),
     "tcol must be an integer vector")
@@ -68,31 +58,31 @@ test_that("get_profile_portion_fails", {
                         useEMA = "yes", lorellim = 1, uprellim = 80),
     "Some names of columns specified by tcol")
   expect_error(
-    get_profile_portion(data = tmp0, tcol = tcol, groups = (tmp0$type == "R"),
+    get_profile_portion(data = tmp0, tcol = 3:10, groups = (tmp0$type == "R"),
                         useEMA = "yes", lorellim = 1, uprellim = 80),
     "Some columns specified by tcol are not numeric")
   expect_error(
-    get_profile_portion(data = dip1, tcol = tcol, groups = dip1$type,
+    get_profile_portion(data = dip1, tcol = 3:10, groups = dip1$type,
                         useEMA = "yes", lorellim = 1, uprellim = 80),
     "groups must be a logical vector")
   expect_error(
-    get_profile_portion(data = dip1, tcol = tcol, groups = rep(TRUE, 6),
+    get_profile_portion(data = dip1, tcol = 3:10, groups = rep(TRUE, 6),
                         useEMA = "yes", lorellim = 1, uprellim = 80),
     "groups must be a logical vector")
   expect_error(
-    get_profile_portion(data = dip1, tcol = tcol, groups = (dip1$type == "R"),
+    get_profile_portion(data = dip1, tcol = 3:10, groups = (dip1$type == "R"),
                         useEMA = "maybe", lorellim = 1, uprellim = 80),
     "specify useEMA either as \"yes\" or \"no\" or \"ignore\"")
   expect_error(
-    get_profile_portion(data = dip1, tcol = tcol, groups = (dip1$type == "R"),
+    get_profile_portion(data = dip1, tcol = 3:10, groups = (dip1$type == "R"),
                         useEMA = "yes", lorellim = "lorel", uprellim = 80),
     "lorellim must be single number >= 0 and < uprellim")
   expect_error(
-    get_profile_portion(data = dip1, tcol = tcol, groups = (dip1$type == "R"),
+    get_profile_portion(data = dip1, tcol = 3:10, groups = (dip1$type == "R"),
                         useEMA = "yes", lorellim = 85, uprellim = 1),
     "lorellim must be single number >= 0 and < uprellim")
   expect_error(
-    get_profile_portion(data = dip1, tcol = tcol, groups = (dip1$type == "R"),
+    get_profile_portion(data = dip1, tcol = 3:10, groups = (dip1$type == "R"),
                         useEMA = "yes", lorellim = 1, uprellim = "uprel"),
     "uprellim must be a single number <= 100 and > lorellim")
 })

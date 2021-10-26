@@ -342,7 +342,12 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' @return A list with the following elements is returned:
 #' \item{f1}{A numeric value representing the similarity factor \eqn{f_1}.}
-#' \item{Profile.TP}{A named numeric vector of the profile time points.}
+#' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
+#'   specified by \code{tcol} and depending on the selection of \code{useEMA}.
+#'   Given that the column names contain extractable numeric information,
+#'   e.g., specifying the testing time points of the dissolution profile, it
+#'   contains the corresponding values. Elements where no numeric information
+#'   could be extracted are \code{NA}.}
 #'
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
@@ -616,7 +621,12 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' @return A list with the following elements is returned:
 #' \item{f2}{A numeric value representing the similarity factor \eqn{f_2}.}
-#' \item{Profile.TP}{A named numeric vector of the profile time points.}
+#' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
+#'   specified by \code{tcol} and depending on the selection of \code{useEMA}.
+#'   Given that the column names contain extractable numeric information,
+#'   e.g., specifying the testing time points of the dissolution profile, it
+#'   contains the corresponding values. Elements where no numeric information
+#'   could be extracted are \code{NA}.}
 #'
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:

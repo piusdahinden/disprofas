@@ -29,7 +29,7 @@ extractable numeric information. For example, from the column names
 \code{"long"} or in \code{"wide"} format. The default is \code{"wide"}.}
 
 \item{tcol}{If \code{shape} is \code{"wide"} a vector of indices, if
-\code{shape} is \code{"long"} a numeric value, specifying the column
+\code{shape} is \code{"long"} a numeric value specifying the column
 containing the \% release values. If the data frame is in \code{wide}
 format it is reshaped using the function \code{\link[stats]{reshape}()}
 from the \sQuote{\code{stats}} package.}
@@ -69,6 +69,13 @@ following elements:
 \item{Limits}{A data frame of the limits calculated for each time point.}
 \item{Data}{A data frame consisting of the provided data, complemented by
   the calculated tolerance interval results.}
+\item{Profile.TP}{If \code{shape} is \code{"wide"} a named numeric vector
+  of the columns in \code{data} specified by \code{tcol}. Given that the
+  column names contain extractable numeric information, e.g., specifying
+  the testing time points of the dissolution profile, it contains the
+  corresponding values. Elements where no numeric information could be
+  extracted are \code{NA}. If \code{shape} is \code{"long"} it is a numeric
+  value, specifying the column containing the \% release values.}
 }
 \description{
 The \emph{Martinez & Zhao Tolerance Interval Approach} (\code{mztia}) is a

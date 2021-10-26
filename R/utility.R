@@ -203,13 +203,17 @@ get_profile_portion <- function(data, tcol, groups, useEMA = "yes",
 #' Get time points
 #'
 #' The function \code{get_time_points()} extracts the numeric information from
-#' a vector of character strings.
+#' a vector of character strings, if available.
 #'
 #' @param svec A vector of character strings.
 #'
 #' @details The function expects a vector of character strings that contain
-#' numeric information. Strings that do not contain numeric information
-#' \code{NA} will be returned for the corresponding character string.
+#' numeric information. If the strings contain extractable numeric information
+#' a named numeric vector is returned, where the names are derived from the
+#' strings provided by \code{svec}. For example, from the vector
+#' \code{c("t_0", "t_5", "t_10")} the named numeric vector \code{(0, 5, 10)}
+#' is returned, where the names correspond to the original string. If a string
+#' does not contain any numeric information \code{NA} is returned.
 #'
 #' @return A vector of the same length as \code{svec} with the extracted
 #' numbers as numeric values.
@@ -221,15 +225,19 @@ get_time_points <- function(svec) {
     stop("The parameter svec must be string or string vector.")
   }
 
-  if (sum(is.na(as.numeric(gsub("[^0-9]", "", svec)))) != 0) {
-    time_points <- NA
-  } else {
-    time_points <- as.numeric(unlist(
-      regmatches(svec, regexpr("(?>-)*[[:digit:]]+\\.{0,1}[[:digit:]]{0,1}",
-                                svec, perl = TRUE))))
+  pattern <- "(?>-)*[[:digit:]]+\\.{0,1}[[:digit:]]{0,1}"
+
+  res <- as.numeric(gsub("[^0-9]", "", svec))
+  names(res) <- svec
+
+  where_num <- grepl(pattern, svec, perl = TRUE)
+  num <- as.numeric(regmatches(svec, regexpr(pattern, svec, perl = TRUE)))
+
+  if (length(num) > 0) {
+    res[where_num] <- num
   }
 
-  return(time_points)
+  return(res)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,9 +1,7 @@
 context("Get ellipsoid points by Newton-Raphson search")
 
 test_that("gep_by_nera_succeeds", {
-  time_points <- suppressWarnings(as.numeric(gsub("([^0-9.])([^0-9])", "",
-                                                    colnames(dip1))))
-  tico <- which(!is.na(time_points))
+  tico <- 3:10
   b1 <- dip1$type == "R"
 
   n_tp <- length(tico)
@@ -39,9 +37,7 @@ test_that("gep_by_nera_succeeds", {
 })
 
 test_that("gep_by_nera_fails", {
-  time_points <- suppressWarnings(as.numeric(gsub("([^0-9.])([^0-9])", "",
-                                                  colnames(dip1))))
-  tico <- which(!is.na(time_points))
+  tico <- 3:10
   b1 <- dip1$type == "R"
 
   n_tp <- length(tico)
@@ -162,9 +158,7 @@ test_that("gep_by_nera_fails", {
 })
 
 test_that("gep_by_nera_does_not_converge", {
-  time_points <- suppressWarnings(as.numeric(gsub("([^0-9.])([^0-9])", "",
-                                                  colnames(dip1))))
-  tico <- which(!is.na(time_points))
+  tico <- 3:10
   b1 <- dip1$type == "R"
 
   dip1m <- dip1

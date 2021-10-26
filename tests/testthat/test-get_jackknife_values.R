@@ -1,14 +1,9 @@
 context("Generating Jackknife values")
 
 test_that("get_jackknife_values_succeeds", {
-  time_points <- suppressWarnings(as.numeric(gsub("([^0-9.])([^0-9])", "",
-                                                    colnames(dip2))))
-  tico <- which(!is.na(time_points))
-  tcol <- tico[2:5]
-
   l_jack <- get_jackknife_values(grouping = "batch", stat_fun = get_f2,
                                data = dip2[dip2$batch %in% c("b0", "b4"), ],
-                               tcol = tcol)
+                               tcol = 5:8)
 
   # <-><-><-><->
 
@@ -25,21 +20,14 @@ test_that("get_jackknife_values_succeeds", {
 })
 
 test_that("get_jackknife_values_fails", {
-  time_points <- suppressWarnings(as.numeric(gsub("([^0-9.])([^0-9])", "",
-                                                  colnames(dip2))))
-  tico <- which(!is.na(time_points))
-  tcol <- tico[2:5]
-
-  # <-><-><-><->
-
   expect_error(
     get_jackknife_values(grouping = "batch", stat_fun = get_f2,
                          data = as.matrix(dip2[dip2$batch %in% c("b0", "b4"),
-                                               tcol]), tcol = tcol),
+                                               5:8]), tcol = 5:8),
     "data must be provided as data frame")
   expect_error(
     get_jackknife_values(grouping = "lot", stat_fun = get_f2,
                          data = dip2[dip2$batch %in% c("b0", "b4"), ],
-                         tcol = tcol),
+                         tcol = 5:8),
     "grouping variable was not found")
 })

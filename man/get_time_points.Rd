@@ -15,11 +15,15 @@ numbers as numeric values.
 }
 \description{
 The function \code{get_time_points()} extracts the numeric information from
-a vector of character strings.
+a vector of character strings, if available.
 }
 \details{
 The function expects a vector of character strings that contain
-numeric information. Strings that do not contain numeric information
-\code{NA} will be returned for the corresponding character string.
+numeric information. If the strings contain extractable numeric information
+a named numeric vector is returned, where the names are derived from the
+strings provided by \code{svec}. For example, from the vector
+\code{c("t_0", "t_5", "t_10")} the named numeric vector \code{(0, 5, 10)}
+is returned, where the names correspond to the original string. If a string
+does not contain any numeric information \code{NA} is returned.
 }
 \keyword{internal}

@@ -17,7 +17,7 @@
 #' @param shape A character string specifying if the data frame is in
 #'   \code{"long"} or in \code{"wide"} format. The default is \code{"wide"}.
 #' @param tcol If \code{shape} is \code{"wide"} a vector of indices, if
-#'   \code{shape} is \code{"long"} a numeric value, specifying the column
+#'   \code{shape} is \code{"long"} a numeric value specifying the column
 #'   containing the \% release values. If the data frame is in \code{wide}
 #'   format it is reshaped using the function \code{\link[stats]{reshape}()}
 #'   from the \sQuote{\code{stats}} package.
@@ -96,6 +96,13 @@
 #' \item{Limits}{A data frame of the limits calculated for each time point.}
 #' \item{Data}{A data frame consisting of the provided data, complemented by
 #'   the calculated tolerance interval results.}
+#' \item{Profile.TP}{If \code{shape} is \code{"wide"} a named numeric vector
+#'   of the columns in \code{data} specified by \code{tcol}. Given that the
+#'   column names contain extractable numeric information, e.g., specifying
+#'   the testing time points of the dissolution profile, it contains the
+#'   corresponding values. Elements where no numeric information could be
+#'   extracted are \code{NA}. If \code{shape} is \code{"long"} it is a numeric
+#'   value, specifying the column containing the \% release values.}
 #'
 #' @references
 #' Martinez, M.N., and Zhao, X. A simple approach for comparing the
@@ -228,6 +235,8 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
       times = time_points, v.names = "response", direction = "long", sep = ".")
     reshdat$time.f <- as.factor(reshdat$time)
   } else {
+    time_points <- tcol
+
     reshdat <- data
     colnames(reshdat)[tcol] <- "response"
     reshdat$time <- as.numeric(b1)
@@ -332,7 +341,8 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
 
   structure(list(Variables = l_variables,
                  Limits = tmp3,
-                 Data = d_res),
+                 Data = d_res,
+                 Profile.TP = time_points),
             class = "mztia")
 }
 

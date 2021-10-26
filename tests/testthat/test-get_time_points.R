@@ -32,9 +32,9 @@ test_that("get_time_points_fails", {
 
   # <-><-><-><->
 
-  expect_equal(t_res1, NA)
-  expect_equal(t_res2, NA)
-  expect_equal(t_res3, NA)
+  expect_equivalent(t_res1, c(NA, 0, 30, 60, 90))
+  expect_equivalent(t_res2, c(NA, 0.0, 1.5, 3.0, 4.5))
+  expect_equivalent(t_res3, c(0.0, 1.5, 3.0, 4.5, NA))
 
   expect_error(
     get_time_points(svec = 1),

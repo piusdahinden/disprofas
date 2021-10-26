@@ -20,15 +20,11 @@ test_that("rand_indiv_points_fails", {
   suppressWarnings(RNGkind(sample.kind = "Rounding"))
 
   # <-><-><-><->
-  time_points <- suppressWarnings(as.numeric(gsub("([^0-9.])([^0-9])", "",
-                                                  colnames(dip2))))
-  tico <- which(!is.na(time_points))
-  tcol <- tico[2:5]
   ok <- 1:4
 
   mle <- list()
   mle[[length(mle) + 1]] <- nrow(dip2[dip2$batch %in% c("b0", "b4"), ]) / 2
-  mle[[length(mle) + 1]] <- tcol[ok]
+  mle[[length(mle) + 1]] <- c(5:8)[ok]
 
   mle2 <- mle3 <- mle4 <- mle5 <- mle6 <- mle7 <- mle8 <- mle9 <- mle10 <- mle
 
@@ -46,7 +42,7 @@ test_that("rand_indiv_points_fails", {
 
   expect_error(
     rand_indiv_points(data = as.matrix(dip2[dip2$batch %in% c("b0", "b4"),
-                                               tcol]), mle = mle),
+                                               5:8]), mle = mle),
     "data must be provided as data frame")
   expect_error(
     rand_indiv_points(data = dip2[dip2$batch %in% c("b0", "b4"), ],

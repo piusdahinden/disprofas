@@ -8,11 +8,6 @@
 #' \dQuote{bias-corrected, accelerated} (BCa) percentile intervals are returned.
 #'
 #' @param data A data frame with the dissolution profile data in wide format.
-#'   Since the information on the time points of dissolution testing is
-#'   extracted from the corresponding column names, they must contain
-#'   extractable numeric information. For example, from the column names
-#'   \code{(t_0, t_5, t_10)} the time points are determined to be
-#'   \code{(0, 5, 10)}.
 #' @param tcol A vector of indices specifying the columns in \code{data} that
 #'   contain the \% release values. The length of \code{tcol} must be three or
 #'   longer.
@@ -87,7 +82,12 @@
 #' containing the following list elements:
 #' \item{Boot}{An object of class \sQuote{\code{boot}} with the corresponding
 #'   components.}
-#' \item{Profile.TP}{A named numeric vector of the profile time points.}
+#' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
+#'   specified by \code{tcol} and depending on the selection of \code{useEMA}.
+#'   Given that the column names contain extractable numeric information,
+#'   e.g., specifying the testing time points of the dissolution profile, it
+#'   contains the corresponding values. Elements where no numeric information
+#'   could be extracted are \code{NA}.}
 #' \item{L}{A vector of the Jackknife leave-one-out-values.}
 #' \item{CI}{An object of class \sQuote{\code{bootci}} which contains the
 #'   intervals.}
@@ -151,10 +151,6 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   }
   if (min(tcol) < 1 | max(tcol) > ncol(data)) {
     stop("Some columns specified by tcol were not found in data frame.")
-  }
-  if (sum(grepl("\\d", colnames(data[, tcol]))) < length(tcol)) {
-    stop("Some names of columns specified by tcol ",
-         "do not contain numeric information.")
   }
   if (sum(vapply(data[, tcol], is.numeric, logical(1))) != length(tcol)) {
     stop("Some columns specified by tcol are not numeric.")

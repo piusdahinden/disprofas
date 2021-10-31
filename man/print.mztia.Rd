@@ -2,7 +2,7 @@
 % Please edit documentation in R/generic.R
 \name{print.mztia}
 \alias{print.mztia}
-\title{Print a summary of MIMCR estimation}
+\title{Print a summary of MZTIA estimation}
 \usage{
 \method{print}{mztia}(x, ...)
 }
@@ -23,9 +23,9 @@ This is a method for the function \code{print()} for objects of class
 \sQuote{\code{mztia}}.
 }
 \details{
-The function \code{summary.mztia()} prints the \dQuote{limits}
-subset (see column \dQuote{frame}) of the data frame that is contained in
-the \dQuote{Data} element of the \sQuote{\code{mztia}} object.
+The \dQuote{limits} subset (see column \dQuote{frame}) of the data
+frame that is contained in the \dQuote{Data} element of the
+\sQuote{\code{mztia}} object is printed.
 }
 \seealso{
 \code{\link{mztia}}, \code{\link[base]{print.data.frame}},

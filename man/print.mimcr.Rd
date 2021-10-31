@@ -22,8 +22,8 @@ This is a method for the function \code{print()} for objects of class
 \sQuote{\code{mimcr}}.
 }
 \details{
-The function \code{print.mimcr()} prints the most relevant
-information in an \sQuote{\code{mimcr}} object.
+The most relevant information in an \sQuote{\code{mimcr}} object
+is printed.
 }
 \seealso{
 \code{\link{mimcr}}, \code{\link[base]{formatC}},

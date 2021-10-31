@@ -22,8 +22,8 @@ This is a method for the function \code{summary()} for objects of class
 \sQuote{\code{mimcr}}.
 }
 \details{
-The function \code{summary.mimcr()} prints the most relevant
-information in an \sQuote{\code{mimcr}} object.
+The most relevant information in an \sQuote{\code{mimcr}} object
+is printed.
 }
 \seealso{
 \code{\link{mimcr}}, \code{\link[base]{formatC}},

@@ -1,0 +1,115 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# disprofas
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+Functions for the determination of similarity of highly variable dissolution profiles of two drug formulations are provided. Estimation of *f*~1, *f*~2 and bootstrap *f*~2 is implemented. In addition, functions following the model-independent MCR (multivariate confidence region) procedure and the *T*^2-test for equivalence procedure are available.
+
+## Installation
+
+**So far, the package has not yet been submitted to CRAN.** The development version is available from [GitHub](https://github.com/piusdahinden/disprofas). Installation from this source is easily done by using 'install_github()' function from the 'devtools' package:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("tidyverse/ggplot2")
+```
+
+## Examples
+
+### Example 1
+*Example 1* illustrates how to solve a common problem by aid of the bootstrap *f*~2 procedure proposed by [Shah et al. (1998)](https://doi.org/10.1023/A:1011976615750) using a data set containing the dissolution data of one reference batch and one test batch of *n* = 12 tablets each, i.e. the dissolution profiles of the % drug release observed at 0, 30, 60, 90 and 180 minutes (See Shah et al. (1998), Table 4).
+
+``` {r example_1, message = FALSE}
+library(disprofas)
+
+# Data frame
+str(dip2)
+
+# Perform estimation and print a summary
+res1 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
+                         tcol = 5:8, grouping = "batch",
+                         R = 200, new_seed = 421, useEMA = "no")
+
+class(res1)
+summary(res1)
+
+# Prepare graphical representation
+plot(res1)
+```
+
+
+### Example 2
+*Example 2* illustrates how to solve a common problem by aid of the model-independent non-parametric multivariate confidence region (MCR) procedure proposed by [Tsong et al. (1996)](https://doi.org/10.1177/009286159603000427) using a data set containing the dissolution data of one reference batch and one test batch of *n* = 6 tablets each, i.e. the dissolution profiles of the % drug release observed at 5, 10, 15, 20, 30, 60, 90 and 120 minutes (see Tsong et al. (1996), Table 1).
+
+``` {r example_2, message = FALSE}
+library(disprofas)
+
+# Data frame
+str(dip3)
+
+# Perform estimation and print a summary
+res2 <- mimcr(data = dip3, tcol = 4:6, grouping = "batch")
+
+class(res2)
+summary(res2)
+```
+
+
+### Example 3
+*Example 3* illustrates how to solve a common problem by aid of the *T*^2-test for equivalence procedure proposed by [Hoffelder (2016)](http://www.ecv.de/suse_item.php?suseId=Z|pi|8430) using a data set containing the dissolution data of one reference batch and one test batch of *n* = 12 capsules each, i.e. the dissolution profiles of the % drug release observed at 15, 20 and 25 minutes (see Hoffelder (2016), Figure 1 (data not shown in publication, but the data set is available on CRAN, package [T2EQ](https://cran.r-project.org/web/packages/T2EQ/index.html), data set 'ex_data_pharmind')).
+
+``` {r example_3, message = FALSE}
+library(disprofas)
+
+# Data frame
+str(dip4)
+
+# Perform estimation and print a summary
+res3 <- mimcr(data = dip4, tcol = 2:4, grouping = "type")
+summary(res3)
+```
+
+
+### Example 4
+*Example 4* illustrates tolerance interval approach proposed by [Martinez & Zhao (2018)](https://doi.org/10.1208/s12248-018-0238-1) using the data set that was used in *Example 1*.
+
+``` {r example_4, message = FALSE}
+library(disprofas)
+
+# Data frame
+str(dip1)
+
+# Perform estimation and print a summary
+res4 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
+                reference = "R")
+
+class(res4)
+summary(res4)
+
+# Prepare graphical representation
+ggres4 <- plot_mztia(res4)
+class(ggres4)
+plot(ggres4)
+```
+
+
+## Contact
+[Pius Dahinden](https://github.com/piusdahinden), Tillotts Pharma AG
+
+
+---

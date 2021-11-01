@@ -455,7 +455,7 @@ plot_mztia <- function(x, ...) {
     s2.utl <- "S2.UTL"
     spread <- 0.1 * nlevels(d_res$grouping)
 
-    d_lim <- cbind(rep(reference, nrow(d_lim)), d_lim)
+    d_lim <- data.frame(rep(reference, nrow(d_lim)), d_lim)
     colnames(d_lim) <- c("grouping", "time", y, colnames(d_lim)[4:ncol(d_lim)])
     d_lim$grouping <- as.factor(d_lim$grouping)
   }

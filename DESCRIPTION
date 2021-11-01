@@ -1,6 +1,6 @@
 Package: disprofas
 Type: Package
-Version: 0.0.0.9007
+Version: 0.0.0.9008
 Title: Non-parametric Dissolution Profile Analysis
 Description: Similarity of dissolution profiles is assessed using the similarity
     factor f2 according to the EMA guideline (European Medicines Agency 2010)

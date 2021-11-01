@@ -169,7 +169,7 @@
 #'   \describe{
 #'   \item{type}{Factor with the single level \code{reference}}
 #'   \item{batch}{Factor with levels \code{b1} to \code{b100}}
-#'   \item{response}{Weight of drink cans}
+#'   \item{weight}{Weight of drink cans}
 #' }
 #'
 #' @references

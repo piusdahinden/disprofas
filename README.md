@@ -23,7 +23,7 @@ the ‘devtools’ package:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("tidyverse/ggplot2")
+devtools::install_github("piusdahinden/disprofas")
 ```
 
 ## Examples

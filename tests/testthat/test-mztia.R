@@ -16,14 +16,16 @@ test_that("mztia_succeeds_CAPABILITY", {
 
   ll <-
     apply(m_alpha_P, MARGIN = 1, FUN = function(x)
-      mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
-            reference = "reference", alpha = x[1], P = x[2],
-            cap = FALSE)[["Data"]][102, "response"])
+      mztia(data = dip5, shape = "long", tcol = 1, grouping = "type",
+            reference = "reference", response = "weight", alpha = x[1],
+            P = x[2], cap = FALSE, rellim = c(0, 100), QS = c(5, 15))
+      [["Data"]][102, "weight"])
   ul <-
     apply(m_alpha_P, MARGIN = 1, FUN = function(x)
-      mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
-            reference = "reference", alpha = x[1], P = x[2],
-            cap = FALSE)[["Data"]][103, "response"])
+      mztia(data = dip5, shape = "long", tcol = 1, grouping = "type",
+            reference = "reference", response = "weight", alpha = x[1],
+            P = x[2], cap = FALSE, rellim = c(0, 100), QS = c(5, 15))
+      [["Data"]][103, "weight"])
 
   # <-><-><-><->
 
@@ -52,26 +54,29 @@ test_that("mztia_succeeds_CAPABILITY", {
 })
 
 test_that("mztia_succeeds_with_df_shape_long", {
-  tmp <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
-               reference = "reference", alpha = 0.05, P = 0.99,
-               cap = FALSE)[["Data"]]
+  tmp <-
+    mztia(data = dip5, shape = "long", tcol = 1, grouping = "type",
+          reference = "reference", response = "weight", alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15))[["Data"]]
 
   # <-><-><-><->
 
-  expect_equal(signif(tmp[101, "response"], 9), 12.0093000)
-  expect_equal(signif(tmp[102, "response"], 9), 11.8715203)
-  expect_equal(signif(tmp[103, "response"], 9), 12.1470797)
-  expect_equal(signif(tmp[104, "response"], 9), 6.871520286)
-  expect_equal(signif(tmp[105, "response"], 9), 17.1470797)
-  expect_equal(signif(tmp[106, "response"], 9), -3.1284797)
-  expect_equal(signif(tmp[107, "response"], 9), 27.1470797)
+  expect_equal(signif(tmp[101, "weight"], 9), 12.0093000)
+  expect_equal(signif(tmp[102, "weight"], 9), 11.8715203)
+  expect_equal(signif(tmp[103, "weight"], 9), 12.1470797)
+  expect_equal(signif(tmp[104, "weight"], 9), 6.871520286)
+  expect_equal(signif(tmp[105, "weight"], 9), 17.1470797)
+  expect_equal(signif(tmp[106, "weight"], 9), -3.1284797)
+  expect_equal(signif(tmp[107, "weight"], 9), 27.1470797)
 })
 
 test_that("mztia_succeeds_with_df_shape_wide", {
   tmp1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
-                reference = "R", alpha = 0.05, P = 0.99, cap = FALSE)[["Data"]]
+                reference = "R", response = NULL, alpha = 0.05, P = 0.99,
+                cap = FALSE, rellim = c(0, 100), QS = c(5, 15))[["Data"]]
   tmp2 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
-                reference = "R", alpha = 0.05, P = 0.99, cap = TRUE)[["Data"]]
+                reference = "R", response = NULL, alpha = 0.05, P = 0.99,
+                cap = TRUE, rellim = c(0, 100), QS = c(5, 15))[["Data"]]
 
   # <-><-><-><->
 
@@ -129,142 +134,177 @@ test_that("mztia_fails", {
 
   expect_error(
     mztia(data = as.matrix(dip1[, 3:10]), shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "data must be provided as data frame")
   expect_error(
     mztia(data = dip1, shape = 1, tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
-    "shape must be string")
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "shape must be a string")
   expect_error(
     mztia(data = dip1, shape = "weit", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "specify shape")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = "tico",
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "tcol must be an integer")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10 + 0.1,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "tcol must be an integer")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 7:11,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "Some columns specified by tcol were not found")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 2:6,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "Some names of columns specified by tcol")
   expect_error(
     mztia(data = tmp0, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "Some columns specified by tcol are not numeric")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = 5, reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
-    "grouping must be string")
+          grouping = 5, reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "grouping must be a string")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "lot", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "lot", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "grouping variable was not found")
   expect_error(
     mztia(data = tmp1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "grouping variable's column in data")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = 1, alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
-    "reference must be string")
+          grouping = "type", reference = 1, response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "reference must be a string")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "REF", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "REF", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "The reference variable was not found")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = -1, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "type", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "The reference variable was not found")
+  expect_error(
+    mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
+          reference = "reference", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "data frame provided via data is in long format"
+  )
+  expect_error(
+    mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
+          reference = "reference", response = 5, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "response must be a string of length 1"
+  )
+  expect_error(
+    mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
+          reference = "reference", response = c("type", "batch"), alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "response must be a string of length 1"
+  )
+  expect_error(
+    mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
+          reference = "reference", response = "assay", alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "response variable was not found"
+  )
+  expect_error(
+    mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
+          reference = "reference", response = "type", alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "column specified by response is not numeric"
+  )
+  expect_error(
+    mztia(data = dip1, shape = "wide", tcol = 3:10,
+          grouping = "type", reference = "R", response = NULL, alpha = -1,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "specify alpha")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 9, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 9,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "specify alpha")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = -1,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = -1, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "specify P")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 9,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 9, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "specify P")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = 0, rellim = c(0, 100), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = 0, rellim = c(0, 100), QS = c(5, 15)),
     "cap must be a logical")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c("l", "u"), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c("l", "u"), QS = c(5, 15)),
     "rellim must be a numeric vector")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 50, 90), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(5, 50, 90), QS = c(5, 15)),
     "rellim must be a numeric vector")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(-1, 99), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(-1, 99), QS = c(5, 15)),
     "specify rellim in the range")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(1, 101), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(1, 101), QS = c(5, 15)),
     "specify rellim in the range")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(100, 0), QS = c(5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(100, 0), QS = c(5, 15)),
     "specify rellim in the form")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c("l", "u")),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c("l", "u")),
     "QS must be a numeric vector")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 15, 30)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15, 30)),
     "QS must be a numeric vector")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(-5, 15)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(-5, 15)),
     "specify QS in the range")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(5, 105)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 105)),
     "specify QS in the range")
   expect_error(
     mztia(data = dip1, shape = "wide", tcol = 3:10,
-          grouping = "type", reference = "R", alpha = 0.05, P = 0.99,
-          cap = FALSE, rellim = c(0, 100), QS = c(15, 5)),
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(15, 5)),
     "Q S1 must be smaller Q S2")
 })

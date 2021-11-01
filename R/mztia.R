@@ -8,24 +8,29 @@
 #' boundaries or within certain limits exceeding the TI boundaries by a
 #' specified percentage.
 #'
-#' @param data A data frame with the dissolution profile data in wide format.
-#'   Since the information on the time points of dissolution testing is
-#'   extracted from the corresponding column names, they must contain
-#'   extractable numeric information. For example, from the column names
-#'   \code{(t_0, t_5, t_10)} the time points are determined to be
-#'   \code{(0, 5, 10)}.
-#' @param shape A character string specifying if the data frame is in
-#'   \code{"long"} or in \code{"wide"} format. The default is \code{"wide"}.
-#' @param tcol If \code{shape} is \code{"wide"} a vector of indices, if
-#'   \code{shape} is \code{"long"} a numeric value specifying the column
-#'   containing the \% release values. If the data frame is in \code{wide}
+#' @param data A data frame with the dissolution profile data in wide or in
+#'   long format (see parameter \code{shape}). If the data frame is in wide
+#'   format, it is tried to extract the information on the time points of
+#'   dissolution testing from the corresponding column names. Thus, they must
+#'   contain extractable numeric information, e.g., \code{(t_0, t_5, t_10)}.
+#'   If the data frame is in long format, it must have a column of time points.
+#'   In this case, the index of this column must be specified via the
+#'   \code{tcol} parameter.
+#' @param shape A character string specifying if the data frame is in long or
+#'   in wide format.
+#' @param tcol If \code{shape} is \code{"wide"} an integer vector of indices,
+#'   if \code{shape} is \code{"long"} an integer, specifying the column(s)
+#'   containing the profile time points. If the data frame is in \code{wide}
 #'   format it is reshaped using the function \code{\link[stats]{reshape}()}
 #'   from the \sQuote{\code{stats}} package.
-#' @param grouping A character string specifying the column in \code{data} that
-#'   contains the group names (i.e. a factorial variable, e.g., for the
+#' @param grouping A character string specifying the column in \code{data}
+#'   that contains the group names (i.e. a factorial variable, e.g., for the
 #'   differentiation of batches or formulations of a drug product).
 #' @param reference A character string specifying the name of the reference
 #'   group from the \code{grouping} variable.
+#' @param response A character string that is expected if \code{data} is
+#'   provided in long format in order to specify the column with the \% drug
+#'   release values. The default is \code{NULL}.
 #' @param alpha A numeric value between 0 and 1 specifying the probability
 #'   level. The default is \code{0.05}.
 #' @param P A numeric value between 0 and 1 specifying the proportion of the
@@ -39,9 +44,11 @@
 #'   \eqn{cap}. This parameter is only relevant if \code{cap = TRUE}. The
 #'   default is \code{c(0, 100)}.
 #' @param QS A numeric vector of the form \code{c(Q S1, Q S2)} that specifies
-#'   the allowable deviations from the specifications according to the \eqn{S1}
-#'   and \eqn{S2} acceptance criteria of USP chapter <711> on dissolution. The
-#'   default is \code{c(5, 15)}.
+#'   the allowable deviations from the specifications in percent according to
+#'   the \eqn{S1} and \eqn{S2} acceptance criteria of USP chapter <711> on
+#'   dissolution. The default is \code{c(5, 15)}.
+#' @param ... Further arguments passed on to the \code{\link[stats]{reshape}()}
+#'   from the \sQuote{\code{stats}} package.
 #'
 #' @details The tolerance interval approach proposed by Martinez & Zhao (2018)
 #' is a simple approach for the comparison of dissolution profiles. The authors
@@ -138,14 +145,14 @@
 #'
 #' @export
 
-mztia <- function(data, shape = "wide", tcol, grouping, reference,
+mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
                   alpha = 0.05, P = 0.99, cap = TRUE, rellim = c(0, 100),
-                  QS = c(5, 15)) {
+                  QS = c(5, 15), ...) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
   if (!is.character(shape)) {
-    stop("The parameter shape must be string.")
+    stop("The parameter shape must be a string.")
   }
   if (!(shape %in% c("long", "wide"))) {
     stop("Please specify shape either as \"long\" or \"wide\".")
@@ -169,7 +176,7 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
     }
   }
   if (!is.character(grouping)) {
-    stop("The parameter grouping must be string.")
+    stop("The parameter grouping must be a string.")
   }
   if (!(grouping %in% colnames(data))) {
     stop("The grouping variable was not found in the provided data frame.")
@@ -178,10 +185,25 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
     stop("The grouping variable's column in data must be a factor.")
   }
   if (!is.character(reference)) {
-    stop("The parameter reference must be string.")
+    stop("The parameter reference must be a string.")
   }
   if (sum(levels(data[, grouping]) %in% reference) == 0) {
     stop("The reference variable was not found in the grouping column.")
+  }
+  if (shape == "long" & is.null(response)) {
+    stop("When the data frame provided via data is in long format the ",
+         "response parameter must be specified.")
+  }
+  if (!is.null(response)) {
+    if (!is.character(response) | length(response) != 1) {
+      stop("The parameter response must be a string of length 1.")
+    }
+    if (!(response %in% colnames(data))) {
+      stop("The response variable was not found in the provided data frame.")
+    }
+    if (!is.numeric(data[, response])) {
+      stop("The column specified by response is not numeric.")
+    }
   }
   if (alpha <= 0 | alpha > 1) {
     stop("Please specify alpha as (0, 1]")
@@ -214,7 +236,11 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Data preparation
 
+  # Remove unused levels
   data <- droplevels(data)
+
+  # Setting the response variable name
+  response_vbl <- ifelse(!is.null(response), response, "response")
 
   # Generation of logical vector representing the reference and test group
   b1 <- data[, grouping] == reference
@@ -223,22 +249,18 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
   # Extraction of information on the time points
 
   # If the data are provided in wide format convert them into long format.
-  # Otherwise change the name of the response variable to "response" because
-  # this is the name which is given to the response if the data have to be
-  # reshaped.
   if (shape == "wide") {
     time_points <- get_time_points(svec = colnames(data)[tcol])
 
     reshdat <- reshape(
       data = data,
-      varying = colnames(data)[tcol[1]:tcol[length(tcol)]],
-      times = time_points, v.names = "response", direction = "long", sep = ".")
+      varying = colnames(data)[tcol],
+      times = time_points, v.names = response_vbl, direction = "long", ...)
     reshdat$time.f <- as.factor(reshdat$time)
   } else {
     time_points <- tcol
 
     reshdat <- data
-    colnames(reshdat)[tcol] <- "response"
     reshdat$time <- as.numeric(b1)
     reshdat$time.f <- as.factor(reshdat$time)
   }
@@ -249,16 +271,16 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
 
   subdat <- droplevels(reshdat[reshdat[, grouping] == reference, ])
 
-  n <- aggregate(subdat$response, by = list(subdat$time.f),
+  n <- aggregate(subdat[, response_vbl], by = list(subdat$time.f),
                  FUN = function(x) length(x))$x
   df <- n - 1
   chisq_alpha <- qchisq(alpha, df)
   z_P <- qnorm((1 + P) / 2)
   K <- (1 + 1 / (2 * n)) * z_P * sqrt(df / chisq_alpha)
 
-  t_mean <- aggregate(subdat$response, by = list(subdat$time.f),
+  t_mean <- aggregate(subdat[, response_vbl], by = list(subdat$time.f),
                       FUN = mean, na.rm = TRUE)$x
-  t_sd <- aggregate(subdat$response, by = list(subdat$time.f),
+  t_sd <- aggregate(subdat[, response_vbl], by = list(subdat$time.f),
                     FUN = sd, na.rm = TRUE)$x
   t_x <- unique(subdat$time)
 
@@ -295,11 +317,15 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
                                   ltl - QS[1], utl + QS[1],
                                   ltl - QS[2], utl + QS[2]))
 
+  if (!is.null(response)) {
+    names(tmp1)[names(tmp1) == "response"] <- response_vbl
+  }
+
   tmp2 <- data.frame(frame = rep("points", nrow(reshdat)),
                      grouping = reshdat[, grouping],
                      type1 = paste("Obs", reshdat[, grouping]),
                      type2 = paste("Obs", reshdat[, grouping]),
-                     reshdat[, c("time", "response")])
+                     reshdat[, c("time", response_vbl)])
 
   d_res <- rbind(tmp2, tmp1)
   d_res$type1 <- factor(d_res$type1, levels =
@@ -320,8 +346,8 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
                   direction = "wide")
   colnames(tmp3) <-
     gsub("time", "Time",
-         gsub("response.TL.", "",
-              gsub("response.Mean.Mean", "Mean", colnames(tmp3))))
+         gsub(paste0(response_vbl, ".TL."), "",
+              gsub(paste0(response_vbl, ".Mean.Mean"), "Mean", colnames(tmp3))))
 
   # <-><-><-><->
   # List of the variables
@@ -330,6 +356,7 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
                       tcol = tcol,
                       grouping = grouping,
                       reference = reference,
+                      response = response_vbl,
                       alpha = alpha,
                       P = P,
                       cap = cap,
@@ -355,17 +382,23 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
 #'
 #' @param x An object of class \sQuote{\code{mztia}} returned by the
 #'   \code{\link{mztia}()} function.
-#' @param ... Additional parameters that can be passed down to the
+#' @param ... Additional parameters that can be passed on to the
 #'   \code{\link[ggplot2]{ggplot}()} function.
 #'
-#' @details The function \code{plot_mztia()} uses the data and the information
-#' in the \code{Data} element of the object that is returned by \code{mztia()}.
-#' It uses the \code{\link[ggplot2]{ggplot}()} function from the
-#' \sQuote{\code{ggplot2}} package for plotting.
+#' @details A graphical representation of the information in the \code{Data}
+#' element of the object that is returned by \code{mztia()} function is made
+#' by aid of the \code{\link[ggplot2]{ggplot}()} function from the
+#' \sQuote{\code{ggplot2}} package and added as new list element to the
+#' \code{mztia} object. Ideally, the data frame provided to the
+#' \code{\link{mztia}()} function allows drawing a time course of the \% drug
+#' release values. If a single time point is available, the tolerance intervals
+#' of the groups specified by the \code{grouping} parameter (e.g., for the
+#' differentiation of batches or formulations of a drug product) are displayed.
 #'
-#' @return A list of the elements of the \sQuote{\code{mztia}} object and an
-#' additional element named \code{Graph} is returned invisibly. The element
-#' \code{Graph} is a \sQuote{\code{ggplot}} object, returned by the
+#' @return An object of class \sQuote{\code{plot_mztia}} is returned invisibly,
+#' consisting of the elements of the \sQuote{\code{mztia}} object and an
+#' additional element named \code{Graph}. The element \code{Graph} is a
+#' \sQuote{\code{ggplot}} object returned by calling the
 #' \code{\link[ggplot2]{ggplot}()} function.
 #'
 #' @seealso \code{\link{mztia}}, \code{\link[ggplot2]{ggplot}}.
@@ -373,12 +406,15 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes_string
 #' @importFrom ggplot2 geom_point
-#' @importFrom ggplot2 geom_path
 #' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 geom_path
+#' @importFrom ggplot2 geom_jitter
+#' @importFrom ggplot2 geom_errorbar
+#' @importFrom ggplot2 position_jitter
 #' @importFrom ggplot2 scale_colour_manual
 #' @importFrom ggplot2 scale_shape_manual
-#' @importFrom ggplot2 theme
 #' @importFrom ggplot2 theme_bw
+#' @importFrom ggplot2 theme
 #' @importFrom ggplot2 guide_legend
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 element_blank
@@ -389,17 +425,40 @@ mztia <- function(data, shape = "wide", tcol, grouping, reference,
 #' @export
 
 plot_mztia <- function(x, ...) {
+  if (class(x) != "mztia") {
+    stop("The parameter x must be an object of class mztia.")
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Extraction of variables from the "Variable" element
-  grouping <- x[["Variables"]]$grouping
-  reference <- x[["Variables"]]$reference
 
   # Data
-  d_res <- x[["Data"]]
+  model <- x
+  d_res <- model[["Data"]]
 
   # Variables
+  shape <- model[["Variables"]]$shape
+  reference <- model[["Variables"]]$reference
   x <- "time"
-  y <- "response"
+  y <- model[["Variables"]]$response
   type <- "type1"
+
+  if (length(unique(d_res[, x])) == 1) {
+    d_lim <- model[["Limits"]]
+
+    x <- grouping <- "grouping"
+    ltl <- "LTL"
+    utl <- "UTL"
+    s1.ltl <- "S1.LTL"
+    s1.utl <- "S1.UTL"
+    s2.ltl <- "S2.LTL"
+    s2.utl <- "S2.UTL"
+    spread <- 0.1 * nlevels(d_res$grouping)
+
+    d_lim <- cbind(rep(reference, nrow(d_lim)), d_lim)
+    colnames(d_lim) <- c("grouping", "time", y, colnames(d_lim)[4:ncol(d_lim)])
+    d_lim$grouping <- as.factor(d_lim$grouping)
+  }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Preparation of vectors needed for plotting
@@ -423,43 +482,75 @@ plot_mztia <- function(x, ...) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Generation of ggplot object
 
-  ggraph <-
-    ggplot(d_res, aes_string(x = x, y = y, colour = type, shape = type), ...) +
-    geom_point(size = 1.5) +
-    geom_point(
-      data = d_res[d_res$frame == "points" & d_res$grouping != reference, ],
-      size = 2) +
-    geom_line(data = d_res[d_res$type2 == "Mean", ], size = 1) +
-    geom_path(data = d_res[d_res$type2 == "LTL", ], size = 1) +
-    geom_path(data = d_res[d_res$type2 == "UTL", ], size = 1) +
-    scale_colour_manual(
-      values = t_colours, breaks = t_breaks, labels = t_labels,
-      guide = guide_legend(
-        override.aes = list(linetype = c("blank", "blank", rep("solid", 4))))) +
-    scale_shape_manual(
-      values = t_symbols, breaks = t_breaks, labels = t_labels) +
-    theme_bw() + theme(legend.justification = c(1, 0),
-                       legend.position = c(1, 0.01),
-                       legend.key.size = unit(1.5, "lines"),
-                       plot.margin = unit(c(0.2, 0.4, 0.2, 0.2), "lines"),
-                       panel.grid.major = element_line(colour = "grey80"),
-                       title = element_text(size = 11.5),
-                       plot.title = element_text(hjust = 0.5, vjust = -1),
-                       axis.title = element_text(size = 12),
-                       axis.text = element_text(size = 12),
-                       axis.ticks.length = unit(0.5, "lines"),
-                       legend.text = element_text(size = 11),
-                       legend.title = element_blank(),
-                       legend.key = element_rect(colour = "white"),
-                       legend.key.height = unit(0.9, "line"))
+  if (x == "time") {
+    ggraph <-
+      ggplot(d_res, aes_string(x = x, y = y, colour = type, shape = type),
+             ...) +
+      geom_point(
+        data = subset(d_res, frame == "points" & grouping == reference),
+        size = 1.5) +
+      geom_point(
+        data = subset(d_res, frame == "points" & grouping != reference),
+        size = 2) +
+      geom_line(data = subset(d_res, type2 == "Mean"), size = 1) +
+      geom_path(data = subset(d_res, type2 == "LTL"), size = 1) +
+      geom_path(data = subset(d_res, type2 == "UTL"), size = 1) +
+      scale_colour_manual(
+        values = t_colours, breaks = t_breaks, labels = t_labels,
+        guide = guide_legend(
+          override.aes =
+            list(linetype = c("blank", "blank", rep("solid", 4))))) +
+      scale_shape_manual(
+        values = t_symbols, breaks = t_breaks, labels = t_labels) +
+      theme_bw() + theme(legend.justification = c(1, 0),
+                         legend.position = c(1, 0.01),
+                         legend.key.size = unit(1.5, "lines"),
+                         plot.margin = unit(c(0.2, 0.4, 0.2, 0.2), "lines"),
+                         panel.grid.major = element_line(colour = "grey80"),
+                         title = element_text(size = 11.5),
+                         plot.title = element_text(hjust = 0.5, vjust = -1),
+                         axis.title = element_text(size = 12),
+                         axis.text = element_text(size = 12),
+                         axis.ticks.length = unit(0.5, "lines"),
+                         legend.text = element_text(size = 11),
+                         legend.title = element_blank(),
+                         legend.key = element_rect(colour = "white"),
+                         legend.key.height = unit(0.9, "line"))
+  } else {
+    ggraph <-
+      ggplot(d_res,
+             aes_string(x = x, y = y, colour = grouping, shape = grouping),
+             ...) +
+      geom_jitter(data = subset(d_res, frame == "points"),
+                  position = position_jitter(spread)) +
+      geom_errorbar(data = d_lim,
+                    mapping = aes_string(ymin = s2.ltl, ymax = s2.utl),
+                    colour = "red1", width = 2 * spread, size = 0.8) +
+      geom_errorbar(data = d_lim,
+                    mapping = aes_string(ymin = s1.ltl, ymax = s1.utl),
+                    colour = "darkorange1", width = 2 * spread, size = 1.0) +
+      geom_errorbar(data = d_lim,
+                    mapping = aes_string(ymin = ltl, ymax = utl),
+                    colour = "cornsilk4", width = 2 * spread, size = 1.2) +
+      theme_bw() + theme(legend.position = "none",
+                         plot.margin = unit(c(0.2, 0.4, 0.2, 0.2), "lines"),
+                         panel.grid.major = element_line(colour = "grey80"),
+                         title = element_text(size = 11.5),
+                         plot.title = element_text(hjust = 0.5, vjust = -1),
+                         axis.title = element_text(size = 12),
+                         axis.text = element_text(size = 12),
+                         axis.ticks.length = unit(0.5, "lines"))
+
+  }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Return object
 
-  invisible(list(Variables = x$Variables,
-                 Limits = x$Limits,
-                 Data = x$Data,
-                 Graph = ggraph))
+  invisible(structure(list(Variables = model$Variables,
+                           Limits = model$Limits,
+                           Data = model$Data,
+                           Graph = ggraph),
+                      class = "plot_mztia"))
 }
 
 ## <><><><><><><><><><><><><><><><><><><><><><><><><><><><>

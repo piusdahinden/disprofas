@@ -6,40 +6,48 @@
 \usage{
 mztia(
   data,
-  shape = "wide",
+  shape,
   tcol,
   grouping,
   reference,
+  response = NULL,
   alpha = 0.05,
   P = 0.99,
   cap = TRUE,
   rellim = c(0, 100),
-  QS = c(5, 15)
+  QS = c(5, 15),
+  ...
 )
 }
 \arguments{
-\item{data}{A data frame with the dissolution profile data in wide format.
-Since the information on the time points of dissolution testing is
-extracted from the corresponding column names, they must contain
-extractable numeric information. For example, from the column names
-\code{(t_0, t_5, t_10)} the time points are determined to be
-\code{(0, 5, 10)}.}
+\item{data}{A data frame with the dissolution profile data in wide or in
+long format (see parameter \code{shape}). If the data frame is in wide
+format, it is tried to extract the information on the time points of
+dissolution testing from the corresponding column names. Thus, they must
+contain extractable numeric information, e.g., \code{(t_0, t_5, t_10)}.
+If the data frame is in long format, it must have a column of time points.
+In this case, the index of this column must be specified via the
+\code{tcol} parameter.}
 
-\item{shape}{A character string specifying if the data frame is in
-\code{"long"} or in \code{"wide"} format. The default is \code{"wide"}.}
+\item{shape}{A character string specifying if the data frame is in long or
+in wide format.}
 
-\item{tcol}{If \code{shape} is \code{"wide"} a vector of indices, if
-\code{shape} is \code{"long"} a numeric value specifying the column
-containing the \% release values. If the data frame is in \code{wide}
+\item{tcol}{If \code{shape} is \code{"wide"} an integer vector of indices,
+if \code{shape} is \code{"long"} an integer, specifying the column(s)
+containing the profile time points. If the data frame is in \code{wide}
 format it is reshaped using the function \code{\link[stats]{reshape}()}
 from the \sQuote{\code{stats}} package.}
 
-\item{grouping}{A character string specifying the column in \code{data} that
-contains the group names (i.e. a factorial variable, e.g., for the
+\item{grouping}{A character string specifying the column in \code{data}
+that contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 
 \item{reference}{A character string specifying the name of the reference
 group from the \code{grouping} variable.}
+
+\item{response}{A character string that is expected if \code{data} is
+provided in long format in order to specify the column with the \% drug
+release values. The default is \code{NULL}.}
 
 \item{alpha}{A numeric value between 0 and 1 specifying the probability
 level. The default is \code{0.05}.}
@@ -58,9 +66,12 @@ the calculated tolerance interval limits should be capped (see parameter
 default is \code{c(0, 100)}.}
 
 \item{QS}{A numeric vector of the form \code{c(Q S1, Q S2)} that specifies
-the allowable deviations from the specifications according to the \eqn{S1}
-and \eqn{S2} acceptance criteria of USP chapter <711> on dissolution. The
-default is \code{c(5, 15)}.}
+the allowable deviations from the specifications in percent according to
+the \eqn{S1} and \eqn{S2} acceptance criteria of USP chapter <711> on
+dissolution. The default is \code{c(5, 15)}.}
+
+\item{...}{Further arguments passed on to the \code{\link[stats]{reshape}()}
+from the \sQuote{\code{stats}} package.}
 }
 \value{
 An object of class \sQuote{\code{mztia}} is returned, containing the

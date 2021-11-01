@@ -71,6 +71,73 @@ test_that("print.mimcr_succeeds", {
   expect_output(print(re, digits = 5), "2.8908e-08")
 })
 
+
+test_that("plot.plot_mztia_succeeds", {
+  re1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
+               reference = "R", response = NULL, alpha = 0.05, P = 0.99,
+               cap = FALSE, rellim = c(0, 100), QS = c(5, 15))
+  re2 <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
+               reference = "reference", response = "weight", alpha = 0.05,
+               P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15) / 100)
+
+  # <-><-><-><->
+
+  ggre1.1 <- expect_output(plot_mztia(re1), regexp = NA)
+  ggre1.2 <- expect_invisible(suppressWarnings(plot(x = ggre1.1)))
+
+  ggre2.1 <- expect_output(plot_mztia(re2), regexp = NA)
+  ggre2.2 <- expect_invisible(suppressWarnings(plot(x = ggre2.1)))
+
+  # <-><-><-><->
+
+  expect_s3_class(ggre1.2, "plot_mztia")
+  expect_length(ggre1.2, 4)
+  expect_s3_class(ggre1.2$Graph, c("gg", "ggplot"))
+  expect_equal(
+    ggre1.2$Graph$scales$scales[[1]]$labels,
+    c("Obs R", "Obs T", "Mean", "TL", "TL ± S1 (5%)", "TL  ± S2 (15%)"))
+
+  expect_s3_class(ggre2.2, "plot_mztia")
+  expect_length(ggre2.2, 4)
+  expect_s3_class(ggre2.2$Graph, c("gg", "ggplot"))
+  expect_length(ggre2.2$Graph$scales$scales, 0)
+  expect_equivalent(class(ggre2.2$Graph$layers[[1]]$position),
+                    c("PositionJitter", "Position", "ggproto", "gg"))
+})
+
+test_that("print.plot_expirest_wisle_succeeds", {
+  re1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
+               reference = "R", response = NULL, alpha = 0.05, P = 0.99,
+               cap = FALSE, rellim = c(0, 100), QS = c(5, 15))
+  re2 <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
+               reference = "reference", response = "weight", alpha = 0.05,
+               P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15) / 100)
+
+  # <-><-><-><->
+
+  ggre1.1 <- expect_output(plot_mztia(re1), regexp = NA)
+  ggre1.2 <- expect_invisible(suppressWarnings(print(x = ggre1.1)))
+
+  ggre2.1 <- expect_output(plot_mztia(re2), regexp = NA)
+  ggre2.2 <- expect_invisible(suppressWarnings(print(x = ggre2.1)))
+
+  # <-><-><-><->
+
+  expect_s3_class(ggre1.2, "plot_mztia")
+  expect_length(ggre1.2, 4)
+  expect_s3_class(ggre1.2$Graph, c("gg", "ggplot"))
+  expect_equal(
+    ggre1.2$Graph$scales$scales[[1]]$labels,
+    c("Obs R", "Obs T", "Mean", "TL", "TL ± S1 (5%)", "TL  ± S2 (15%)"))
+
+  expect_s3_class(ggre2.2, "plot_mztia")
+  expect_length(ggre2.2, 4)
+  expect_s3_class(ggre2.2$Graph, c("gg", "ggplot"))
+  expect_length(ggre2.2$Graph$scales$scales, 0)
+  expect_equivalent(class(ggre2.2$Graph$layers[[1]]$position),
+                    c("PositionJitter", "Position", "ggproto", "gg"))
+})
+
 test_that("summary.mztia_succeeds", {
   re <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
               reference = "R", alpha = 0.05, P = 0.99, cap = FALSE)

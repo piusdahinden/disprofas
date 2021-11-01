@@ -10,13 +10,14 @@ plot_mztia(x, ...)
 \item{x}{An object of class \sQuote{\code{mztia}} returned by the
 \code{\link{mztia}()} function.}
 
-\item{...}{Additional parameters that can be passed down to the
+\item{...}{Additional parameters that can be passed on to the
 \code{\link[ggplot2]{ggplot}()} function.}
 }
 \value{
-A list of the elements of the \sQuote{\code{mztia}} object and an
-additional element named \code{Graph} is returned invisibly. The element
-\code{Graph} is a \sQuote{\code{ggplot}} object, returned by the
+An object of class \sQuote{\code{plot_mztia}} is returned invisibly,
+consisting of the elements of the \sQuote{\code{mztia}} object and an
+additional element named \code{Graph}. The element \code{Graph} is a
+\sQuote{\code{ggplot}} object returned by calling the
 \code{\link[ggplot2]{ggplot}()} function.
 }
 \description{
@@ -24,10 +25,15 @@ The function \code{plot_mztia()} makes a graphical representation of the
 estimates done by the \code{mztia()} function.
 }
 \details{
-The function \code{plot_mztia()} uses the data and the information
-in the \code{Data} element of the object that is returned by \code{mztia()}.
-It uses the \code{\link[ggplot2]{ggplot}()} function from the
-\sQuote{\code{ggplot2}} package for plotting.
+A graphical representation of the information in the \code{Data}
+element of the object that is returned by \code{mztia()} function is made
+by aid of the \code{\link[ggplot2]{ggplot}()} function from the
+\sQuote{\code{ggplot2}} package and added as new list element to the
+\code{mztia} object. Ideally, the data frame provided to the
+\code{\link{mztia}()} function allows drawing a time course of the \% drug
+release values. If a single time point is available, the tolerance intervals
+of the groups specified by the \code{grouping} parameter (e.g., for the
+differentiation of batches or formulations of a drug product) are displayed.
 }
 \seealso{
 \code{\link{mztia}}, \code{\link[ggplot2]{ggplot}}.

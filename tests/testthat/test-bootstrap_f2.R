@@ -1,20 +1,45 @@
 context("Bootstrap f2")
 
-test_that("bootstrap_f2_results_match", {
+test_that("bootstrap_f2_rand_mode_complete_results_match", {
   suppressWarnings(RNGkind(sample.kind = "Rounding"))
 
   # <-><-><-><->
 
-  l_boot <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
-                         tcol = 5:8, grouping = "batch",
-                         R = 200, new_seed = 421, useEMA = "no")
+  l_boot <-
+    bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ], tcol = 5:8,
+                 grouping = "batch", rand_mode = "complete", R = 200,
+                 new_seed = 421, useEMA = "no")
 
   # <-><-><-><->
 
   expect_equal(signif(l_boot[["Boot"]]$t0, 7), 50.07187)
   expect_equal(signif(l_boot$BCa_CI, 7), c(48.87966, 51.95272))
   expect_equal(signif(l_boot$ShahBCa_CI, 7), c(48.83082, 51.74653))
-  expect_equivalent(signif(l_boot$Profile.TP, 7), c(30, 60, 90, 180))
+  expect_equivalent(l_boot$Profile.TP, c(30, 60, 90, 180))
+  expect_equal(signif(l_boot$L, 7), c(49.98991, 49.79446, 50.38612, 49.79446,
+                                      50.28639, 50.28639, 49.89197, 50.08829,
+                                      50.08829, 50.48630, 49.50450, 50.28639))
+
+  # <-><-><-><->
+  RNGkind(sample.kind = "default")
+})
+
+test_that("bootstrap_f2_rand_mode_individual_results_match", {
+  suppressWarnings(RNGkind(sample.kind = "Rounding"))
+
+  # <-><-><-><->
+
+  l_boot <-
+    bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ], tcol = 5:8,
+                 grouping = "batch", rand_mode = "individual", R = 200,
+                 new_seed = 421, useEMA = "no")
+
+  # <-><-><-><->
+
+  expect_equal(signif(l_boot[["Boot"]]$t0, 7), 50.07187)
+  expect_equal(signif(l_boot$BCa_CI, 7), c(48.74848, 52.53160))
+  expect_equal(signif(l_boot$ShahBCa_CI, 7), c(48.68587, 52.37645))
+  expect_equivalent(l_boot$Profile.TP, c(30, 60, 90, 180))
   expect_equal(signif(l_boot$L, 7), c(49.98991, 49.79446, 50.38612, 49.79446,
                                       50.28639, 50.28639, 49.89197, 50.08829,
                                       50.08829, 50.48630, 49.50450, 50.28639))

@@ -267,7 +267,8 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
     mle[[2]] <- tcol[ok]
     t_boot <- boot(data = data, statistic = get_f2, R = R,
                    sim = "parametric", ran.gen = rand_indiv_points,
-                   mle = mle, grouping = grouping, tcol = tcol[ok], ...)
+                   mle = mle, grouping = grouping, tcol = tcol[ok],
+                   ins = seq_along(b1), ...)
   })
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

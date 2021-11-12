@@ -11,11 +11,11 @@
 #' @param data A data frame with the dissolution profile data in wide or in
 #'   long format (see parameter \code{shape}). If the data frame is in wide
 #'   format, it is tried to extract the information on the time points of
-#'   dissolution testing from the corresponding column names. Thus, they must
-#'   contain extractable numeric information, e.g., \code{(t_0, t_5, t_10)}.
-#'   If the data frame is in long format, it must have a column of time points.
-#'   In this case, the index of this column must be specified via the
-#'   \code{tcol} parameter.
+#'   dissolution testing from the column names of the columns specified by
+#'   the \code{tcol} parameter. Thus, they must contain extractable numeric
+#'   information, e.g., \code{(t_0, t_5, t_10)}. If the data frame is in long
+#'   format, it must have a column of time points (column specified via the
+#'   \code{tcol} parameter).
 #' @param shape A character string specifying if the data frame is in long or
 #'   in wide format.
 #' @param tcol If \code{shape} is \code{"wide"} an integer vector of indices,
@@ -167,6 +167,11 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
     stop("Some columns specified by tcol were not found in data frame.")
   }
   if (shape == "wide") {
+    if (length(tcol) == 1) {
+      stop("The parameter tcol has length 1. Did you provide a data frame in ",
+           "long format, i.e. the shape parameter should be \"long\" instead ",
+           "of \"wide\", or should tcol be changed (specifying the profiles)?")
+    }
     if (sum(grepl("\\d", colnames(data[, tcol]))) < length(tcol)) {
       stop("Some names of columns specified by tcol ",
            "do not contain numeric information.")
@@ -402,6 +407,8 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
 #' \code{\link[ggplot2]{ggplot}()} function.
 #'
 #' @seealso \code{\link{mztia}}, \code{\link[ggplot2]{ggplot}}.
+#'
+#' @example man/examples/examples_plot_mztia.R
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes_string

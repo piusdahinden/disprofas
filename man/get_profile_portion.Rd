@@ -32,12 +32,15 @@ on the basis of the values of the parameters \code{lorellim} and
 as specified by the parameter \code{tcol}.}
 
 \item{lorellim}{A numeric value which, if \code{useEMA} is \code{"no"},
-specifies the lower limit for the release in \%. Observations smaller than
-this value are ignored. The default is \code{1}.}
+specifies the lower limit for the release in \%. Mean values of
+\code{<= lorellim}\% dissolved for any of the two groups being compared
+are ignored. The default is \code{1}.}
 
 \item{uprellim}{A numeric value which, if \code{useEMA} is \code{"no"},
-specifies the upper limit for the release in \%. Observations greater than
-this value are ignored. The default is \code{85}.}
+specifies the upper limit for the release in \%. Only the first mean
+value of \code{> uprellim}\% dissolved for any of the two groups being
+compared is included. All the subsequent values are ignored. The default
+is \code{85}.}
 }
 \value{
 The function returns a logical vector defining the appropriate

@@ -32,11 +32,12 @@
 #' @param max_trial A positive integer specifying the maximum number of
 #'   Newton-Raphson search rounds to be performed.
 #' @param lorellim A numeric value which specifies the lower limit for the
-#'   release in \%. Observations smaller than this value are ignored. The
-#'   default is \code{1}.
+#'   release in \%. Mean values of \code{<= lorellim}\% dissolved for any of
+#'   the two groups being compared are ignored. The default is \code{1}.
 #' @param uprellim A numeric value which specifies the upper limit for the
-#'   release in \%. Observations greater than this value are ignored. The
-#'   default is \code{85}.
+#'   release in \%. Only the first mean value of \code{> uprellim}\% dissolved
+#'   for any of the two groups being compared is included. All the subsequent
+#'   values are ignored. The default is \code{85}.
 #' @param tol A non-negative numeric specifying the accepted minimal
 #'   difference between two consecutive search rounds.
 #'
@@ -381,7 +382,7 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
 
   # <-><-><->
   # Extraction of information on the time points
-  time_points <- get_time_points(svec = colnames(data)[tcol])
+  time_points <- get_time_points(svec = colnames(data)[tcol])[ok]
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Determination of MSD and similarity assessment

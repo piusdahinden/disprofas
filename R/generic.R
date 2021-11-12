@@ -23,6 +23,8 @@
 #' @seealso \code{\link{bootstrap_f2}}, \code{\link[boot]{boot}},
 #' \code{\link[boot]{plot.boot}}, \code{\link[utils]{methods}}.
 #'
+#' @example man/examples/examples_plot.bootstrap_f2.R
+#'
 #' @export
 
 plot.bootstrap_f2 <- function(x, ...) {
@@ -74,6 +76,8 @@ plot.bootstrap_f2 <- function(x, ...) {
 #' \code{\link[boot]{boot.ci}}, \code{\link[boot]{print.boot}},
 #' \code{\link[boot]{print.bootci}}, \code{\link[utils]{methods}}.
 #'
+#' @example man/examples/examples_summary.bootstrap_f2.R
+#'
 #' @export
 
 summary.bootstrap_f2 <- function(object, ...) {
@@ -114,6 +118,8 @@ summary.bootstrap_f2 <- function(object, ...) {
 #'
 #' @inherit summary.bootstrap_f2 details seealso
 #'
+#' @example man/examples/examples_print.bootstrap_f2.R
+#'
 #' @export
 
 print.bootstrap_f2 <- function(x, ...) {
@@ -143,6 +149,8 @@ print.bootstrap_f2 <- function(x, ...) {
 #'
 #' @seealso \code{\link{mimcr}}, \code{\link[base]{formatC}},
 #' \code{\link[utils]{methods}}.
+#'
+#' @example man/examples/examples_summary.mimcr.R
 #'
 #' @export
 
@@ -219,6 +227,8 @@ summary.mimcr <- function(object, ...) {
 #'
 #' @inherit summary.mimcr details seealso
 #'
+#' @example man/examples/examples_print.mimcr.R
+#'
 #' @export
 
 print.mimcr <- function(x, ...) {
@@ -254,6 +264,8 @@ print.mimcr <- function(x, ...) {
 #' @seealso \code{\link{mztia}}, \code{\link{plot_mztia}},
 #' \code{\link[ggplot2]{ggplot}()}, \code{\link[utils]{methods}}.
 #'
+#' @example man/examples/examples_plot.plot_mztia.R
+#'
 #' @export
 
 plot.plot_mztia <- function(x, ...) {
@@ -275,6 +287,8 @@ plot.plot_mztia <- function(x, ...) {
 #' @inheritParams plot.plot_mztia
 #'
 #' @inherit plot.plot_mztia details return seealso
+#'
+#' @example man/examples/examples_print.plot_mztia.R
 #'
 #' @export
 
@@ -308,6 +322,8 @@ print.plot_mztia <- function(x, ...) {
 #' @seealso \code{\link{mztia}}, \code{\link[base]{print.data.frame}},
 #' \code{\link[utils]{methods}}.
 #'
+#' @example man/examples/examples_summary.mztia.R
+#'
 #' @export
 
 summary.mztia <- function(object, ...) {
@@ -321,7 +337,7 @@ summary.mztia <- function(object, ...) {
   }
 
   cat("\nResults of Martinez & Zhao Tolerance Interval (TI) Approach")
-  cat("\n(TI limits calculatd at each time point of the",
+  cat("\n(TI limits calculated at each time point of the",
       "dissolution profiles of a set of reference batches)\n\n")
 
   print(x = object[["Limits"]], ...)
@@ -331,9 +347,9 @@ summary.mztia <- function(object, ...) {
       "LTL: lower TL;",
       "UTL: upper TL;",
       paste0("S1: level 1 boundary (LTL - ", object[["Variables"]]$QS[1],
-             "%) or (UTL + ",  object[["Variables"]]$QS[1], "%);"),
+             ") or (UTL + ",  object[["Variables"]]$QS[1], ");"),
       paste0("S2: level 2 boundary (LTL - ", object[["Variables"]]$QS[2],
-             "%) or (UTL + ",  object[["Variables"]]$QS[2], "%).\n\n"))
+             ") or (UTL + ",  object[["Variables"]]$QS[2], ").\n\n"))
 
   invisible(object)
 }
@@ -353,6 +369,8 @@ summary.mztia <- function(object, ...) {
 #' parameter is returned invisibly.
 #'
 #' @inherit summary.mztia details seealso
+#'
+#' @example man/examples/examples_print.mztia.R
 #'
 #' @export
 

@@ -151,7 +151,7 @@ confidence region for the possible true differences. \cr
 
 \examples{
 # Collecting the required information
-time_points <- suppressWarnings(as.numeric(gsub("([^0-9.])([^0-9])", "",
+time_points <- suppressWarnings(as.numeric(gsub("([^0-9])", "",
                                                 colnames(dip1))))
 tico <- which(!is.na(time_points))
 b1 <- dip1$type == "R"
@@ -179,7 +179,7 @@ y_b1 <- rep(1, times = (n_tp + 1))
 res <- gep_by_nera(n_p = n_tp, K = K, mean_diff = mean_diff, S_pool = S,
                    F_crit = F_crit, y = y_b1, max_trial = 100, tol = 1e-9)
 
-# (Expected) content of res
+# Expected result in res[["points"]]
 #              [,1]
 # t.5   -15.7600077
 # t.10  -13.6501734
@@ -189,7 +189,16 @@ res <- gep_by_nera(n_p = n_tp, K = K, mean_diff = mean_diff, S_pool = S,
 # t.60   -0.4634318
 # t.90    2.2528551
 # t.120   3.3249569
-# -17.6619995
+#       -17.6619995
+
+# Rows t.5 to t.120 represent the points on the CR bounds.The unnamed last row
+# represents the Lagrange multiplier lambda.
+
+# If 'max_trial' is too small, the Newton-Raphson search may not converge.
+\dontrun{
+  gep_by_nera(n_p = n_tp, K = K, mean_diff = mean_diff, S_pool = S,
+              F_crit = F_crit, y = y_b1, max_trial = 5, tol = 1e-9)
+}
 }
 \references{
 United States Food and Drug Administration (FDA). Guidance for industry:

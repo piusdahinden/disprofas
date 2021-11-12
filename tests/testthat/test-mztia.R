@@ -163,6 +163,11 @@ test_that("mztia_fails", {
           P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
     "Some columns specified by tcol were not found")
   expect_error(
+    mztia(data = dip1, shape = "wide", tcol = 7,
+          grouping = "type", reference = "R", response = NULL, alpha = 0.05,
+          P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),
+    "Did you provide a data frame")
+  expect_error(
     mztia(data = dip1, shape = "wide", tcol = 2:6,
           grouping = "type", reference = "R", response = NULL, alpha = 0.05,
           P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15)),

@@ -87,6 +87,8 @@
 #'
 #' @seealso \code{\link{mimcr}}, \code{\link{get_sim_lim}}.
 #'
+#' @example man/examples/examples_get_hotellings.R
+#'
 #' @importFrom stats cov
 #' @importFrom stats pf
 #' @importFrom stats qf
@@ -229,6 +231,8 @@ get_hotellings <- function(m1, m2, signif) {
 #' \url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @seealso \code{\link{mimcr}}, \code{\link{get_hotellings}}.
+#'
+#' @example man/examples/examples_get_sim_lim.R
 #'
 #' @importFrom stats pf
 #' @importFrom stats qf

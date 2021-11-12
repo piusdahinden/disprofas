@@ -100,10 +100,10 @@ get_profile_portion <- function(data, tcol, groups, useEMA = "yes",
     stop("Please specify useEMA either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (lorellim < 0 | lorellim > uprellim) {
-    stop("f_2The variable lorellim must be single number >= 0 and < uprellim.")
+    stop("The variable lorellim must be single number >= 0 and < uprellim.")
   }
   if (uprellim > 100 | uprellim < lorellim) {
-    stop("f_2The variable uprellim must be a single number <= 100 and > ",
+    stop("The variable uprellim must be a single number <= 100 and > ",
          "lorellim.")
   }
 

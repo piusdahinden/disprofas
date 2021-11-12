@@ -27,12 +27,15 @@ on the basis of the values of the parameters \code{lorellim} and
 as specified by the parameter \code{tcol}.}
 
 \item{lorellim}{A numeric value which, if \code{useEMA} is \code{"no"},
-specifies the lower limit for the release in \%. Observations smaller than
-this value are ignored. The default is \code{1}.}
+specifies the lower limit for the release in \%. Mean values of
+\code{<= lorellim}\% dissolved for any of the two groups being compared
+are ignored. The default is \code{1}.}
 
 \item{uprellim}{A numeric value which, if \code{useEMA} is \code{"no"},
-specifies the upper limit for the release in \%. Observations greater than
-this value are ignored. The default is \code{85}.}
+specifies the upper limit for the release in \%. Only the first mean
+value of \code{> uprellim}\% dissolved for any of the two groups being
+compared is included. All the subsequent values are ignored. The default
+is \code{85}.}
 }
 \value{
 A list with the following elements is returned:
@@ -83,22 +86,72 @@ Dissolution profiles are regarded as similar if the \eqn{f_2} value is
 between \eqn{50} and \eqn{100}. \cr
 }
 \examples{
-tmp1 <- f2(data = dip2[dip2$batch \%in\% c("b0", "b1"), ], tcol = 5:8,
-           grouping = "batch", useEMA = "yes")
-tmp2 <- f2(data = dip2[dip2$batch \%in\% c("b0", "b1"), ], tcol = 5:8,
-           grouping = "batch", useEMA = "no", uprellim = 100)
+# Dissolution data of one reference batch and one test batch of n = 6
+# tablets each:
+str(dip1)
 
-# (Expected) results in tmp1
-# $f2
-# 57.46831
-# $Profile.TP
-# [1] 30 60 90
+# 'data.frame':	12 obs. of  10 variables:
+# $ type  : Factor w/ 2 levels "R","T": 1 1 1 1 1 1 2 2 2 2 ...
+# $ tablet: Factor w/ 6 levels "1","2","3","4",..: 1 2 3 4 5 6 1 2 3 4 ...
+# $ t.5   : num  42.1 44.2 45.6 48.5 50.5 ...
+# $ t.10  : num  59.9 60.2 55.8 60.4 61.8 ...
+# $ t.15  : num  65.6 67.2 65.6 66.5 69.1 ...
+# $ t.20  : num  71.8 70.8 70.5 73.1 72.8 ...
+# $ t.30  : num  77.8 76.1 76.9 78.5 79 ...
+# $ t.60  : num  85.7 83.3 83.9 85 86.9 ...
+# $ t.90  : num  93.1 88 86.8 88 89.7 ...
+# $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# (Expected) results in tmp2
+# Use of defaults, i.e. 'useEMA = "yes"', 'lorellim = 1' and 'uprellim = 85'
+# Comparison always involves only two groups.
+f2(data = dip1, tcol = 3:10, grouping = "type")
+
 # $f2
-# 60.02899
+# [1] 40.83405
+#
 # $Profile.TP
-# [1]  30  60  90 180
+# t.5 t.10 t.15 t.20 t.30 t.60 t.90
+#   5   10   15   20   30   60   90
+
+# Use of 'useEMA = "no"', 'lorellim = 5' and 'uprellim = 80'
+f2(data = dip1, tcol = 3:10, grouping = "type", useEMA = "no",
+   lorellim = 5, uprellim = 80)
+
+# $f2
+# [1] 39.24385
+#
+# $Profile.TP
+# t.5 t.10 t.15 t.20 t.30 t.60
+#   5   10   15   20   30   60
+
+# Use of 'useEMA = "no"', 'lorellim = 1' and 'uprellim = 95'
+f2(data = dip1, tcol = 3:10, grouping = "type", useEMA = "no", uprellim = 95)
+
+# $f2
+# [1] 42.11197
+#
+# $Profile.TP
+# t.5  t.10  t.15  t.20  t.30  t.60  t.90 t.120
+#   5    10    15    20    30    60    90   120
+
+# In this case, the whole profiles are used. The same result is obtained
+# when setting 'useEMA = "ignore"' (ignoring values passed to 'lorellim' and
+# 'uprellim').
+f2(data = dip1, tcol = 3:10, grouping = "type", useEMA = "ignore")
+
+# Passing in a data frame with a grouping variable with a number of levels that
+# differs from two produces an error.
+\dontrun{
+  tmp <- rbind(dip1,
+               data.frame(type = "T2",
+                          tablet = as.factor(1:6),
+                          dip1[7:12, 3:10]))
+
+  f2(data = tmp, tcol = 3:10, grouping = "type")
+}
+
+# Error in f1(data = tmp, tcol = 3:10, grouping = "type") :
+#   The number of levels in column type differs from 2.
 }
 \references{
 United States Food and Drug Administration (FDA). Guidance for industry:

@@ -26,22 +26,22 @@
 #' @param confid A numeric value between 0 and 1 specifying the confidence limit
 #'   for the calculation of the bootstrap confidence intervals. The default is
 #'   \code{0.9}.
-#' @param useEMA A character string indicating if the similarity factor
+#' @param use_EMA A character string indicating if the similarity factor
 #'   \eqn{f_2} should be calculated according to the EMA guideline \dQuote{On
 #'   the investigation of bioequivalence} (\code{"yes"}) or not (\code{"no"},
 #'   the default). The default is \code{"no"} because the bootstrap \eqn{f_2}
 #'   method is one of the possible solutions if the condition concerning the
 #'   variability between the profiles does not allow the evaluation of \eqn{f_2}
 #'   according to the EMA guideline. A third option is \code{"ignore"}. If
-#'   \code{useEMA} is \code{"yes"} or \code{"no"} the appropriate profile
+#'   \code{use_EMA} is \code{"yes"} or \code{"no"} the appropriate profile
 #'   portion is determined on the basis of the values of the parameters
 #'   \code{lorellim} and \code{uprellim}. If it is \code{"ignore"}, the
 #'   complete profiles are used as specified by the parameter \code{tcol}.
-#' @param lorellim A numeric value which, if \code{useEMA} is \code{"no"},
+#' @param lorellim A numeric value which, if \code{use_EMA} is \code{"no"},
 #'   specifies the lower limit for the release in \%. Mean values of
 #'   \code{<= lorellim}\% dissolved for any of the two groups being compared
 #'   are ignored. The default is \code{1}.
-#' @param uprellim A numeric value which, if \code{useEMA} is \code{"no"},
+#' @param uprellim A numeric value which, if \code{use_EMA} is \code{"no"},
 #'   specifies the upper limit for the release in \%. Only the first mean
 #'   value of \code{> uprellim}\% dissolved for any of the two groups being
 #'   compared is included. All the subsequent values are ignored. The default
@@ -86,7 +86,7 @@
 #' \item{Boot}{An object of class \sQuote{\code{boot}} with the corresponding
 #'   components.}
 #' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
-#'   specified by \code{tcol} and depending on the selection of \code{useEMA}.
+#'   specified by \code{tcol} and depending on the selection of \code{use_EMA}.
 #'   Given that the column names contain extractable numeric information,
 #'   e.g., specifying the testing time points of the dissolution profile, it
 #'   contains the corresponding values. Elements where no numeric information
@@ -142,7 +142,7 @@
 
 bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
                    R = 999, each = 12, new_seed = 100, confid = 0.9,
-                   useEMA = "no", lorellim = 1, uprellim = 85, ...) {
+                   use_EMA = "no", lorellim = 1, uprellim = 85, ...) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -191,8 +191,8 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   if (confid <= 0 | confid > 1) {
     stop("Please specify confid as (0, 1]")
   }
-  if (!(useEMA %in% c("yes", "no", "ignore"))) {
-    stop("Please specify useEMA either as \"yes\" or \"no\" or \"ignore\".")
+  if (!(use_EMA %in% c("yes", "no", "ignore"))) {
+    stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (lorellim < 0 | lorellim > uprellim) {
     stop("The variable lorellim must be single number >= 0 and < uprellim.")
@@ -243,11 +243,11 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   # <-><-><-><->
   # Determination of dissolution profile ranges to be compared
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            useEMA = useEMA,
+                            use_EMA = use_EMA,
                             lorellim = lorellim, uprellim = uprellim)
   time_points <- time_points[ok]
 
-  if (useEMA == "yes" & sum(ok) < 3) {
+  if (use_EMA == "yes" & sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
          "points. The actual profiles comprise ", sum(ok), " points only.")
   }

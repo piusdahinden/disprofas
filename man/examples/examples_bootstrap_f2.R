@@ -17,7 +17,7 @@ str(dip2)
 \dontrun{
   bs1 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                       tcol = 5:8, grouping = "batch", rand_mode = "complete",
-                      R = 200, new_seed = 421, useEMA = "no")
+                      R = 200, new_seed = 421, use_EMA = "no")
 }
 
 # Expected results in bs1[c("Boot", "BCa_CI", "ShahBCa_CI")]
@@ -35,7 +35,7 @@ str(dip2)
 \dontrun{
   bs2 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                       tcol = 5:8, grouping = "batch", rand_mode = "individual",
-                      R = 200, new_seed = 421, useEMA = "no")
+                      R = 200, new_seed = 421, use_EMA = "no")
 }
 
 # Expected results in bs2[c("Boot", "BCa_CI", "ShahBCa_CI")]
@@ -54,7 +54,7 @@ str(dip2)
 \dontrun{
   bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4", "b5"), ],
                tcol = 5:8, grouping = "batch", rand_mode = "individual",
-               R = 200, new_seed = 421, useEMA = "no")
+               R = 200, new_seed = 421, use_EMA = "no")
 }
 
 # Error in bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4", "b5"),  :
@@ -76,12 +76,12 @@ str(dip1)
 # $ t.90  : num  93.1 88 86.8 88 89.7 ...
 # $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# Use of 'useEMA = "no"' with 'lorellim = 1' and 'uprellim = 85'
+# Use of 'use_EMA = "no"' with 'lorellim = 1' and 'uprellim = 85'
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
 \dontrun{
   bs3.1 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
-                        R = 200, each = 6, useEMA = "no",
+                        R = 200, each = 6, use_EMA = "no",
                         lorellim = 1,  uprellim = 85)
 }
 
@@ -96,13 +96,13 @@ str(dip1)
 # $ShahBCa_CI
 # [1] 39.49069 43.78105
 
-# Use of 'useEMA = "ignore"' so that the whole profiles are used (ignoring
+# Use of 'use_EMA = "ignore"' so that the whole profiles are used (ignoring
 # values passed to 'lorellim' and 'uprellim')
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
 \dontrun{
   bs3.2 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
-                        R = 200, each = 6, useEMA = "ignore")
+                        R = 200, each = 6, use_EMA = "ignore")
 }
 
 # Expected results in bs3.2[c("Boot", "BCa_CI", "ShahBCa_CI")]

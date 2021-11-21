@@ -14,7 +14,7 @@ str(dip1)
 # $ t.90  : num  93.1 88 86.8 88 89.7 ...
 # $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# Use of defaults, i.e. 'useEMA = "yes"', 'lorellim = 1' and 'uprellim = 85'
+# Use of defaults, i.e. 'use_EMA = "yes"', 'lorellim = 1' and 'uprellim = 85'
 # Comparison always involves only two groups.
 f1(data = dip1, tcol = 3:10, grouping = "type")
 
@@ -25,8 +25,8 @@ f1(data = dip1, tcol = 3:10, grouping = "type")
 # t.5 t.10 t.15 t.20 t.30 t.60 t.90
 #   5   10   15   20   30   60   90
 
-# Use of 'useEMA = "no"', 'lorellim = 5' and 'uprellim = 80'
-f1(data = dip1, tcol = 3:10, grouping = "type", useEMA = "no",
+# Use of 'use_EMA = "no"', 'lorellim = 5' and 'uprellim = 80'
+f1(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "no",
    lorellim = 5, uprellim = 80)
 
 # $f1
@@ -36,8 +36,8 @@ f1(data = dip1, tcol = 3:10, grouping = "type", useEMA = "no",
 # t.5 t.10 t.15 t.20 t.30 t.60
 #   5   10   15   20   30   60
 
-# Use of 'useEMA = "no"', 'lorellim = 1' and 'uprellim = 95'
-f1(data = dip1, tcol = 3:10, grouping = "type", useEMA = "no", uprellim = 95)
+# Use of 'use_EMA = "no"', 'lorellim = 1' and 'uprellim = 95'
+f1(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "no", uprellim = 95)
 
 # $f1
 # [1] 16.22299
@@ -47,9 +47,9 @@ f1(data = dip1, tcol = 3:10, grouping = "type", useEMA = "no", uprellim = 95)
 #   5    10    15    20    30    60    90   120
 
 # In this case, the whole profiles are used. The same result is obtained
-# when setting 'useEMA = "ignore"' (ignoring values passed to 'lorellim' and
+# when setting 'use_EMA = "ignore"' (ignoring values passed to 'lorellim' and
 # 'uprellim').
-f1(data = dip1, tcol = 3:10, grouping = "type", useEMA = "ignore")
+f1(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "ignore")
 
 # Passing in a data frame with a grouping variable with a number of levels that
 # differs from two produces an error.

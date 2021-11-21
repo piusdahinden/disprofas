@@ -103,7 +103,7 @@ test_that("mztia_succeeds_with_df_shape_wide", {
   expect_equal(
     signif(tmp1[tmp1$type1 == "TL.S2" & tmp1$type2 == "LTL", "response"], 9),
     c(12.2264050, 31.1548274, 41.9041726, 50.4435423, 54.5425900, 62.2027513,
-      61.2458801, 65.2932086 ))
+      61.2458801, 65.2932086))
   expect_equal(
     signif(tmp1[tmp1$type1 == "TL.S2" & tmp1$type2 == "UTL", "response"], 9),
     c(81.3169283, 89.1118393, 92.6458274, 93.5297910, 101.5974100, 107.430582,

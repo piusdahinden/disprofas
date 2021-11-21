@@ -295,11 +295,11 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' The function \code{f1()} calculates the dissimilarity factor \eqn{f_1}.
 #'
-#' @param useEMA A character string indicating if the dissimilarity factor
+#' @param use_EMA A character string indicating if the dissimilarity factor
 #'   \eqn{f_1} should be calculated following the EMA guideline \dQuote{On
 #'   the investigation of bioequivalence} (\code{"yes"}, the default) or not
 #'   (\code{"no"}), i.e. the recommendations concerning the similarity factor
-#'   \eqn{f_2}. A third option is \code{"ignore"}. If \code{useEMA} is
+#'   \eqn{f_2}. A third option is \code{"ignore"}. If \code{use_EMA} is
 #'   \code{"yes"} or \code{"no"} the appropriate profile portion is determined
 #'   on the basis of the values of the parameters \code{lorellim} and
 #'   \code{uprellim}. If it is \code{"ignore"}, the complete profiles are used
@@ -347,7 +347,7 @@ get_sim_lim <- function(mtad, lhs) {
 #' @return A list with the following elements is returned:
 #' \item{f1}{A numeric value representing the similarity factor \eqn{f_1}.}
 #' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
-#'   specified by \code{tcol} and depending on the selection of \code{useEMA}.
+#'   specified by \code{tcol} and depending on the selection of \code{use_EMA}.
 #'   Given that the column names contain extractable numeric information,
 #'   e.g., specifying the testing time points of the dissolution profile, it
 #'   contains the corresponding values. Elements where no numeric information
@@ -376,7 +376,7 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' @export
 
-f1 <- function(data, tcol, grouping, useEMA = "yes",
+f1 <- function(data, tcol, grouping, use_EMA = "yes",
                lorellim = 1, uprellim = 85) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
@@ -406,8 +406,8 @@ f1 <- function(data, tcol, grouping, useEMA = "yes",
   if (!is.factor(data[, grouping])) {
     stop("The grouping variable's column in data must be a factor.")
   }
-  if (!(useEMA %in% c("yes", "no", "ignore"))) {
-    stop("Please specify useEMA either as \"yes\" or \"no\" or \"ignore\".")
+  if (!(use_EMA %in% c("yes", "no", "ignore"))) {
+    stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (lorellim < 0 | lorellim > uprellim) {
     stop("The variable lorellim must be single number >= 0 and < uprellim.")
@@ -430,7 +430,7 @@ f1 <- function(data, tcol, grouping, useEMA = "yes",
   b1 <- make_grouping(data = data, grouping = grouping)
 
   # Check if the two groups have the same number of observations. If  not so,
-  # and if the parameter useEMA is either "no" or "ignore", adjust the data
+  # and if the parameter use_EMA is either "no" or "ignore", adjust the data
   # frames in such a way that both groups to be compared will have the same
   # number of observations and that the number of observations per group
   # corresponds to the largest common value (lcv) between number of observations
@@ -438,11 +438,11 @@ f1 <- function(data, tcol, grouping, useEMA = "yes",
   # Note: an alternative would be to use the least common multiple.
   # Note that together with the data adjustment the b1 vector must be reset.
 
-  if (useEMA == "yes" & sum(b1) != sum(!b1)) {
+  if (use_EMA == "yes" & sum(b1) != sum(!b1)) {
     stop("The two groups to be compared must have the same number of ",
          "observations.")
   }
-  if (useEMA %in% c("no", "ignore") & sum(b1) != sum(!b1)) {
+  if (use_EMA %in% c("no", "ignore") & sum(b1) != sum(!b1)) {
     warning("The two groups to be compared do not have the same number of ",
             "observations. Thus, the number of rows is adjusted according ",
             "to the largest common value between the number of observations ",
@@ -464,10 +464,10 @@ f1 <- function(data, tcol, grouping, useEMA = "yes",
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            useEMA = useEMA,
+                            use_EMA = use_EMA,
                             lorellim = lorellim, uprellim = uprellim)
 
-  if (useEMA == "yes" & sum(ok) < 3) {
+  if (use_EMA == "yes" & sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
          "points. The actual profiles comprise ", sum(ok), " points only.")
   }
@@ -561,7 +561,6 @@ get_f1 <- function(data, ins, tcol, grouping) {
 
   # <-><-><-><->
 
-  n <- length(tcol)
   b1 <- make_grouping(data = data[ins, ], grouping = grouping)
 
   R_i <- apply(data[ins, ][b1, tcol], MARGIN = 2, FUN = mean)
@@ -579,10 +578,10 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' The function \code{f2()} calculates the similarity factor \eqn{f_2}.
 #'
-#' @param useEMA A character string indicating if the similarity factor
+#' @param use_EMA A character string indicating if the similarity factor
 #'   \eqn{f_2} should be calculated following the EMA guideline \dQuote{On the
 #'   investigation of bioequivalence} (\code{"yes"}, the default) or not
-#'   (\code{"no"}). A third option is \code{"ignore"}. If \code{useEMA} is
+#'   (\code{"no"}). A third option is \code{"ignore"}. If \code{use_EMA} is
 #'   \code{"yes"} or \code{"no"} the appropriate profile portion is determined
 #'   on the basis of the values of the parameters \code{lorellim} and
 #'   \code{uprellim}. If it is \code{"ignore"}, the complete profiles are used
@@ -626,7 +625,7 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #' @return A list with the following elements is returned:
 #' \item{f2}{A numeric value representing the similarity factor \eqn{f_2}.}
 #' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
-#'   specified by \code{tcol} and depending on the selection of \code{useEMA}.
+#'   specified by \code{tcol} and depending on the selection of \code{use_EMA}.
 #'   Given that the column names contain extractable numeric information,
 #'   e.g., specifying the testing time points of the dissolution profile, it
 #'   contains the corresponding values. Elements where no numeric information
@@ -655,7 +654,7 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' @export
 
-f2 <- function(data, tcol, grouping, useEMA = "yes",
+f2 <- function(data, tcol, grouping, use_EMA = "yes",
                lorellim = 1, uprellim = 85) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
@@ -685,8 +684,8 @@ f2 <- function(data, tcol, grouping, useEMA = "yes",
   if (!is.factor(data[, grouping])) {
     stop("The grouping variable's column in data must be a factor.")
   }
-  if (!(useEMA %in% c("yes", "no", "ignore"))) {
-    stop("Please specify useEMA either as \"yes\" or \"no\" or \"ignore\".")
+  if (!(use_EMA %in% c("yes", "no", "ignore"))) {
+    stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (lorellim < 0 | lorellim > uprellim) {
     stop("The variable lorellim must be single number >= 0 and < uprellim.")
@@ -709,7 +708,7 @@ f2 <- function(data, tcol, grouping, useEMA = "yes",
   b1 <- make_grouping(data = data, grouping = grouping)
 
   # Check if the two groups have the same number of observations. If  not so,
-  # and if the parameter useEMA is either "no" or "ignore", adjust the data
+  # and if the parameter use_EMA is either "no" or "ignore", adjust the data
   # frames in such a way that both groups to be compared will have the same
   # number of observations and that the number of observations per group
   # corresponds to the largest common value (lcv) between number of observations
@@ -717,11 +716,11 @@ f2 <- function(data, tcol, grouping, useEMA = "yes",
   # Note: an alternative would be to use the least common multiple.
   # Note that together with the data adjustment the b1 vector must be reset.
 
-  if (useEMA == "yes" & sum(b1) != sum(!b1)) {
+  if (use_EMA == "yes" & sum(b1) != sum(!b1)) {
     stop("The two groups to be compared must have the same number of ",
          "observations.")
   }
-  if (useEMA %in% c("no", "ignore") & sum(b1) != sum(!b1)) {
+  if (use_EMA %in% c("no", "ignore") & sum(b1) != sum(!b1)) {
     warning("The two groups to be compared do not have the same number of ",
             "observations. Thus, the number of rows is adjusted according ",
             "to the largest common value between the number of observations ",
@@ -743,10 +742,10 @@ f2 <- function(data, tcol, grouping, useEMA = "yes",
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            useEMA = useEMA,
+                            use_EMA = use_EMA,
                             lorellim = lorellim, uprellim = uprellim)
 
-  if (useEMA == "yes" & sum(ok) < 3) {
+  if (use_EMA == "yes" & sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
          "points. The actual profiles comprise ", sum(ok), " points only.")
   }

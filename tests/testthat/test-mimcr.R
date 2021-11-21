@@ -1,12 +1,5 @@
 context("Model-Independent Multivariate Confidence Region Estimation")
 
-# The tests use the values published by Hoffelder et al. (Hoffelder 2015),
-# i.e. the values in Table 1, the results of measuring dissolution [%] after
-# 15, 20 and 25 minutes of two different capsule formulations with different
-# color (white or blue), in Hoffelder, T., Goessl, R., and Wellek, S.
-# Multivariate equivalence tests for use in pharmaceutical development.
-# J Biopharm Stat (2015) 25(3): 417-437.
-
 test_that("mimcr_results_match_Hoffelder_2015", {
   l_res <-
     mimcr(data = dip3, tcol = 4:6, grouping = "batch", fit_n_obs = FALSE,
@@ -31,51 +24,7 @@ test_that("mimcr_results_match_Hoffelder_2015", {
   expect_equal(signif(l_res$Parameters[["Sim.Limit"]], 7), 2.248072)
   expect_equal(signif(l_res$Parameters[["Obs.L"]], 7), 1.067015)
   expect_equal(signif(l_res$Parameters[["Obs.U"]], 7), 1.543820)
-
-  # The results correspond to the output obtained with the function
-  # T2EQ.dissolution.profiles.hoffelder() from the R package T2EQ from
-  # Thomas Hoffelder.
-  # Note that in the publication cited above, i.e. Hoffelder (2015), D_crit
-  # is defined as 0.74^2 instead of
-  # D_crit = sqrt(t(D_glob) %*% solve(t_S) %*% D_glob)
-  # where D_glob = rep(mtad, times = n_tp), mtad = 10 (e.g.) and n_tp the
-  # number of time points.
-  #
-  # library(T2EQ) # mtad = 10
-  # T2EQ.dissolution.profiles.hoffelder(
-  #   X = as.matrix(dip3[dip3$type == "ref", 4:6]),
-  #   Y = as.matrix(dip3[dip3$type == "test", 4:6]), alpha = 0.05)
-  # l_res$Parameters
-  # l_res$Parameters[["DM"]]^2; l_res$Parameters[["Sim.Limit"]]^2
-  #
-  # Excerpt of the output obtained with
-  # T2EQ.dissolution.profiles.hoffelder(
-  #   X = as.matrix(dip3[dip3$type == "ref", 4:6]),
-  #   Y = as.matrix(dip3[dip3$type == "test", 4:6]), alpha = 0.05)
-  #
-  # Estimated Mahalanobis distance: 	     0.05683568
-  # Equivalence margin: 			             5.053827
-  # Hotelling's T2: 			                 0.3410141
-  # Noncentrality parameter: 		          30.32296
-  # Significance level: 			             0.05
-  # Teststatistic: 			                   0.1033376
-  # Quantile of noncent. F-distribution: 	 4.899274
-  # Decision in favor (1) or against (0) equivalence/similarity of
-  #   dissolution profiles:  1
-  # 	 p-value of the T2-test for equivalence: p = 2.890827e-08
-
-  # Note that the value provided under "Estimated Mahalanobis distance" is the
-  # squared Mahalanobis distance and thus equal to l_res$Parameters[["DM"]]^2.
-  # Accordingly, the value under "Equivalence margin" corresponds to
-  # l_res$Parameters[["Sim.Limit"]]^2.
 })
-
-# The tests use the values published by Hoffelder, T. (Hoffelder 2016), i.e.
-# the values underlying Figure 1, the results of measuring dissolution [%]
-# after 10, 20 and 30 minutes of two different unknown formulations, from
-# Figure 1 in Hoffelder, T. Highly Variable Dissolution Profiles. Comparison
-# of T2-Test for Equivalence and f2 Based Methods. Pharm Ind (2016) 78(4):
-# 587-592.
 
 test_that("mimcr_results_match_Hoffelder_2016", {
   l_res <- mimcr(data = dip4, tcol = 2:4, grouping = "type", fit_n_obs = FALSE,
@@ -100,43 +49,7 @@ test_that("mimcr_results_match_Hoffelder_2016", {
   expect_equal(signif(l_res$Parameters[["Sim.Limit"]], 7), 17.17578)
   expect_equal(signif(l_res$Parameters[["Obs.L"]], 7), 1.518558)
   expect_equal(signif(l_res$Parameters[["Obs.U"]], 7), 4.129393)
-
-  # The results correspond to the output obtained with the example shown in the
-  # documentation of the T2EQ.dissolution.profiles.hoffelder() function in the
-  # R package T2EQ from Thomas Hoffelder.
-  #
-  # library(T2EQ) # mtad = 10
-  # T2EQ.dissolution.profiles.hoffelder(
-  #   X = as.matrix(dip4[dip4$type == "ref", 2:4]),
-  #   Y = as.matrix(dip4[dip4$type == "test", 2:4]), alpha = 0.05)
-  # l_res$Parameters
-  # l_res$Parameters[["DM"]]^2; l_res$Parameters[["Sim.Limit"]]^2
-  #
-  #  Excerpt of the output obtained with
-  #  T2EQ.dissolution.profiles.hoffelder(X = REF_pharmind, Y = TEST_pharmind)
-  #
-  # Estimated Mahalanobis distance:        7.974838
-  # Equivalence margin: 			           295.0074
-  # Hotelling's T2: 			                47.84903
-  # Noncentrality parameter: 		        1770.045
-  # Significance level: 			             0.05
-  # Teststatistic: 			                  14.4997
-  # Quantile of noncent. F-distribution: 373.488
-  # Decision in favor (1) or against (0) equivalence/similarity of
-  #   dissolution profiles:  1
-  # p-value of the T2-test for equivalence: p = 8.427879e-110
-
-  # Note that the value provided under "Estimated Mahalanobis distance" is the
-  # squared Mahalanobis distance and thus equal to l_res$Parameters[["DM"]]^2.
-  # Accordingly, the value under "Equivalence margin" corresponds to
-  # l_res$Parameters[["Sim.Limit"]]^2.
 })
-
-# The tests use the values published by Tsong et al. (Tsong 1996), i.e. the
-# values in Table 1, dissolution data of a reference and a test batch.
-# Tsong, Y., Hammerstrom, T., Sathe, P., and Shah, V.P. Statistical
-# Assessment of Mean Differences Between Two Dissolution Data Sets.
-# Drug Inf J (1996) 30: 1105-1112.
 
 test_that("mimcr_results_match_Tsong_1996_two", {
   l_res <-
@@ -162,45 +75,6 @@ test_that("mimcr_results_match_Tsong_1996_two", {
                     c(-15.03433, 2.902591))
   expect_equivalent(signif(l_res[["NR.CI"]][["CI"]][, 2], 7),
                     c(-20.04900, 3.870743))
-
-  # The results correspond to the value shown in Tsong (1996):
-  # df1 (P) = 2
-  # df2 (n1 + n2 - p - 1) = 9
-  # K = 1.35
-  # D.M = 10.44
-  # D.M.l = 8.94
-  # D.M.u = 11.93
-  # Points on CR: (-15.03, 2.90) and (-20.05, 3.87)
-
-  # Note that for the comparison with the T2EQ.dissolution.profiles.hoffelder()
-  # function from the R package T2EQ from Thomas Hoffelder 'mtad' must be 10.
-  #
-  # library(T2EQ) # mtad = 10
-  # T2EQ.dissolution.profiles.hoffelder(
-  #   X = as.matrix(dat[dat$type == "R", 3:4]),
-  #   Y = as.matrix(dat[dat$type == "T", 3:4]), alpha = 0.05)
-  # l_res <-
-  #   suppressWarnings(mimcr(data = dat, tcol = 3:4, grouping = "type",
-  #                        mtad = 10, signif = 0.05, max_trial = 50,
-  #                        lorellim = 1, uprellim = 100, tol = 1e-9))
-  # l_res$Parameters
-  # l_res$Parameters[["DM"]]^2; l_res$Parameters[["Sim.Limit"]]^2
-  #
-  # Estimated Mahalanobis distance: 	    109.003
-  # Equivalence margin: 			             41.22305
-  # Hotelling's T2: 			                327.0089
-  # Noncentrality parameter: 		          123.6691
-  # Significance level: 			              0.05
-  # Teststatistic: 			                  147.154
-  # Quantile of noncent. F-distribution: 	 30.8798
-  # Decision in favor (1) or against (0) equivalence/similarity of
-  #   dissolution profiles:  0
-  # p-value of the T2-test for equivalence: p = 0.915731
-
-  # Note that the value provided under "Estimated Mahalanobis distance" is the
-  # squared Mahalanobis distance and thus equal to l_res$Parameters[["DM"]]^2.
-  # Accordingly, the value under "Equivalence margin" corresponds to
-  # l_res$Parameters[["Sim.Limit"]]^2.
 })
 
 test_that("mimcr_results_match_Tsong_1996_all", {
@@ -225,47 +99,8 @@ test_that("mimcr_results_match_Tsong_1996_all", {
                     c(-17.58002, -15.22654, -13.01651, -10.97963, -7.432708,
                       -0.5169504, 2.513022, 3.708933))
   expect_equivalent(signif(l_res[["NR.CI"]][["CI"]][, 2], 7),
-                    c( -29.80331, -25.81346, -22.06682, -18.61370, -12.60063,
+                    c(-29.80331, -25.81346, -22.06682, -18.61370, -12.60063,
                        -0.8763830, 4.260311, 6.287733))
-
-  # The results correspond to the value shown in Tsong (1996):
-  # df1 (P) = 8
-  # df2 (n1 + n2 - p - 1) = 3
-  # K = 0.1125
-  # T2 = 2104.46
-  # D.M = 26.49
-  # D.M.l = 19.65
-  # D.M.u = 33.32
-
-  # Note that for the comparison with the T2EQ.dissolution.profiles.hoffelder()
-  # function from the R package T2EQ from Thomas Hoffelder 'mtad' must be 10.
-  #
-  # library(T2EQ) # mtad = 10
-  # T2EQ.dissolution.profiles.hoffelder(
-  #   X = as.matrix(dip1[dip1$type == "R", 3:10]),
-  #   Y = as.matrix(dip1[dip1$type == "T", 3:10]), alpha = 0.05)
-  # l_res <-
-  #   suppressWarnings(mimcr(data = dip1, tcol = 3:10, grouping = "type",
-  #                        mtad = 10, signif = 0.05, max_trial = 50,
-  #                        lorellim = 1, uprellim = 100, tol = 1e-9))
-  # l_res$Parameters
-  # l_res$Parameters[["DM"]]^2; l_res$Parameters[["Sim.Limit"]]^2
-  #
-  # Estimated Mahalanobis distance: 	    701.4879
-  # Equivalence margin: 			            377.4157
-  # Hotelling's T2: 			               2104.464
-  # Noncentrality parameter: 		         1132.247
-  # Significance level: 			              0.05
-  # Teststatistic: 			                   78.91739
-  # Quantile of noncent. F-distribution: 	 54.39054
-  # Decision in favor (1) or against (0) equivalence/similarity of dissolution
-  #   profiles:  0
-  # p-value of the T2-test for equivalence: p = 0.1449045
-
-  # Note that the value provided under "Estimated Mahalanobis distance" is the
-  # squared Mahalanobis distance and thus equal to l_res$Parameters[["DM"]]^2.
-  # Accordingly, the value under "Equivalence margin" corresponds to
-  # l_res$Parameters[["Sim.Limit"]]^2.
 })
 
 test_that("mimcr_fails", {

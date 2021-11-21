@@ -1,7 +1,7 @@
 #' Profile portion determination
 #'
 #' The function \code{get_profile_portion()} determines, depending on the value
-#' of \code{useEMA}, which part of the profile will be used for the similarity
+#' of \code{use_EMA}, which part of the profile will be used for the similarity
 #' assessment (EMA: European Medicines Agency).
 #'
 #' @param data A data frame with the dissolution profile data in wide format.
@@ -72,7 +72,7 @@
 #'
 #' @keywords internal
 
-get_profile_portion <- function(data, tcol, groups, useEMA = "yes",
+get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
                                 lorellim = 1, uprellim = 85) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
@@ -96,8 +96,8 @@ get_profile_portion <- function(data, tcol, groups, useEMA = "yes",
   if (!is.logical(groups) | length(groups) != nrow(data)) {
     stop("The parameter groups must be a logical vector of length nrow(data).")
   }
-  if (!(useEMA %in% c("yes", "no", "ignore"))) {
-    stop("Please specify useEMA either as \"yes\" or \"no\" or \"ignore\".")
+  if (!(use_EMA %in% c("yes", "no", "ignore"))) {
+    stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (lorellim < 0 | lorellim > uprellim) {
     stop("The variable lorellim must be single number >= 0 and < uprellim.")
@@ -110,7 +110,7 @@ get_profile_portion <- function(data, tcol, groups, useEMA = "yes",
   n <- length(tcol)
   b1 <- groups
 
-  switch(useEMA, "yes" = {
+  switch(use_EMA, "yes" = {
     m_results <- matrix(NA, ncol = 6, nrow = n)
     colnames(m_results) <- c("mean.1", "mean.2", "sd.1", "sd.2", "CV.1", "CV.2")
     rownames(m_results) <- colnames(data)[tcol]
@@ -431,7 +431,7 @@ rand_indiv_points <- function(data, mle) {
   im <- rbind(index_R, index_T)
 
   res <- data
-  for(i in seq_along(tcol)) {
+  for (i in seq_along(tcol)) {
     res[1:(2 * n), tcol[i]] <- data[im[, i], tcol[i]]
   }
 
@@ -609,7 +609,7 @@ gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
     i <- i + 1
 
     # Test
-    if(sum(abs(t(m_j) %*% m_score1) < tol) > 0 | i >= max_trial) break
+    if (sum(abs(t(m_j) %*% m_score1) < tol) > 0 | i >= max_trial) break
   }
 
   if (sum(abs(t(m_j) %*% m_score1) < tol) == 0) {

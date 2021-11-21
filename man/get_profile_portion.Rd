@@ -8,7 +8,7 @@ get_profile_portion(
   data,
   tcol,
   groups,
-  useEMA = "yes",
+  use_EMA = "yes",
   lorellim = 1,
   uprellim = 85
 )
@@ -22,21 +22,21 @@ longer.}
 
 \item{groups}{A logical vector specifying different groups.}
 
-\item{useEMA}{A character string indicating if the similarity factor
+\item{use_EMA}{A character string indicating if the similarity factor
 \eqn{f_2} should be calculated following the EMA guideline \dQuote{On the
 investigation of bioequivalence} (\code{"yes"}, the default) or not
-(\code{"no"}). A third option is \code{"ignore"}. If \code{useEMA} is
+(\code{"no"}). A third option is \code{"ignore"}. If \code{use_EMA} is
 \code{"yes"} or \code{"no"} the appropriate profile portion is determined
 on the basis of the values of the parameters \code{lorellim} and
 \code{uprellim}. If it is \code{"ignore"}, the complete profiles are used
 as specified by the parameter \code{tcol}.}
 
-\item{lorellim}{A numeric value which, if \code{useEMA} is \code{"no"},
+\item{lorellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
 specifies the lower limit for the release in \%. Mean values of
 \code{<= lorellim}\% dissolved for any of the two groups being compared
 are ignored. The default is \code{1}.}
 
-\item{uprellim}{A numeric value which, if \code{useEMA} is \code{"no"},
+\item{uprellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
 specifies the upper limit for the release in \%. Only the first mean
 value of \code{> uprellim}\% dissolved for any of the two groups being
 compared is included. All the subsequent values are ignored. The default
@@ -48,7 +48,7 @@ profile portion.
 }
 \description{
 The function \code{get_profile_portion()} determines, depending on the value
-of \code{useEMA}, which part of the profile will be used for the similarity
+of \code{use_EMA}, which part of the profile will be used for the similarity
 assessment (EMA: European Medicines Agency).
 }
 \details{

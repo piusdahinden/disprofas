@@ -2,15 +2,15 @@ context("f2")
 
 test_that("f2_results_match", {
   l_res1 <- f2(data = dip2[dip2$batch %in% c("b0", "b1"), ],
-               tcol = 5:8, grouping = "batch", useEMA = "no", uprellim = 100)
+               tcol = 5:8, grouping = "batch", use_EMA = "no", uprellim = 100)
   l_res2 <- f2(data = dip2[dip2$batch %in% c("b0", "b2"), ],
-               tcol = 5:8, grouping = "batch", useEMA = "no", uprellim = 100)
+               tcol = 5:8, grouping = "batch", use_EMA = "no", uprellim = 100)
   l_res3 <- f2(data = dip2[dip2$batch %in% c("b0", "b3"), ],
-               tcol = 5:8, grouping = "batch", useEMA = "no", uprellim = 100)
+               tcol = 5:8, grouping = "batch", use_EMA = "no", uprellim = 100)
   l_res4 <- f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
-               tcol = 5:8, grouping = "batch", useEMA = "no", uprellim = 100)
+               tcol = 5:8, grouping = "batch", use_EMA = "no", uprellim = 100)
   l_res5 <- f2(data = dip2[dip2$batch %in% c("b0", "b5"), ],
-               tcol = 5:8, grouping = "batch", useEMA = "no", uprellim = 100)
+               tcol = 5:8, grouping = "batch", use_EMA = "no", uprellim = 100)
 
   # <-><-><-><->
 
@@ -36,92 +36,92 @@ test_that("f2_fails", {
   expect_error(
     f2(data = as.matrix(dip2[dip2$batch %in% c("b0", "b4"), 5:8]),
        tcol = 5:8, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "data must be provided as data frame")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = "tcol", grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "tcol must be an integer vector")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:6, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "tcol must be an integer vector")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:8 + 0.1, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "tcol must be an integer vector")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:9, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "Some columns specified by tcol were not found")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 3:8, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "Some names of columns specified by tcol")
   expect_error(
     f2(data = tmp0[tmp0$batch %in% c("b0", "b4"), ],
        tcol = 5:8, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "Some columns specified by tcol are not numeric")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:8, grouping = 5,
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "grouping must be string")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:8, grouping = "lot",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "grouping variable was not found")
   expect_error(
     f2(data = tmp1[tmp1$batch %in% c("b0", "b4"), ],
        tcol = 5:8, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "grouping variable's column in data")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b3", "b4"), ],
        tcol = 5:8, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "number of levels in column")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:8, grouping = "batch",
-       useEMA = "whatever", lorellim = 1, uprellim = 85),
-    "specify useEMA either as \"yes\" or \"no\"")
+       use_EMA = "whatever", lorellim = 1, uprellim = 85),
+    "specify use_EMA either as \"yes\" or \"no\"")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:8, grouping = "batch",
-       useEMA = 0, lorellim = 1, uprellim = 85),
-    "specify useEMA either as \"yes\" or \"no\" or \"ignore\"")
+       use_EMA = 0, lorellim = 1, uprellim = 85),
+    "specify use_EMA either as \"yes\" or \"no\" or \"ignore\"")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:8, grouping = "batch",
-       useEMA = "no", lorellim = "lorel", uprellim = 85),
+       use_EMA = "no", lorellim = "lorel", uprellim = 85),
     "lorellim must be single number >= 0 and < uprellim")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:8, grouping = "batch",
-       useEMA = "no", lorellim = 85, uprellim = 1),
+       use_EMA = "no", lorellim = 85, uprellim = 1),
     "lorellim must be single number >= 0 and < uprellim")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
        tcol = 5:8, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = "uprel"),
+       use_EMA = "no", lorellim = 1, uprellim = "uprel"),
     "uprellim must be a single number <= 100 and > lorellim")
   expect_error(
     f2(data = tmp2,
        tcol = 5:8, grouping = "batch",
-       useEMA = "yes", lorellim = 1, uprellim = 85),
+       use_EMA = "yes", lorellim = 1, uprellim = 85),
     "The two groups to be compared")
   expect_error(
     f2(data = dip2[dip2$batch %in% c("b0", "b1"), ],
        tcol = 6:8, grouping = "batch",
-       useEMA = "yes", lorellim = 1, uprellim = 85),
+       use_EMA = "yes", lorellim = 1, uprellim = 85),
     "According to EMA the profiles")
 })
 
@@ -136,13 +136,13 @@ test_that("f2_warns", {
   expect_warning(
     f2(data = tmp,
        tcol = 5:8, grouping = "batch",
-       useEMA = "no", lorellim = 1, uprellim = 85),
+       use_EMA = "no", lorellim = 1, uprellim = 85),
     "The two groups to be compared")
   expect_error(
     expect_warning(
       f2(data = dip2[dip2$batch %in% c("b0", "b1"), ],
          tcol = 6:8, grouping = "batch",
-         useEMA = "no", lorellim = 1, uprellim = 85),
+         use_EMA = "no", lorellim = 1, uprellim = 85),
       "According to EMA the two profiles"),
     "The parameter tcol must be an integer")
 })

@@ -448,8 +448,6 @@ plot_mztia <- function(x, ...) {
   x <- "time"
   y <- model[["Variables"]]$response
   type <- "type1"
-  type2 <- "type2"
-  frame <- "frame"
 
   if (length(unique(d_res[, x])) == 1) {
     d_lim <- model[["Limits"]]
@@ -457,10 +455,10 @@ plot_mztia <- function(x, ...) {
     x <- grouping <- "grouping"
     ltl <- "LTL"
     utl <- "UTL"
-    s1.ltl <- "S1.LTL"
-    s1.utl <- "S1.UTL"
-    s2.ltl <- "S2.LTL"
-    s2.utl <- "S2.UTL"
+    s1_ltl <- "S1.LTL"
+    s1_utl <- "S1.UTL"
+    s2_ltl <- "S2.LTL"
+    s2_utl <- "S2.UTL"
     spread <- 0.1 * nlevels(d_res$grouping)
 
     d_lim <- data.frame(rep(reference, nrow(d_lim)), d_lim)
@@ -495,14 +493,14 @@ plot_mztia <- function(x, ...) {
       ggplot(d_res, aes_string(x = x, y = y, colour = type, shape = type),
              ...) +
       geom_point(
-        data = subset(d_res, frame == "points" & grouping == reference),
+        data = d_res[d_res$frame == "points" & d_res$grouping == reference, ],
         size = 1.5) +
       geom_point(
-        data = subset(d_res, frame == "points" & grouping != reference),
+        data = d_res[d_res$frame == "points" & d_res$grouping != reference, ],
         size = 2) +
-      geom_line(data = subset(d_res, type2 == "Mean"), size = 1) +
-      geom_path(data = subset(d_res, type2 == "LTL"), size = 1) +
-      geom_path(data = subset(d_res, type2 == "UTL"), size = 1) +
+      geom_line(data = d_res[d_res$type2 == "Mean", ], size = 1) +
+      geom_path(data = d_res[d_res$type2 == "LTL", ], size = 1) +
+      geom_path(data = d_res[d_res$type2 == "UTL", ], size = 1) +
       scale_colour_manual(
         values = t_colours, breaks = t_breaks, labels = t_labels,
         guide = guide_legend(
@@ -529,13 +527,13 @@ plot_mztia <- function(x, ...) {
       ggplot(d_res,
              aes_string(x = x, y = y, colour = grouping, shape = grouping),
              ...) +
-      geom_jitter(data = subset(d_res, frame == "points"),
+      geom_jitter(data = d_res[d_res$frame == "points", ],
                   position = position_jitter(spread)) +
       geom_errorbar(data = d_lim,
-                    mapping = aes_string(ymin = s2.ltl, ymax = s2.utl),
+                    mapping = aes_string(ymin = s2_ltl, ymax = s2_utl),
                     colour = "red1", width = 2 * spread, size = 0.8) +
       geom_errorbar(data = d_lim,
-                    mapping = aes_string(ymin = s1.ltl, ymax = s1.utl),
+                    mapping = aes_string(ymin = s1_ltl, ymax = s1_utl),
                     colour = "darkorange1", width = 2 * spread, size = 1.0) +
       geom_errorbar(data = d_lim,
                     mapping = aes_string(ymin = ltl, ymax = utl),

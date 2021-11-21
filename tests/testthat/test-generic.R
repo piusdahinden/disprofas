@@ -3,7 +3,7 @@ context("Generic summary and print (and plot) functions")
 test_that("plot.bootstrap_f2_succeeds", {
   re <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                      tcol = 5:8, grouping = "batch",
-                     R = 200, new_seed = 421, useEMA = "no")
+                     R = 200, new_seed = 421, use_EMA = "no")
 
   # <-><-><-><->
 
@@ -14,7 +14,7 @@ test_that("plot.bootstrap_f2_succeeds", {
 test_that("summary.bootstrap_f2_succeeds", {
   re <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                      tcol = 5:8, grouping = "batch",
-                     R = 200, new_seed = 421, useEMA = "no")
+                     R = 200, new_seed = 421, use_EMA = "no")
 
   # <-><-><-><->
 
@@ -29,7 +29,7 @@ test_that("summary.bootstrap_f2_succeeds", {
 test_that("print.bootstrap_f2_succeeds", {
   re <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                      tcol = 5:8, grouping = "batch",
-                     R = 200, new_seed = 421, useEMA = "no")
+                     R = 200, new_seed = 421, use_EMA = "no")
 
   # <-><-><-><->
 
@@ -82,30 +82,30 @@ test_that("plot.plot_mztia_succeeds", {
 
   # <-><-><-><->
 
-  ggre1.1 <- expect_output(plot_mztia(re1), regexp = NA)
-  ggre1.2 <- expect_invisible(suppressWarnings(plot(x = ggre1.1)))
+  ggre1_1 <- expect_output(plot_mztia(re1), regexp = NA)
+  ggre1_2 <- expect_invisible(suppressWarnings(plot(x = ggre1_1)))
 
-  ggre2.1 <- expect_output(plot_mztia(re2), regexp = NA)
-  ggre2.2 <- expect_invisible(suppressWarnings(plot(x = ggre2.1)))
+  ggre2_1 <- expect_output(plot_mztia(re2), regexp = NA)
+  ggre2_2 <- expect_invisible(suppressWarnings(plot(x = ggre2_1)))
 
   # <-><-><-><->
 
-  expect_s3_class(ggre1.2, "plot_mztia")
-  expect_length(ggre1.2, 4)
-  expect_s3_class(ggre1.2$Graph, c("gg", "ggplot"))
+  expect_s3_class(ggre1_2, "plot_mztia")
+  expect_length(ggre1_2, 4)
+  expect_s3_class(ggre1_2$Graph, c("gg", "ggplot"))
   expect_equal(
-    ggre1.2$Graph$scales$scales[[1]]$labels,
+    ggre1_2$Graph$scales$scales[[1]]$labels,
     c("Obs R", "Obs T", "Mean", "TL", "TL ± S1 (5%)", "TL  ± S2 (15%)"))
 
-  expect_s3_class(ggre2.2, "plot_mztia")
-  expect_length(ggre2.2, 4)
-  expect_s3_class(ggre2.2$Graph, c("gg", "ggplot"))
-  expect_length(ggre2.2$Graph$scales$scales, 0)
-  expect_equivalent(class(ggre2.2$Graph$layers[[1]]$position),
+  expect_s3_class(ggre2_2, "plot_mztia")
+  expect_length(ggre2_2, 4)
+  expect_s3_class(ggre2_2$Graph, c("gg", "ggplot"))
+  expect_length(ggre2_2$Graph$scales$scales, 0)
+  expect_equivalent(class(ggre2_2$Graph$layers[[1]]$position),
                     c("PositionJitter", "Position", "ggproto", "gg"))
 })
 
-test_that("print.plot_expirest_wisle_succeeds", {
+test_that("print.plot_mztia_succeeds", {
   re1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
                reference = "R", response = NULL, alpha = 0.05, P = 0.99,
                cap = FALSE, rellim = c(0, 100), QS = c(5, 15))
@@ -115,26 +115,26 @@ test_that("print.plot_expirest_wisle_succeeds", {
 
   # <-><-><-><->
 
-  ggre1.1 <- expect_output(plot_mztia(re1), regexp = NA)
-  ggre1.2 <- expect_invisible(suppressWarnings(print(x = ggre1.1)))
+  ggre1_1 <- expect_output(plot_mztia(re1), regexp = NA)
+  ggre1_2 <- expect_invisible(suppressWarnings(print(x = ggre1_1)))
 
-  ggre2.1 <- expect_output(plot_mztia(re2), regexp = NA)
-  ggre2.2 <- expect_invisible(suppressWarnings(print(x = ggre2.1)))
+  ggre2_1 <- expect_output(plot_mztia(re2), regexp = NA)
+  ggre2_2 <- expect_invisible(suppressWarnings(print(x = ggre2_1)))
 
   # <-><-><-><->
 
-  expect_s3_class(ggre1.2, "plot_mztia")
-  expect_length(ggre1.2, 4)
-  expect_s3_class(ggre1.2$Graph, c("gg", "ggplot"))
+  expect_s3_class(ggre1_2, "plot_mztia")
+  expect_length(ggre1_2, 4)
+  expect_s3_class(ggre1_2$Graph, c("gg", "ggplot"))
   expect_equal(
-    ggre1.2$Graph$scales$scales[[1]]$labels,
+    ggre1_2$Graph$scales$scales[[1]]$labels,
     c("Obs R", "Obs T", "Mean", "TL", "TL ± S1 (5%)", "TL  ± S2 (15%)"))
 
-  expect_s3_class(ggre2.2, "plot_mztia")
-  expect_length(ggre2.2, 4)
-  expect_s3_class(ggre2.2$Graph, c("gg", "ggplot"))
-  expect_length(ggre2.2$Graph$scales$scales, 0)
-  expect_equivalent(class(ggre2.2$Graph$layers[[1]]$position),
+  expect_s3_class(ggre2_2, "plot_mztia")
+  expect_length(ggre2_2, 4)
+  expect_s3_class(ggre2_2$Graph, c("gg", "ggplot"))
+  expect_length(ggre2_2$Graph$scales$scales, 0)
+  expect_equivalent(class(ggre2_2$Graph$layers[[1]]$position),
                     c("PositionJitter", "Position", "ggproto", "gg"))
 })
 

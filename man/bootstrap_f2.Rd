@@ -13,7 +13,7 @@ bootstrap_f2(
   each = 12,
   new_seed = 100,
   confid = 0.9,
-  useEMA = "no",
+  use_EMA = "no",
   lorellim = 1,
   uprellim = 85,
   ...
@@ -47,24 +47,24 @@ The default is \code{100}.}
 for the calculation of the bootstrap confidence intervals. The default is
 \code{0.9}.}
 
-\item{useEMA}{A character string indicating if the similarity factor
+\item{use_EMA}{A character string indicating if the similarity factor
 \eqn{f_2} should be calculated according to the EMA guideline \dQuote{On
 the investigation of bioequivalence} (\code{"yes"}) or not (\code{"no"},
 the default). The default is \code{"no"} because the bootstrap \eqn{f_2}
 method is one of the possible solutions if the condition concerning the
 variability between the profiles does not allow the evaluation of \eqn{f_2}
 according to the EMA guideline. A third option is \code{"ignore"}. If
-\code{useEMA} is \code{"yes"} or \code{"no"} the appropriate profile
+\code{use_EMA} is \code{"yes"} or \code{"no"} the appropriate profile
 portion is determined on the basis of the values of the parameters
 \code{lorellim} and \code{uprellim}. If it is \code{"ignore"}, the
 complete profiles are used as specified by the parameter \code{tcol}.}
 
-\item{lorellim}{A numeric value which, if \code{useEMA} is \code{"no"},
+\item{lorellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
 specifies the lower limit for the release in \%. Mean values of
 \code{<= lorellim}\% dissolved for any of the two groups being compared
 are ignored. The default is \code{1}.}
 
-\item{uprellim}{A numeric value which, if \code{useEMA} is \code{"no"},
+\item{uprellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
 specifies the upper limit for the release in \%. Only the first mean
 value of \code{> uprellim}\% dissolved for any of the two groups being
 compared is included. All the subsequent values are ignored. The default
@@ -79,7 +79,7 @@ containing the following list elements:
 \item{Boot}{An object of class \sQuote{\code{boot}} with the corresponding
   components.}
 \item{Profile.TP}{A named numeric vector of the columns in \code{data}
-  specified by \code{tcol} and depending on the selection of \code{useEMA}.
+  specified by \code{tcol} and depending on the selection of \code{use_EMA}.
   Given that the column names contain extractable numeric information,
   e.g., specifying the testing time points of the dissolution profile, it
   contains the corresponding values. Elements where no numeric information
@@ -153,7 +153,7 @@ str(dip2)
 \dontrun{
   bs1 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
                       tcol = 5:8, grouping = "batch", rand_mode = "complete",
-                      R = 200, new_seed = 421, useEMA = "no")
+                      R = 200, new_seed = 421, use_EMA = "no")
 }
 
 # Expected results in bs1[c("Boot", "BCa_CI", "ShahBCa_CI")]
@@ -171,7 +171,7 @@ str(dip2)
 \dontrun{
   bs2 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
                       tcol = 5:8, grouping = "batch", rand_mode = "individual",
-                      R = 200, new_seed = 421, useEMA = "no")
+                      R = 200, new_seed = 421, use_EMA = "no")
 }
 
 # Expected results in bs2[c("Boot", "BCa_CI", "ShahBCa_CI")]
@@ -190,7 +190,7 @@ str(dip2)
 \dontrun{
   bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4", "b5"), ],
                tcol = 5:8, grouping = "batch", rand_mode = "individual",
-               R = 200, new_seed = 421, useEMA = "no")
+               R = 200, new_seed = 421, use_EMA = "no")
 }
 
 # Error in bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4", "b5"),  :
@@ -212,12 +212,12 @@ str(dip1)
 # $ t.90  : num  93.1 88 86.8 88 89.7 ...
 # $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# Use of 'useEMA = "no"' with 'lorellim = 1' and 'uprellim = 85'
+# Use of 'use_EMA = "no"' with 'lorellim = 1' and 'uprellim = 85'
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
 \dontrun{
   bs3.1 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
-                        R = 200, each = 6, useEMA = "no",
+                        R = 200, each = 6, use_EMA = "no",
                         lorellim = 1,  uprellim = 85)
 }
 
@@ -232,13 +232,13 @@ str(dip1)
 # $ShahBCa_CI
 # [1] 39.49069 43.78105
 
-# Use of 'useEMA = "ignore"' so that the whole profiles are used (ignoring
+# Use of 'use_EMA = "ignore"' so that the whole profiles are used (ignoring
 # values passed to 'lorellim' and 'uprellim')
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
 \dontrun{
   bs3.2 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
-                        R = 200, each = 6, useEMA = "ignore")
+                        R = 200, each = 6, use_EMA = "ignore")
 }
 
 # Expected results in bs3.2[c("Boot", "BCa_CI", "ShahBCa_CI")]

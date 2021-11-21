@@ -54,7 +54,7 @@ str(dip2)
 \dontrun{
   bs1 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
                       tcol = 5:8, grouping = "batch", rand_mode = "complete",
-                      R = 200, new_seed = 421, useEMA = "no")
+                      R = 200, new_seed = 421, use_EMA = "no")
 
   # Summary of the assessment
   summary(bs1)
@@ -96,7 +96,7 @@ str(dip2)
 \dontrun{
   bs2 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
                       tcol = 5:8, grouping = "batch", rand_mode = "individual",
-                      R = 200, new_seed = 421, useEMA = "no")
+                      R = 200, new_seed = 421, use_EMA = "no")
 
   # Summary of the assessment
   summary(bs2)

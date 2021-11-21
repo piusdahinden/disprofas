@@ -372,7 +372,7 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            useEMA = "no", lorellim = lorellim,
+                            use_EMA = "no", lorellim = lorellim,
                             uprellim = uprellim)
 
   if (sum(ok) < 3) {
@@ -491,8 +491,8 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   l_NR[[2]] <- tmp[["Model"]]$converged
   l_NR[[3]] <- tmp[["Model"]]$n.trial
   l_NR[[4]] <- tmp[["Model"]]$max.trial
-  if(!is.null(tmp[["Warning"]])) l_NR[[5]] <- tmp[["Warning"]]
-  if(!is.null(tmp[["Error"]])) l_NR[[6]] <- tmp[["Error"]]
+  if (!is.null(tmp[["Warning"]])) l_NR[[5]] <- tmp[["Warning"]]
+  if (!is.null(tmp[["Error"]])) l_NR[[6]] <- tmp[["Error"]]
 
   conclusions <- c(conclusion_Tsong, conclusion_Hoffelder)
   names(conclusions) <- c("Tsong", "Hoffelder")

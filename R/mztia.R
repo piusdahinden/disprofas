@@ -219,7 +219,7 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
   if (!is.logical(cap)) {
     stop("The parameter cap must be a logical.")
   }
-  if (!is.numeric(rellim) | length(rellim) != 2){
+  if (!is.numeric(rellim) | length(rellim) != 2) {
     stop("The paramter rellim must be a numeric vector of length 2.")
   }
   if (sum(rellim < 0) > 0 | sum(rellim > 100) > 0) {
@@ -228,7 +228,7 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
   if (rellim[1] > rellim[2]) {
     stop("Please specify rellim in the form c(lower limit, upper limit).")
   }
-  if (!is.numeric(QS) | length(QS) != 2){
+  if (!is.numeric(QS) | length(QS) != 2) {
     stop("The paramter QS must be a numeric vector of length 2.")
   }
   if (sum(QS < 0) > 0 | sum(QS > 100) > 0) {
@@ -444,11 +444,12 @@ plot_mztia <- function(x, ...) {
   d_res <- model[["Data"]]
 
   # Variables
-  shape <- model[["Variables"]]$shape
   reference <- model[["Variables"]]$reference
   x <- "time"
   y <- model[["Variables"]]$response
   type <- "type1"
+  type2 <- "type2"
+  frame <- "frame"
 
   if (length(unique(d_res[, x])) == 1) {
     d_lim <- model[["Limits"]]

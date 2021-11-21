@@ -448,6 +448,8 @@ plot_mztia <- function(x, ...) {
   x <- "time"
   y <- model[["Variables"]]$response
   type <- "type1"
+  type2 <- "type2"
+  frame <- "frame"
 
   if (length(unique(d_res[, x])) == 1) {
     d_lim <- model[["Limits"]]

@@ -172,8 +172,6 @@ get_hotellings <- function(m1, m2, signif) {
   return(l_res)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Similarity limit
 #'
 #' The function \code{get_sim_lim()} estimates a similarity limit in terms of
@@ -288,8 +286,6 @@ get_sim_lim <- function(mtad, lhs) {
                     "p.F", "p.F.Hoffelder", "MTAD", "Sim.Limit")
   return(t_res)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Dissimilarity factor f1 for dissolution data
 #'
@@ -494,8 +490,6 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes",
               Profile.TP = time_points))
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Get the f1 dissimilarity factor
 #'
 #' The function \code{get_f1()} calculates the dissimilarity factor \eqn{f_1}
@@ -571,8 +565,6 @@ get_f1 <- function(data, ins, tcol, grouping) {
 
   return(f1)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Similarity factor f2 for dissolution data
 #'
@@ -772,8 +764,6 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes",
               Profile.TP = time_points))
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Get the f2 similarity factor
 #'
 #' The function \code{get_f2()} calculates the similarity factor \eqn{f_2} for
@@ -850,5 +840,3 @@ get_f2 <- function(data, ins, tcol, grouping) {
 
   return(f2)
 }
-
-## <><><><><><><><><><><><><><><><><><><><><><><><><><><><>

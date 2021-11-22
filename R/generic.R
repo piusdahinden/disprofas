@@ -46,8 +46,6 @@ plot.bootstrap_f2 <- function(x, ...) {
   invisible(x)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Summary of the bootstrap f2 simulation
 #'
 #' This is a method for the function \code{summary()} for objects of class
@@ -102,8 +100,6 @@ summary.bootstrap_f2 <- function(object, ...) {
   invisible(object)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Print a summary of the bootstrap f2 simulation
 #'
 #' This is a method for the function \code{print()} for objects of class
@@ -128,8 +124,6 @@ print.bootstrap_f2 <- function(x, ...) {
 
   invisible(x)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Summary of MIMCR estimation
 #'
@@ -211,8 +205,6 @@ summary.mimcr <- function(object, ...) {
   invisible(object)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Print a summary of MIMCR estimation
 #'
 #' This is a method for the function \code{print()} for objects of class
@@ -237,8 +229,6 @@ print.mimcr <- function(x, ...) {
 
   invisible(x)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Plot of the mztia simulation
 #'
@@ -275,8 +265,6 @@ plot.plot_mztia <- function(x, ...) {
   invisible(x)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Print a plot of MZTIA estimation
 #'
 #' This is a method for the function \code{print()} for objects of class
@@ -298,8 +286,6 @@ print.plot_mztia <- function(x, ...) {
 
   invisible(x)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Summary of MZTIA estimation
 #'
@@ -354,8 +340,6 @@ summary.mztia <- function(object, ...) {
   invisible(object)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Print a summary of MZTIA estimation
 #'
 #' This is a method for the function \code{print()} for objects of class
@@ -380,5 +364,3 @@ print.mztia <- function(x, ...) {
 
   invisible(x)
 }
-
-## <><><><><><><><><><><><><><><><><><><><><><><><><><><><>

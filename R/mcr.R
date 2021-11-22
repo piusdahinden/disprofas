@@ -506,5 +506,3 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
                  Profile.TP = time_points),
             class = "mimcr")
 }
-
-## <><><><><><><><><><><><><><><><><><><><><><><><><><><><>

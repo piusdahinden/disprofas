@@ -198,8 +198,6 @@ get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
   return(ok)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Get time points
 #'
 #' The function \code{get_time_points()} extracts the numeric information from
@@ -239,8 +237,6 @@ get_time_points <- function(svec) {
 
   return(res)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Grouping
 #'
@@ -287,8 +283,6 @@ make_grouping <- function(data, grouping) {
 
   return(b1)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Balance observations
 #'
@@ -358,8 +352,6 @@ balance_observations <- function(data, groups, n_obs) {
 
   return(data)
 }
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Randomisation of individual data points
 #'
@@ -438,7 +430,6 @@ rand_indiv_points <- function(data, mle) {
   return(res)
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Points on confidence region (found by Newton-Raphson search)
 #'
 #' The function \code{gep_by_nera()} is a function for finding points on
@@ -624,5 +615,3 @@ gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
               n.trial = i,
               max.trial = max_trial))
 }
-
-## <><><><><><><><><><><><><><><><><><><><><><><><><><><><>

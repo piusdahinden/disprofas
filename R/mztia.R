@@ -378,8 +378,6 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
             class = "mztia")
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Graphical representation of the of MZTIA estimation
 #'
 #' The function \code{plot_mztia()} makes a graphical representation of the
@@ -558,5 +556,3 @@ plot_mztia <- function(x, ...) {
                            Graph = ggraph),
                       class = "plot_mztia"))
 }
-
-## <><><><><><><><><><><><><><><><><><><><><><><><><><><><>

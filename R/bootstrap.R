@@ -308,8 +308,6 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
             class = "bootstrap_f2")
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 #' Jackknife values
 #'
 #' The function \code{get_jackknife_values()} is required for generation of
@@ -385,5 +383,3 @@ get_jackknife_values <- function(grouping, stat_fun, data, ...) {
               loo.values = u,
               pseudo.values = pseudo_values))
 }
-
-## <><><><><><><><><><><><><><><><><><><><><><><><><><><><>

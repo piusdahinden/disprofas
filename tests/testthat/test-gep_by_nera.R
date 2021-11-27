@@ -27,7 +27,7 @@ test_that("gep_by_nera_succeeds", {
 
   res <-
     gep_by_nera(n_p = n_tp, K = K, mean_diff = mean_diff, S_pool = S,
-                F_crit = F_crit, y = y_b1, max_trial = 50, tol = 1e-15)
+                F_crit = F_crit, y = y_b1, max_trial = 100, tol = 1e-15)
 
   # <-><-><-><->
 
@@ -64,13 +64,17 @@ test_that("gep_by_nera_fails", {
   expect_error(
     gep_by_nera(n_p = "n_tp", K = K, mean_diff = mean_diff, S_pool = S,
                 F_crit = F_crit, y = y_b1, max_trial = 50, tol = 1e-9),
-               "n_p must be a positive integer")
+    "n_p must be a positive integer")
   expect_error(
     gep_by_nera(n_p = c(n_tp, n_tp), K = K, mean_diff = mean_diff, S_pool = S,
                 F_crit = F_crit, y = y_b1, max_trial = 50, tol = 1e-9),
     "n_p must be a positive integer")
   expect_error(
     gep_by_nera(n_p = -n_tp, K = K, mean_diff = mean_diff, S_pool = S,
+                F_crit = F_crit, y = y_b1, max_trial = 50, tol = 1e-9),
+    "n_p must be a positive integer")
+  expect_error(
+    gep_by_nera(n_p = n_tp / 3, K = K, mean_diff = mean_diff, S_pool = S,
                 F_crit = F_crit, y = y_b1, max_trial = 50, tol = 1e-9),
     "n_p must be a positive integer")
   expect_error(

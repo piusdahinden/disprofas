@@ -109,7 +109,7 @@
 #' \sQuote{\code{ex_data_JoBS}} from package \sQuote{\code{T2EQ}}.
 #'
 #' @seealso \code{\link[T2EQ]{T2EQ-package}},
-#' \code{\link[T2EQ]{ex_data_JoBS}}
+#' \code{\link[T2EQ]{ex_data_JoBS}}.
 #'
 #' @examples
 #' \dontrun{dip3}
@@ -146,7 +146,7 @@
 #' \sQuote{\code{ex_data_pharmind}} from package \sQuote{\code{T2EQ}}.
 #'
 #' @seealso \code{\link[T2EQ]{T2EQ-package}},
-#' \code{\link[T2EQ]{ex_data_pharmind}}
+#' \code{\link[T2EQ]{ex_data_pharmind}}.
 #'
 #' @examples
 #' \dontrun{dip4}

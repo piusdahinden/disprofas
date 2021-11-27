@@ -37,6 +37,6 @@ Hoffelder, T. Highly variable dissolution profiles. Comparison of
 }
 \seealso{
 \code{\link[T2EQ]{T2EQ-package}},
-\code{\link[T2EQ]{ex_data_pharmind}}
+\code{\link[T2EQ]{ex_data_pharmind}}.
 }
 \keyword{datasets}

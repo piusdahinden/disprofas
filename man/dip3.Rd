@@ -41,6 +41,6 @@ use in pharmaceutical development. \emph{J Biopharm Stat} (2015)
 }
 \seealso{
 \code{\link[T2EQ]{T2EQ-package}},
-\code{\link[T2EQ]{ex_data_JoBS}}
+\code{\link[T2EQ]{ex_data_JoBS}}.
 }
 \keyword{datasets}

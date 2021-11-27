@@ -48,7 +48,7 @@ str(dip1)
 # $ t.90  : num  93.1 88 86.8 88 89.7 ...
 # $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# Using the defaults; Limits are capped to the range specified by 'rellim'
+# Using the defaults; Limits are capped to the range specified by 'bounds'
 res1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
               reference = "R")
 res1$Limits

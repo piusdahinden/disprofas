@@ -31,13 +31,13 @@
 #'   \eqn{(1 - signif) 100}\%. The default value is \code{0.05}.
 #' @param max_trial A positive integer specifying the maximum number of
 #'   Newton-Raphson search rounds to be performed.
-#' @param lorellim A numeric value which specifies the lower limit for the
-#'   release in \%. Mean values of \code{<= lorellim}\% dissolved for any of
-#'   the two groups being compared are ignored. The default is \code{1}.
-#' @param uprellim A numeric value which specifies the upper limit for the
-#'   release in \%. Only the first mean value of \code{> uprellim}\% dissolved
-#'   for any of the two groups being compared is included. All the subsequent
-#'   values are ignored. The default is \code{85}.
+#' @param bounds A numeric vector of the form \code{c(lower, upper)} specifying
+#'   the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
+#'   drug release. The default is \code{c(1, 85)}. Mean \% release values of
+#'   any of the two groups being compared that are smaller than or equal to the
+#'   lower bound are ignored and only the first mean \% release value that is
+#'   greater than or equal to the upper bound is included while all the
+#'   subsequent values are ignored.
 #' @param tol A non-negative numeric specifying the accepted minimal
 #'   difference between two consecutive search rounds.
 #'
@@ -263,7 +263,7 @@
 #' @export
 
 mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
-                  signif = 0.05, max_trial = 50, lorellim = 1, uprellim = 85,
+                  signif = 0.05, max_trial = 50, bounds = c(1, 85),
                   tol = 1e-9) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
@@ -311,11 +311,14 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   if (max_trial < 0) {
     stop("The parameter max_trial must be a positive integer of length 1.")
   }
-  if (lorellim < 0 | lorellim > uprellim) {
-    stop("The variable lorellim must be single number >= 0 and < uprellim.")
+  if (!is.numeric(bounds) | length(bounds) != 2) {
+    stop("The paramter bounds must be a numeric vector of length 2.")
   }
-  if (uprellim > 100 | uprellim < lorellim) {
-    stop("The variable uprellim must be a single number <= 100 and > lorellim.")
+  if (bounds[1] > bounds[2]) {
+    stop("Please specify bounds in the form c(lower limit, upper limit).")
+  }
+  if (bounds[1] < 0 | bounds[2] > 100) {
+    stop("Please specify bounds in the range [0, 100].")
   }
   if (!is.numeric(tol) | length(tol) > 1) {
     stop("The parameter tol must be a non-negative numeric value of length 1.")
@@ -372,8 +375,7 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_EMA = "no", lorellim = lorellim,
-                            uprellim = uprellim)
+                            use_EMA = "no", bounds = bounds)
 
   if (sum(ok) < 3) {
     warning("The profiles should comprise a minimum of 3 time points. ",

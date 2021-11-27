@@ -76,13 +76,12 @@ str(dip1)
 # $ t.90  : num  93.1 88 86.8 88 89.7 ...
 # $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# Use of 'use_EMA = "no"' with 'lorellim = 1' and 'uprellim = 85'
+# Use of 'use_EMA = "no"' with 'bounds = c(1, 85)'
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
 \dontrun{
   bs3.1 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
-                        R = 200, each = 6, use_EMA = "no",
-                        lorellim = 1,  uprellim = 85)
+                        R = 200, each = 6, use_EMA = "no", bounds = c(1, 85))
 }
 
 # Expected results in bs3.1[c("Boot", "BCa_CI", "ShahBCa_CI")]
@@ -97,7 +96,7 @@ str(dip1)
 # [1] 39.49069 43.78105
 
 # Use of 'use_EMA = "ignore"' so that the whole profiles are used (ignoring
-# values passed to 'lorellim' and 'uprellim')
+# values passed to 'bounds')
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
 \dontrun{

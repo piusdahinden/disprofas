@@ -34,18 +34,18 @@
 #'   variability between the profiles does not allow the evaluation of \eqn{f_2}
 #'   according to the EMA guideline. A third option is \code{"ignore"}. If
 #'   \code{use_EMA} is \code{"yes"} or \code{"no"} the appropriate profile
-#'   portion is determined on the basis of the values of the parameters
-#'   \code{lorellim} and \code{uprellim}. If it is \code{"ignore"}, the
-#'   complete profiles are used as specified by the parameter \code{tcol}.
-#' @param lorellim A numeric value which, if \code{use_EMA} is \code{"no"},
-#'   specifies the lower limit for the release in \%. Mean values of
-#'   \code{<= lorellim}\% dissolved for any of the two groups being compared
-#'   are ignored. The default is \code{1}.
-#' @param uprellim A numeric value which, if \code{use_EMA} is \code{"no"},
-#'   specifies the upper limit for the release in \%. Only the first mean
-#'   value of \code{> uprellim}\% dissolved for any of the two groups being
-#'   compared is included. All the subsequent values are ignored. The default
-#'   is \code{85}.
+#'   portion is determined on the basis of the values of the parameter
+#'   \code{bounds}. If it is \code{"ignore"}, the complete profiles are used as
+#'   specified by the parameter \code{tcol}.
+#' @param bounds A numeric vector of the form \code{c(lower, upper)} specifying
+#'   the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
+#'   drug release given that \code{use_EMA} is \code{"no"}. The default is
+#'   \code{c(1, 85)}. Mean \% release values of any of the two groups being
+#'   compared that are smaller than or equal to the lower bound are ignored and
+#'   only the first mean \% release value that is greater than or equal to the
+#'   upper bound is included while all the subsequent values are ignored. If
+#'   \code{use_EMA} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
+#'   definition.
 #' @param ... Named parameters of the functions \code{stat.fun()},
 #'   \code{ran.fun()} and \code{boot()}.
 #'
@@ -142,7 +142,7 @@
 
 bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
                    R = 999, each = 12, new_seed = 100, confid = 0.9,
-                   use_EMA = "no", lorellim = 1, uprellim = 85, ...) {
+                   use_EMA = "no", bounds = c(1, 85), ...) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -194,11 +194,14 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   if (!(use_EMA %in% c("yes", "no", "ignore"))) {
     stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
-  if (lorellim < 0 | lorellim > uprellim) {
-    stop("The variable lorellim must be single number >= 0 and < uprellim.")
+  if (!is.numeric(bounds) | length(bounds) != 2) {
+    stop("The paramter bounds must be a numeric vector of length 2.")
   }
-  if (uprellim > 100 | uprellim < lorellim) {
-    stop("The variable uprellim must be a single number <= 100 and > lorellim.")
+  if (bounds[1] > bounds[2]) {
+    stop("Please specify bounds in the form c(lower limit, upper limit).")
+  }
+  if (bounds[1] < 0 | bounds[2] > 100) {
+    stop("Please specify bounds in the range [0, 100].")
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -243,8 +246,7 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   # <-><-><-><->
   # Determination of dissolution profile ranges to be compared
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_EMA = use_EMA,
-                            lorellim = lorellim, uprellim = uprellim)
+                            use_EMA = use_EMA, bounds = bounds)
   time_points <- time_points[ok]
 
   if (use_EMA == "yes" & sum(ok) < 3) {

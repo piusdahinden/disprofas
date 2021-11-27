@@ -3,10 +3,10 @@ context("Plot of Dissolution Profile Tolerance Intervals")
 test_that("plot_mztia_succeeds_with_df_shape_wide", {
   re1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
                reference = "R", response = NULL, alpha = 0.05, P = 0.99,
-               cap = FALSE, rellim = c(0, 100), QS = c(5, 15))
+               cap = FALSE, bounds = c(0, 100), QS = c(5, 15))
   re2 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
                reference = "R", response = NULL, alpha = 0.05, P = 0.99,
-               cap = TRUE, rellim = c(0, 100), QS = c(5, 15))
+               cap = TRUE, bounds = c(0, 100), QS = c(5, 15))
 
   # <-><-><-><->
 
@@ -33,7 +33,7 @@ test_that("plot_mztia_succeeds_with_df_shape_wide", {
 test_that("plot_mztia_succeeds_with_df_shape_long", {
   re1 <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
                reference = "reference", response = "weight", alpha = 0.05,
-               P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15) / 100)
+               P = 0.99, cap = FALSE, bounds = c(0, 100), QS = c(5, 15) / 100)
 
   # <-><-><-><->
 

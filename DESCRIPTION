@@ -1,6 +1,6 @@
 Package: disprofas
 Type: Package
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Title: Non-parametric Dissolution Profile Analysis
 Description: Similarity of dissolution profiles is assessed using the similarity
     factor f2 according to the EMA guideline (European Medicines Agency 2010)
@@ -31,5 +31,5 @@ License: GPL (>= 2)
 URL: https://github.com/piusdahinden/disprofas
 BugReports: https://github.com/piusdahinden/disprofas/issues
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8

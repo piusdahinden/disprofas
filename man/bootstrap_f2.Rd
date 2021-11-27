@@ -14,8 +14,7 @@ bootstrap_f2(
   new_seed = 100,
   confid = 0.9,
   use_EMA = "no",
-  lorellim = 1,
-  uprellim = 85,
+  bounds = c(1, 85),
   ...
 )
 }
@@ -55,20 +54,19 @@ method is one of the possible solutions if the condition concerning the
 variability between the profiles does not allow the evaluation of \eqn{f_2}
 according to the EMA guideline. A third option is \code{"ignore"}. If
 \code{use_EMA} is \code{"yes"} or \code{"no"} the appropriate profile
-portion is determined on the basis of the values of the parameters
-\code{lorellim} and \code{uprellim}. If it is \code{"ignore"}, the
-complete profiles are used as specified by the parameter \code{tcol}.}
+portion is determined on the basis of the values of the parameter
+\code{bounds}. If it is \code{"ignore"}, the complete profiles are used as
+specified by the parameter \code{tcol}.}
 
-\item{lorellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
-specifies the lower limit for the release in \%. Mean values of
-\code{<= lorellim}\% dissolved for any of the two groups being compared
-are ignored. The default is \code{1}.}
-
-\item{uprellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
-specifies the upper limit for the release in \%. Only the first mean
-value of \code{> uprellim}\% dissolved for any of the two groups being
-compared is included. All the subsequent values are ignored. The default
-is \code{85}.}
+\item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
+the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
+drug release given that \code{use_EMA} is \code{"no"}. The default is
+\code{c(1, 85)}. Mean \% release values of any of the two groups being
+compared that are smaller than or equal to the lower bound are ignored and
+only the first mean \% release value that is greater than or equal to the
+upper bound is included while all the subsequent values are ignored. If
+\code{use_EMA} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
+definition.}
 
 \item{...}{Named parameters of the functions \code{stat.fun()},
 \code{ran.fun()} and \code{boot()}.}
@@ -212,13 +210,12 @@ str(dip1)
 # $ t.90  : num  93.1 88 86.8 88 89.7 ...
 # $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# Use of 'use_EMA = "no"' with 'lorellim = 1' and 'uprellim = 85'
+# Use of 'use_EMA = "no"' with 'bounds = c(1, 85)'
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
 \dontrun{
   bs3.1 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
-                        R = 200, each = 6, use_EMA = "no",
-                        lorellim = 1,  uprellim = 85)
+                        R = 200, each = 6, use_EMA = "no", bounds = c(1, 85))
 }
 
 # Expected results in bs3.1[c("Boot", "BCa_CI", "ShahBCa_CI")]
@@ -233,7 +230,7 @@ str(dip1)
 # [1] 39.49069 43.78105
 
 # Use of 'use_EMA = "ignore"' so that the whole profiles are used (ignoring
-# values passed to 'lorellim' and 'uprellim')
+# values passed to 'bounds')
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
 \dontrun{

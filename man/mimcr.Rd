@@ -12,8 +12,7 @@ mimcr(
   mtad = 10,
   signif = 0.05,
   max_trial = 50,
-  lorellim = 1,
-  uprellim = 85,
+  bounds = c(1, 85),
   tol = 1e-09
 )
 }
@@ -50,14 +49,13 @@ specifying the significance level for the calculation of the
 \item{max_trial}{A positive integer specifying the maximum number of
 Newton-Raphson search rounds to be performed.}
 
-\item{lorellim}{A numeric value which specifies the lower limit for the
-release in \%. Mean values of \code{<= lorellim}\% dissolved for any of
-the two groups being compared are ignored. The default is \code{1}.}
-
-\item{uprellim}{A numeric value which specifies the upper limit for the
-release in \%. Only the first mean value of \code{> uprellim}\% dissolved
-for any of the two groups being compared is included. All the subsequent
-values are ignored. The default is \code{85}.}
+\item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
+the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
+drug release. The default is \code{c(1, 85)}. Mean \% release values of
+any of the two groups being compared that are smaller than or equal to the
+lower bound are ignored and only the first mean \% release value that is
+greater than or equal to the upper bound is included while all the
+subsequent values are ignored.}
 
 \item{tol}{A non-negative numeric specifying the accepted minimal
 difference between two consecutive search rounds.}
@@ -302,9 +300,8 @@ str(dip1)
 # $ t.90  : num  93.1 88 86.8 88 89.7 ...
 # $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# Use of 'lorellim = 1' and 'uprellim = 85'
-res2 <- mimcr(data = dip1, tcol = 3:10, grouping = "type",
-               lorellim = 1, uprellim = 85)
+# Use of 'bounds = c(1, 85)'
+res2 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", bounds = c(1, 85))
 res2$Similarity
 res2$Profile.TP
 res2[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
@@ -324,7 +321,7 @@ res2[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 
 # Allow for a larger maximum tolerable average difference (MTAD), e.g., 15.
 res3 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", mtad = 15,
-              lorellim = 1, uprellim = 85)
+              bounds = c(1, 85))
 res3$Similarity
 res3[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 
@@ -337,10 +334,10 @@ res3[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 # p.F.Hoffelder     Sim.Limit         Obs.U
 #     0.3559019    16.9920622    31.6790198
 
-# Use default 'mtad' but set 'signif = 0.1' and use 'uprellim = 95' so that
+# Use default 'mtad' but set 'signif = 0.1' and use 'bounds = c(1, 95)' so that
 # the complete profiles are taken into account.
 res4 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", mtad = 10,
-              signif = 0.1, lorellim = 1, uprellim = 95)
+              signif = 0.1, , bounds = c(1, 95))
 res4$Similarity
 res4$Profile.TP
 res4[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
@@ -377,11 +374,10 @@ res4[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
                           tablet = as.factor(1:6),
                           dip1[7:12, 3:10]))
 
-  mimcr(data = tmp, tcol = 3:10, grouping = "type",
-        lorellim = 1, uprellim = 85)
+  mimcr(data = tmp, tcol = 3:10, grouping = "type", bounds = c(1, 85))
 }
 
-# Error in mimcr(data = tmp, tcol = 3:10, grouping = "type", lorellim = 1,  :
+# Error in mimcr(data = tmp, tcol = 3:10, grouping = "type", bounds = ,  :
 #   The number of levels in column type differs from 2.
 }
 \references{

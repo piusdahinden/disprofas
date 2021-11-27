@@ -4,7 +4,7 @@
 \alias{f1}
 \title{Dissimilarity factor f1 for dissolution data}
 \usage{
-f1(data, tcol, grouping, use_EMA = "yes", lorellim = 1, uprellim = 85)
+f1(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85))
 }
 \arguments{
 \item{data}{A data frame with the dissolution profile data in wide format.}
@@ -23,20 +23,19 @@ the investigation of bioequivalence} (\code{"yes"}, the default) or not
 (\code{"no"}), i.e. the recommendations concerning the similarity factor
 \eqn{f_2}. A third option is \code{"ignore"}. If \code{use_EMA} is
 \code{"yes"} or \code{"no"} the appropriate profile portion is determined
-on the basis of the values of the parameters \code{lorellim} and
-\code{uprellim}. If it is \code{"ignore"}, the complete profiles are used
-as specified by the parameter \code{tcol}.}
+on the basis of the values of the parameter \code{bounds}. If it is
+\code{"ignore"}, the complete profiles are used as specified by the
+parameter \code{tcol}.}
 
-\item{lorellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
-specifies the lower limit for the release in \%. Mean values of
-\code{<= lorellim}\% dissolved for any of the two groups being compared
-are ignored. The default is \code{1}.}
-
-\item{uprellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
-specifies the upper limit for the release in \%. Only the first mean
-value of \code{> uprellim}\% dissolved for any of the two groups being
-compared is included. All the subsequent values are ignored. The default
-is \code{85}.}
+\item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
+the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
+drug release given that \code{use_EMA} is \code{"no"}. The default is
+\code{c(1, 85)}. Mean \% release values of any of the two groups being
+compared that are smaller than or equal to the lower bound are ignored and
+only the first mean \% release value that is greater than or equal to the
+upper bound is included while all the subsequent values are ignored. If
+\code{use_EMA} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
+definition.}
 }
 \value{
 A list with the following elements is returned:
@@ -107,7 +106,7 @@ str(dip1)
 # $ t.90  : num  93.1 88 86.8 88 89.7 ...
 # $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# Use of defaults, i.e. 'use_EMA = "yes"', 'lorellim = 1' and 'uprellim = 85'
+# Use of defaults, i.e. 'use_EMA = "yes"', 'bounds = c(1, 85)'
 # Comparison always involves only two groups.
 f1(data = dip1, tcol = 3:10, grouping = "type")
 
@@ -118,9 +117,9 @@ f1(data = dip1, tcol = 3:10, grouping = "type")
 # t.5 t.10 t.15 t.20 t.30 t.60 t.90
 #   5   10   15   20   30   60   90
 
-# Use of 'use_EMA = "no"', 'lorellim = 5' and 'uprellim = 80'
+# Use of 'use_EMA = "no"', 'bounds = c(5, 80)'
 f1(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "no",
-   lorellim = 5, uprellim = 80)
+   bounds = c(5, 80))
 
 # $f1
 # [1] 21.333
@@ -129,8 +128,9 @@ f1(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "no",
 # t.5 t.10 t.15 t.20 t.30 t.60
 #   5   10   15   20   30   60
 
-# Use of 'use_EMA = "no"', 'lorellim = 1' and 'uprellim = 95'
-f1(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "no", uprellim = 95)
+# Use of 'use_EMA = "no"', 'bounds = c(1, 95)'
+f1(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "no",
+   bounds = c(1, 95))
 
 # $f1
 # [1] 16.22299
@@ -140,8 +140,7 @@ f1(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "no", uprellim = 95)
 #   5    10    15    20    30    60    90   120
 
 # In this case, the whole profiles are used. The same result is obtained
-# when setting 'use_EMA = "ignore"' (ignoring values passed to 'lorellim' and
-# 'uprellim').
+# when setting 'use_EMA = "ignore"' (ignoring values passed to 'bounds').
 f1(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "ignore")
 
 # Passing in a data frame with a grouping variable with a number of levels that

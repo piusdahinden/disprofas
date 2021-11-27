@@ -3,8 +3,8 @@ context("Model-Independent Multivariate Confidence Region Estimation")
 test_that("mimcr_results_match_Hoffelder_2015", {
   l_res <-
     mimcr(data = dip3, tcol = 4:6, grouping = "batch", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1,
-          uprellim = 85, tol = 1e-9)
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
+          tol = 1e-9)
 
   # <-><-><-><->
 
@@ -28,8 +28,8 @@ test_that("mimcr_results_match_Hoffelder_2015", {
 
 test_that("mimcr_results_match_Hoffelder_2016", {
   l_res <- mimcr(data = dip4, tcol = 2:4, grouping = "type", fit_n_obs = FALSE,
-                 mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1,
-                 uprellim = 85, tol = 1e-9)
+                 mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
+                 tol = 1e-9)
 
   # <-><-><-><->
 
@@ -56,7 +56,7 @@ test_that("mimcr_results_match_Tsong_1996_two", {
     suppressWarnings(mimcr(data = dip1[, c("type", "tablet", "t.15", "t.90")],
                            tcol = 3:4, grouping = "type", fit_n_obs = FALSE,
                            mtad = 15, signif = 0.1, max_trial = 50,
-                           lorellim = 1, uprellim = 100, tol = 1e-9))
+                           bounds = c(1, 100), tol = 1e-9))
 
   # <-><-><-><->
 
@@ -80,7 +80,7 @@ test_that("mimcr_results_match_Tsong_1996_two", {
 test_that("mimcr_results_match_Tsong_1996_all", {
   l_res <-
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.1, lorellim = 1, uprellim = 100, tol = 1e-9)
+          mtad = 10, signif = 0.1, bounds = c(1, 100), tol = 1e-9)
 
   # <-><-><-><->
 
@@ -117,143 +117,151 @@ test_that("mimcr_fails", {
   expect_error(
     mimcr(data = as.matrix(dip1[, 3:10]), tcol = 3:10, grouping = "type",
           fit_n_obs = FALSE, mtad = 10, signif = 0.05, max_trial = 50,
-          lorellim = 1, uprellim = 85, tol = 1e-9),
+          bounds = c(1, 85), tol = 1e-9),
     "data must be provided as data frame")
   expect_error(
     mimcr(data = dip1, tcol = "tico", grouping = "type", fit_n_obs = FALSE,
           mtad = 10, signif = 0.05, max_trial = 50,
-          lorellim = 1, uprellim = 85, tol = 1e-9),
+          bounds = c(1, 85), tol = 1e-9),
     "tcol must be an integer")
   expect_error(
     suppressWarnings(mimcr(data = dip1, tcol = 3, grouping = "type",
                            fit_n_obs = FALSE, mtad = 10, signif = 0.05,
-                           max_trial = 50, lorellim = 1, uprellim = 85,
-                           tol = 1e-9)),
+                           max_trial = 50, bounds = c(1, 85), tol = 1e-9)),
     "tcol must be an integer")
   expect_error(
     mimcr(data = dip1, tcol = 3:10 + 0.1, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50,  lorellim = 1,
-          uprellim = 85, tol = 1e-9),
+          mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
+          tol = 1e-9),
     "tcol must be an integer")
   expect_error(
     mimcr(data = dip1, tcol = 7:11, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50,  lorellim = 1,
-          uprellim = 85, tol = 1e-9),
+          mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
+          tol = 1e-9),
     "Some columns specified by tcol were not found")
   expect_error(
     mimcr(data = dip1, tcol = 2:6, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50,  lorellim = 1,
-          uprellim = 85, tol = 1e-9),
+          mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
+          tol = 1e-9),
     "Some names of columns specified by tcol")
   expect_error(
     mimcr(data = tmp0, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50,  lorellim = 1,
-          uprellim = 85, tol = 1e-9),
+          mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
+          tol = 1e-9),
     "Some columns specified by tcol are not numeric")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = 5, fit_n_obs = FALSE, mtad = 10,
-          signif = 0.05, max_trial = 50, lorellim = 1, uprellim = 85,
-          tol = 1e-9),
+          signif = 0.05, max_trial = 50, bounds = c(1, 85), tol = 1e-9),
     "grouping must be string")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "lot", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "grouping variable was not found")
   expect_error(
     mimcr(data = tmp1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "grouping variable's column in data")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "tablet", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "number of levels in column")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = "FALSE",
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "fit_n_obs must be a logical")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = c(T, F),
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "fit_n_obs must be a logical")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = -5, signif = 0.05, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = -5, signif = 0.05, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "specify mtad")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 55, signif = 0.05, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 55, signif = 0.05, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "specify mtad")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = -1, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 10, signif = -1, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "specify signif")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 9, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 10, signif = 9, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "specify signif")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = "max_trial", lorellim = 1,
-          uprellim = 85, tol = 1e-9),
+          mtad = 10, signif = 0.05, max_trial = "max_trial", bounds = c(1, 85),
+          tol = 1e-9),
     "max_trial must be a positive integer")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = c(50, 100), lorellim = 1,
-          uprellim = 85, tol = 1e-9),
+          mtad = 10, signif = 0.05, max_trial = c(50, 100), bounds = c(1, 85),
+          tol = 1e-9),
     "max_trial must be a positive integer")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50.5, lorellim = 1,
-          uprellim = 85, tol = 1e-9),
+          mtad = 10, signif = 0.05, max_trial = 50.5, bounds = c(1, 85),
+          tol = 1e-9),
     "max_trial must be a positive integer")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = -10, lorellim = 1,
-          uprellim = 85, tol = 1e-9),
+          mtad = 10, signif = 0.05, max_trial = -10, bounds = c(1, 85),
+          tol = 1e-9),
     "max_trial must be a positive integer")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = "lorel",
-          uprellim = 85, tol = 1e-9),
-    "lorellim must be single number >= 0 and < uprellim")
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c("1", "85"),
+          tol = 1e-9),
+    "bounds must be a numeric vector of length 2")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 85,
-          uprellim = 1, tol = 1e-9),
-    "lorellim must be single number >= 0 and < uprellim")
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85, 100),
+          tol = 1e-9),
+    "bounds must be a numeric vector of length 2")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1,
-          uprellim = "uprel", tol = 1e-9),
-    "uprellim must be a single number <= 100 and > lorellim")
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(85, 1),
+          tol = 1e-9),
+    "specify bounds in the form")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1,
-          uprellim = 85, tol = "1e-9"),
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(-1, 85),
+          tol = 1e-9),
+    "specify bounds in the range")
+  expect_error(
+    mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 101),
+          tol = 1e-9),
+    "specify bounds in the range")
+  expect_error(
+    mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
+          mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
+          tol = "1e-9"),
     "tol must be a non-negative numeric")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1,
-          uprellim = 85, tol = rep(1e-9, 2)),
+          mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
+          tol = rep(1e-9, 2)),
     "tol must be a non-negative numeric")
   expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1,
-          uprellim = 85, tol = -1e-9),
+          mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
+          tol = -1e-9),
     "tol must be a non-negative numeric")
   expect_error(
     mimcr(data = tmp2, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1,
-          uprellim = 85, tol = 1e-9),
+          mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
+          tol = 1e-9),
     "The treatments to be tested")
 })
 
@@ -265,7 +273,7 @@ test_that("mimcr_warns", {
 
   expect_warning(
     mimcr(data = tmp, tcol = 4:8, grouping = "type", fit_n_obs = TRUE,
-          mtad = 10, signif = 0.1, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 10, signif = 0.1, max_trial = 50,  bounds = c(1, 85),
           tol = 1e-9),
     "Rows from the group with redundant observations")
 
@@ -273,12 +281,24 @@ test_that("mimcr_warns", {
 
   expect_warning(
     mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
-          mtad = 10, signif = 0.1, max_trial = 50, lorellim = 1, uprellim = 55,
+          mtad = 10, signif = 0.1, max_trial = 50,  bounds = c(1, 55),
           tol = 1e-9),
     "The profiles should comprise a minimum of 3 time points")
   expect_warning(
     mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
-          mtad = 10, signif = 0.1, max_trial = 50, lorellim = 1, uprellim = 85,
+          mtad = 10, signif = 0.1, max_trial = 50,  bounds = c(1, 85),
           tol = 1),
     "The points found by the Newton-Raphson search")
+})
+
+test_that("mimcr_nera_estimation_fails", {
+  tmp1 <- expect_warning(
+    mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
+          mtad = 10, signif = 0.1, max_trial = 5,  bounds = c(1, 85),
+          tol = 1e-15),
+    "Newton-Raphson search did not converge")
+
+  expect_equivalent(tmp1[["Similarity"]]["Tsong"], "Dissimilar")
+  expect_equivalent(tmp1[["NR.CI"]][["CI"]][, "LCL"], rep(NA, 3))
+  expect_equivalent(tmp1[["NR.CI"]][["CI"]][, "UCL"], rep(NA, 3))
 })

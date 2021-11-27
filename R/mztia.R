@@ -38,11 +38,11 @@
 #'   default is \code{0.99}.
 #' @param cap A logical variable specifying if the calculated tolerance limits
 #'   should be limited (i.e. \emph{cap}ped). The default is \code{TRUE}.
-#' @param rellim A numeric vector of the form \code{c(lower, upper)} specifying
-#'   the \dQuote{lower} and \dQuote{upper} limits of \% drug release at which
-#'   the calculated tolerance interval limits should be capped (see parameter
-#'   \eqn{cap}. This parameter is only relevant if \code{cap = TRUE}. The
-#'   default is \code{c(0, 100)}.
+#' @param bounds A numeric vector of the form \code{c(lower, upper)} specifying
+#'   the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
+#'   drug release at which the calculated tolerance interval limits should
+#'   be capped (see parameter \eqn{cap}. This parameter is only relevant if
+#'   \code{cap = TRUE}. The default is \code{c(0, 100)}.
 #' @param QS A numeric vector of the form \code{c(Q S1, Q S2)} that specifies
 #'   the allowable deviations from the specifications in percent according to
 #'   the \eqn{S1} and \eqn{S2} acceptance criteria of USP chapter <711> on
@@ -133,7 +133,7 @@
 #' (USP 39 NF 34). Volume 1. Rockville, Md: United States Pharmacopeial
 #' Convention, Inc; 2015. <711> Dissolution.
 #'
-#' @seealso \code{\link{bootstrap_f2}}, \code{\link{mimcr}}
+#' @seealso \code{\link{bootstrap_f2}}, \code{\link{mimcr}}.
 #'
 #' @example man/examples/examples_mztia.R
 #'
@@ -146,7 +146,7 @@
 #' @export
 
 mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
-                  alpha = 0.05, P = 0.99, cap = TRUE, rellim = c(0, 100),
+                  alpha = 0.05, P = 0.99, cap = TRUE, bounds = c(0, 100),
                   QS = c(5, 15), ...) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
@@ -219,14 +219,11 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
   if (!is.logical(cap)) {
     stop("The parameter cap must be a logical.")
   }
-  if (!is.numeric(rellim) | length(rellim) != 2) {
-    stop("The paramter rellim must be a numeric vector of length 2.")
+  if (!is.numeric(bounds) | length(bounds) != 2) {
+    stop("The paramter bounds must be a numeric vector of length 2.")
   }
-  if (sum(rellim < 0) > 0 | sum(rellim > 100) > 0) {
-    stop("Please specify rellim in the range [0, 100].")
-  }
-  if (rellim[1] > rellim[2]) {
-    stop("Please specify rellim in the form c(lower limit, upper limit).")
+  if (bounds[1] > bounds[2]) {
+    stop("Please specify bounds in the form c(lower limit, upper limit).")
   }
   if (!is.numeric(QS) | length(QS) != 2) {
     stop("The paramter QS must be a numeric vector of length 2.")
@@ -294,8 +291,8 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
 
   # Adjustment of the tolerance limit (if demanded)
   if (cap == TRUE) {
-    ltl[ltl < rellim[1]] <- rellim[1]
-    utl[utl > rellim[2]] <- rellim[2]
+    ltl[ltl < bounds[1]] <- bounds[1]
+    utl[utl > bounds[2]] <- bounds[2]
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -365,7 +362,7 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
                       alpha = alpha,
                       P = P,
                       cap = cap,
-                      rellim = rellim,
+                      bounds = bounds,
                       QS = QS)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

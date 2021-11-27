@@ -4,14 +4,7 @@
 \alias{get_profile_portion}
 \title{Profile portion determination}
 \usage{
-get_profile_portion(
-  data,
-  tcol,
-  groups,
-  use_EMA = "yes",
-  lorellim = 1,
-  uprellim = 85
-)
+get_profile_portion(data, tcol, groups, use_EMA = "yes", bounds = c(1, 85))
 }
 \arguments{
 \item{data}{A data frame with the dissolution profile data in wide format.}
@@ -27,20 +20,19 @@ longer.}
 investigation of bioequivalence} (\code{"yes"}, the default) or not
 (\code{"no"}). A third option is \code{"ignore"}. If \code{use_EMA} is
 \code{"yes"} or \code{"no"} the appropriate profile portion is determined
-on the basis of the values of the parameters \code{lorellim} and
-\code{uprellim}. If it is \code{"ignore"}, the complete profiles are used
-as specified by the parameter \code{tcol}.}
+on the basis of the values of the parameter \code{bounds}. If it is
+\code{"ignore"}, the complete profiles are used as specified by the
+parameter \code{tcol}.}
 
-\item{lorellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
-specifies the lower limit for the release in \%. Mean values of
-\code{<= lorellim}\% dissolved for any of the two groups being compared
-are ignored. The default is \code{1}.}
-
-\item{uprellim}{A numeric value which, if \code{use_EMA} is \code{"no"},
-specifies the upper limit for the release in \%. Only the first mean
-value of \code{> uprellim}\% dissolved for any of the two groups being
-compared is included. All the subsequent values are ignored. The default
-is \code{85}.}
+\item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
+the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
+drug release given that \code{use_EMA} is \code{"no"}. The default is
+\code{c(1, 85)}. Mean \% release values of any of the two groups being
+compared that are smaller than or equal to the lower bound are ignored and
+only the first mean \% release value that is greater than or equal to the
+upper bound is included while all the subsequent values are ignored. If
+\code{use_EMA} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
+definition.}
 }
 \value{
 The function returns a logical vector defining the appropriate

@@ -14,7 +14,7 @@ mztia(
   alpha = 0.05,
   P = 0.99,
   cap = TRUE,
-  rellim = c(0, 100),
+  bounds = c(0, 100),
   QS = c(5, 15),
   ...
 )
@@ -59,11 +59,11 @@ default is \code{0.99}.}
 \item{cap}{A logical variable specifying if the calculated tolerance limits
 should be limited (i.e. \emph{cap}ped). The default is \code{TRUE}.}
 
-\item{rellim}{A numeric vector of the form \code{c(lower, upper)} specifying
-the \dQuote{lower} and \dQuote{upper} limits of \% drug release at which
-the calculated tolerance interval limits should be capped (see parameter
-\eqn{cap}. This parameter is only relevant if \code{cap = TRUE}. The
-default is \code{c(0, 100)}.}
+\item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
+the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
+drug release at which the calculated tolerance interval limits should
+be capped (see parameter \eqn{cap}. This parameter is only relevant if
+\code{cap = TRUE}. The default is \code{c(0, 100)}.}
 
 \item{QS}{A numeric vector of the form \code{c(Q S1, Q S2)} that specifies
 the allowable deviations from the specifications in percent according to
@@ -196,7 +196,7 @@ str(dip1)
 # $ t.90  : num  93.1 88 86.8 88 89.7 ...
 # $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
 
-# Using the defaults; Limits are capped to the range specified by 'rellim'
+# Using the defaults; Limits are capped to the range specified by 'bounds'
 res1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
               reference = "R")
 res1$Limits
@@ -269,5 +269,5 @@ U.S. Pharmacopoeia. 2016 U.S. Pharmacopoeia-National Formulary
 Convention, Inc; 2015. <711> Dissolution.
 }
 \seealso{
-\code{\link{bootstrap_f2}}, \code{\link{mimcr}}
+\code{\link{bootstrap_f2}}, \code{\link{mimcr}}.
 }

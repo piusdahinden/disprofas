@@ -73,7 +73,7 @@
 #' @keywords internal
 
 get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
-                                lorellim = 1, uprellim = 85) {
+                                bounds = c(1, 85)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -99,12 +99,14 @@ get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
   if (!(use_EMA %in% c("yes", "no", "ignore"))) {
     stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
-  if (lorellim < 0 | lorellim > uprellim) {
-    stop("The variable lorellim must be single number >= 0 and < uprellim.")
+  if (!is.numeric(bounds) | length(bounds) != 2) {
+    stop("The paramter bounds must be a numeric vector of length 2.")
   }
-  if (uprellim > 100 | uprellim < lorellim) {
-    stop("The variable uprellim must be a single number <= 100 and > ",
-         "lorellim.")
+  if (bounds[1] > bounds[2]) {
+    stop("Please specify bounds in the form c(lower limit, upper limit).")
+  }
+  if (bounds[1] < 0 | bounds[2] > 100) {
+    stop("Please specify bounds in the range [0, 100].")
   }
 
   n <- length(tcol)
@@ -176,19 +178,19 @@ get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
     m_results[, 2] <- apply(data[!b1, tcol], MARGIN = 2, FUN = mean)
 
     m_tests <- matrix(NA, ncol = 2, nrow = n)
-    colnames(m_tests) <- c("< uprellim", "> lorellim")
+    colnames(m_tests) <- c("< upper.bound", "> lower.bound")
     rownames(m_tests) <- colnames(data)[tcol]
 
     # Tests and Settings
-    # 1a) Tests for points bigger than uprellim.
+    # 1a) Tests for points bigger than bounds[2]
     # 1b) Includes the first point > 85%.
     # 1c) Stores the result of 1a) in column 1.
-    # 2) Tests for points smaller than lorellim to exclude them (column 2).
+    # 2) Tests for points smaller than bounds[1] to exclude them (column 2).
     # 3) Combines tests 1) and 2) into the final result.
-    tmp <- m_results[, 1] > uprellim | m_results[, 2] > uprellim
+    tmp <- m_results[, 1] > bounds[2] | m_results[, 2] > bounds[2]
     tmp[as.numeric(which(tmp)[1])] <- FALSE
     m_tests[, 1] <- !tmp
-    m_tests[, 2] <- m_results[, 1] > lorellim & m_results[, 2] > lorellim
+    m_tests[, 2] <- m_results[, 1] > bounds[1] & m_results[, 2] > bounds[1]
 
     ok <- m_tests[, 1] & m_tests[, 2]
   }, "ignore" = {
@@ -270,7 +272,7 @@ make_grouping <- function(data, grouping) {
     stop("The grouping variable was not found in the provided data frame.")
   }
   if (!is.factor(data[, grouping])) {
-    stop("The grouping variable's column in data must be a factor.")
+    stop("The column in data specified by grouping must be a factor.")
   }
 
   # <-><-><->

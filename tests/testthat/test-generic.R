@@ -43,8 +43,8 @@ test_that("print.bootstrap_f2_succeeds", {
 
 test_that("summary.mimcr_succeeds", {
   re <- mimcr(data = dip3, tcol = 4:6, grouping = "batch", fit_n_obs = FALSE,
-              mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1,
-              uprellim = 85, tol = 1e-9)
+              mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
+              tol = 1e-9)
 
   # <-><-><-><->
 
@@ -58,8 +58,8 @@ test_that("summary.mimcr_succeeds", {
 
 test_that("print.mimcr_succeeds", {
   re <- mimcr(data = dip3, tcol = 4:6, grouping = "batch", fit_n_obs = FALSE,
-              mtad = 10, signif = 0.05, max_trial = 50, lorellim = 1,
-              uprellim = 85, tol = 1e-9)
+              mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
+              tol = 1e-9)
 
   # <-><-><-><->
 
@@ -75,10 +75,10 @@ test_that("print.mimcr_succeeds", {
 test_that("plot.plot_mztia_succeeds", {
   re1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
                reference = "R", response = NULL, alpha = 0.05, P = 0.99,
-               cap = FALSE, rellim = c(0, 100), QS = c(5, 15))
+               cap = FALSE, bounds = c(0, 100), QS = c(5, 15))
   re2 <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
                reference = "reference", response = "weight", alpha = 0.05,
-               P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15) / 100)
+               P = 0.99, cap = FALSE, bounds = c(0, 100), QS = c(5, 15) / 100)
 
   # <-><-><-><->
 
@@ -108,10 +108,10 @@ test_that("plot.plot_mztia_succeeds", {
 test_that("print.plot_mztia_succeeds", {
   re1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
                reference = "R", response = NULL, alpha = 0.05, P = 0.99,
-               cap = FALSE, rellim = c(0, 100), QS = c(5, 15))
+               cap = FALSE, bounds = c(0, 100), QS = c(5, 15))
   re2 <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
                reference = "reference", response = "weight", alpha = 0.05,
-               P = 0.99, cap = FALSE, rellim = c(0, 100), QS = c(5, 15) / 100)
+               P = 0.99, cap = FALSE, bounds = c(0, 100), QS = c(5, 15) / 100)
 
   # <-><-><-><->
 

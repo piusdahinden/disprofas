@@ -297,9 +297,9 @@ get_sim_lim <- function(mtad, lhs) {
 #'   (\code{"no"}), i.e. the recommendations concerning the similarity factor
 #'   \eqn{f_2}. A third option is \code{"ignore"}. If \code{use_EMA} is
 #'   \code{"yes"} or \code{"no"} the appropriate profile portion is determined
-#'   on the basis of the values of the parameters \code{lorellim} and
-#'   \code{uprellim}. If it is \code{"ignore"}, the complete profiles are used
-#'   as specified by the parameter \code{tcol}.
+#'   on the basis of the values of the parameter \code{bounds}. If it is
+#'   \code{"ignore"}, the complete profiles are used as specified by the
+#'   parameter \code{tcol}.
 #' @inheritParams bootstrap_f2
 #'
 #' @details Similarity of dissolution profiles is often assessed using the
@@ -372,8 +372,7 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' @export
 
-f1 <- function(data, tcol, grouping, use_EMA = "yes",
-               lorellim = 1, uprellim = 85) {
+f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -405,11 +404,14 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes",
   if (!(use_EMA %in% c("yes", "no", "ignore"))) {
     stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
-  if (lorellim < 0 | lorellim > uprellim) {
-    stop("The variable lorellim must be single number >= 0 and < uprellim.")
+  if (!is.numeric(bounds) | length(bounds) != 2) {
+    stop("The paramter bounds must be a numeric vector of length 2.")
   }
-  if (uprellim > 100 | uprellim < lorellim) {
-    stop("The variable uprellim must be a single number <= 100 and > lorellim.")
+  if (bounds[1] > bounds[2]) {
+    stop("Please specify bounds in the form c(lower limit, upper limit).")
+  }
+  if (bounds[1] < 0 | bounds[2] > 100) {
+    stop("Please specify bounds in the range [0, 100].")
   }
 
   # <-><-><-><->
@@ -460,8 +462,7 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes",
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_EMA = use_EMA,
-                            lorellim = lorellim, uprellim = uprellim)
+                            use_EMA = use_EMA, bounds = bounds)
 
   if (use_EMA == "yes" & sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
@@ -575,9 +576,9 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'   investigation of bioequivalence} (\code{"yes"}, the default) or not
 #'   (\code{"no"}). A third option is \code{"ignore"}. If \code{use_EMA} is
 #'   \code{"yes"} or \code{"no"} the appropriate profile portion is determined
-#'   on the basis of the values of the parameters \code{lorellim} and
-#'   \code{uprellim}. If it is \code{"ignore"}, the complete profiles are used
-#'   as specified by the parameter \code{tcol}.
+#'   on the basis of the values of the parameter \code{bounds}. If it is
+#'   \code{"ignore"}, the complete profiles are used as specified by the
+#'   parameter \code{tcol}.
 #' @inheritParams bootstrap_f2
 #'
 #' @details Similarity of dissolution profiles is assessed using the similarity
@@ -646,8 +647,7 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' @export
 
-f2 <- function(data, tcol, grouping, use_EMA = "yes",
-               lorellim = 1, uprellim = 85) {
+f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -679,11 +679,14 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes",
   if (!(use_EMA %in% c("yes", "no", "ignore"))) {
     stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
-  if (lorellim < 0 | lorellim > uprellim) {
-    stop("The variable lorellim must be single number >= 0 and < uprellim.")
+  if (!is.numeric(bounds) | length(bounds) != 2) {
+    stop("The paramter bounds must be a numeric vector of length 2.")
   }
-  if (uprellim > 100 | uprellim < lorellim) {
-    stop("The variable uprellim must be a single number <= 100 and > lorellim.")
+  if (bounds[1] > bounds[2]) {
+    stop("Please specify bounds in the form c(lower limit, upper limit).")
+  }
+  if (bounds[1] < 0 | bounds[2] > 100) {
+    stop("Please specify bounds in the range [0, 100].")
   }
 
   # <-><-><-><->
@@ -734,8 +737,7 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes",
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_EMA = use_EMA,
-                            lorellim = lorellim, uprellim = uprellim)
+                            use_EMA = use_EMA, bounds = bounds)
 
   if (use_EMA == "yes" & sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",

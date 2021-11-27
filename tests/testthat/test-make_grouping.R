@@ -23,9 +23,11 @@ test_that("make_grouping_fails", {
   # <-><-><->
 
   expect_error(make_grouping(data = as.matrix(dip1[, 3:9]), grouping = "batch"),
-    "data must be provided as data frame")
+               "data must be provided as data frame")
   expect_error(make_grouping(data = dip1, grouping = 5),
-    "grouping must be string")
+               "grouping must be string")
   expect_error(make_grouping(data = dip1, grouping = "lot"),
-    "grouping variable was not found")
+               "grouping variable was not found")
+  expect_error(make_grouping(data = dip1, grouping = "t.5"),
+               "column in data specified by grouping")
 })

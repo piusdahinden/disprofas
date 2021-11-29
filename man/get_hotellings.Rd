@@ -126,8 +126,7 @@ res$Parameters
 }
 \references{
 Hotelling, H. The generalisation of Student's ratio. \emph{Ann Math Stat}.
-1931; \strong{2}(3): 360-378.\cr
-\doi{10.1214/aoms/1177732979}
+1931; \strong{2}(3): 360-378.
 
 Hotelling, H. (1947) \emph{Multivariate quality control illustrated by air
 testing of sample bombsights}. In: Eisenhart, C., Hastay, M.W., and Wallis,

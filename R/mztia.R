@@ -119,7 +119,7 @@
 #'
 #' Howe, W.G. Two-sided tolerance limits for normal populations - some
 #' improvements. \emph{J Am Stat Assoc}. (1969); \strong{64}: 610-620.\cr
-#' \doi{10.2307/2283644}
+#' \doi{10.1080/01621459.1969.10500999}
 #'
 #' Hahn, G.J., and Meeker, W. Q. Statistical intervals: A guide for
 #' practitioners. (1991); John Wiley & Sons, New York.

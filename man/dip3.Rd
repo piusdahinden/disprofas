@@ -39,8 +39,4 @@ use in pharmaceutical development. \emph{J Biopharm Stat} (2015)
 \strong{25}(3): 417-437.\cr
 \doi{10.1080/10543406.2014.920344}
 }
-\seealso{
-\code{\link[T2EQ]{T2EQ-package}},
-\code{\link[T2EQ]{ex_data_JoBS}}.
-}
 \keyword{datasets}

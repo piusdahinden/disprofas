@@ -249,7 +249,7 @@
 #' Hoffelder, T. Highly variable dissolution profiles. Comparison of
 #' \eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
 #' 2016; \strong{78}(4): 587-592.\cr
-#' \url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
+#' \url{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @seealso \code{\link{gep_by_nera}}, \code{\link{bootstrap_f2}},
 #'   \code{\link{mztia}},

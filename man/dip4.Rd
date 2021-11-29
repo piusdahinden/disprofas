@@ -33,10 +33,6 @@ A data set containing the dissolution data of one reference batch and one
 Hoffelder, T. Highly variable dissolution profiles. Comparison of
 \eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
 2016; \strong{78}(4): 587-592.\cr
-\url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
-}
-\seealso{
-\code{\link[T2EQ]{T2EQ-package}},
-\code{\link[T2EQ]{ex_data_pharmind}}.
+\url{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 }
 \keyword{datasets}

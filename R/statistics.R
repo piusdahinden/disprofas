@@ -78,7 +78,7 @@
 #' @references
 #' Hotelling, H. The generalisation of Student's ratio. \emph{Ann Math Stat}.
 #' 1931; \strong{2}(3): 360-378.\cr
-#' \url{https://www.jstor.org/stable/2957535}
+#' \doi{10.1214/aoms/1177732979}
 #'
 #' Hotelling, H. (1947) \emph{Multivariate quality control illustrated by air
 #' testing of sample bombsights}. In: Eisenhart, C., Hastay, M.W., and Wallis,
@@ -226,7 +226,7 @@ get_hotellings <- function(m1, m2, signif) {
 #' Hoffelder, T. Highly variable dissolution profiles. Comparison of
 #' \eqn{T^2}-test for equivalence and \eqn{f_2} based methods. \emph{Pharm Ind}.
 #' 2016; \strong{78}(4): 587-592.\cr
-#' \url{http://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
+#' \url{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @seealso \code{\link{mimcr}}, \code{\link{get_hotellings}}.
 #'

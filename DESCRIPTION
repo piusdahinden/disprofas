@@ -17,9 +17,9 @@ Description: Similarity of dissolution profiles is assessed using the
     estimate of f2 (Shah et al. (1998) <doi:10.1023/A:1011976615750>).
     Other alternatives are the model-independent non-parametric
     multivariate confidence region (MCR) procedure (Tsong et al. (1996)
-    <doi:10.1177/F009286159603000427>) or the T2-test for equivalence
+    <doi:10.1177/009286159603000427>) or the T2-test for equivalence
     procedure (Hoffelder (2016)
-    <http://www.ecv.de/suse_item.php?suseId=Z|pi|8430>). Functions for
+    <https://www.ecv.de/suse_item.php?suseId=Z|pi|8430>). Functions for
     estimation of f1, f2, bootstrap f2, MCR / T2-test for equivalence
     procedure are implemented.
 License: GPL (>= 2)

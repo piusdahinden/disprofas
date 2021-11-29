@@ -252,8 +252,7 @@
 #' \url{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
 #' @seealso \code{\link{gep_by_nera}}, \code{\link{bootstrap_f2}},
-#'   \code{\link{mztia}},
-#'   \code{\link[T2EQ]{T2EQ.dissolution.profiles.hoffelder}}.
+#'   \code{\link{mztia}}.
 #'
 #' @example man/examples/examples_mimcr.R
 #'

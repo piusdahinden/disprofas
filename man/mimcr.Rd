@@ -419,6 +419,5 @@ Hoffelder, T. Highly variable dissolution profiles. Comparison of
 }
 \seealso{
 \code{\link{gep_by_nera}}, \code{\link{bootstrap_f2}},
-  \code{\link{mztia}},
-  \code{\link[T2EQ]{T2EQ.dissolution.profiles.hoffelder}}.
+  \code{\link{mztia}}.
 }

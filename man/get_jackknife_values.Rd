@@ -80,9 +80,7 @@ str(dip2)
 # [1] -0.01933776
 }
 \references{
-Chen, H. Bootstrap and Jackknife Calculations in R. 2004.\cr
-\url{http://www.math.ntu.edu.tw/~hchen/teaching/LargeSample/references/
-R-bootstrap.pdf}
+Chen, H. Bootstrap and Jackknife Calculations in R. 2004.
 }
 \seealso{
 \code{\link{bootstrap_f2}}, \code{\link[boot]{boot}},

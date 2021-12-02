@@ -1,8 +1,8 @@
 ---
 
-# disprofas 0.1.0.9001
+# disprofas 0.1.1
 
-- Preparation of CRAN release
+- CRAN submission
 - Exclusively use secure links
 - Correct spelling errors
 

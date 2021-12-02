@@ -1,14 +1,14 @@
 Type: Package
 Package: disprofas
 Title: Non-Parametric Dissolution Profile Analysis
-Version: 0.1.0
+Version: 0.1.0.9001
 Authors@R: c(
     person("Pius", "Dahinden", , "pius.dahinden@tillotts.com", role = c("aut", "cre")),
     person("Tillotts Pharma AG", , , "tillotts@tillotts.com", role = c("cph", "fnd"))
   )
 Description: Similarity of dissolution profiles is assessed using the
     similarity factor f2 according to the EMA guideline (European
-    Medicines Agency 2010) \"On the investigation of bioequivalence\".
+    Medicines Agency 2010) "On the investigation of bioequivalence".
     Dissolution profiles are regarded as similar if the f2 value is
     between 50 and 100. For the applicability of the similarity factor f2,
     the variability between profiles needs to be within certain limits.

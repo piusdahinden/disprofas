@@ -128,7 +128,7 @@ calculation only those parts of the profiles are taken into account where
 the means (per formulation) are \eqn{> d}\% dissolved (e.g., \eqn{d = 1})
 and a maximum of one mean value per formulation is \eqn{> 85}\% dissolved.
 In the literature it is suggested to make use of the lower 90\% bias
-corrected and accelerated (BCA) confidence interval (CI) limit to come to
+corrected and accelerated (BCa) confidence interval (CI) limit to come to
 a decision in terms of similarity (Stevens (2015)).
 }
 \examples{

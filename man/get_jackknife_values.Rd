@@ -32,7 +32,7 @@ returned:
 }
 \description{
 The function \code{get_jackknife_values()} is required for generation of
-vector \eqn{L} for the BCA confidence interval estimation by the
+vector \eqn{L} for the BCa confidence interval estimation by the
 \code{boot.ci()} function from the \sQuote{\code{boot}} package.
 }
 \details{

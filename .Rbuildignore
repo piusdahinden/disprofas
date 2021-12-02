@@ -2,4 +2,5 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^cran-comments\.md$
+^cran-comments\.Rmd$
 ^README\.Rmd$

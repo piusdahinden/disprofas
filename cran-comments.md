@@ -1,14 +1,29 @@
+cran-comments
+================
+
+<!-- cran-comments.md is generated from caran-comments.Rmd. -->
+
+## First submission
+
+This is the first submission.
+
 ## Test environments
-* local R installation, R 4.0.2
-* ubuntu 16.04 (on travis-ci), R 4.0.2
-* win-builder (devel)
+
+-   Local windows-x86_64-w64-mingw32/x64 (R 4.1.2)
+-   Win-builder windows-x86_64-w64-mingw32/x64 (R 4.0.5)
+-   R-hub windows-x86_64-devel (r-devel)
+-   R-hub ubuntu-gcc-release (r-release)
+-   R-hub fedora-clang-devel (r-devel)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors \| 0 warnings \| 1 note
 
-* This is a new release.
+There was one note because it is a new submission.
+
+Possibly misspelled words in DESCRIPTION: the indicated words are names
+or abbreviations. None of the words is misspelled.
 
 ## Downstream dependencies
 
-There are currently no downstream dependencies for this package.
+There are no downstream dependencies for this package.

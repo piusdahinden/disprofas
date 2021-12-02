@@ -78,7 +78,7 @@
 #' the means (per formulation) are \eqn{> d}\% dissolved (e.g., \eqn{d = 1})
 #' and a maximum of one mean value per formulation is \eqn{> 85}\% dissolved.
 #' In the literature it is suggested to make use of the lower 90\% bias
-#' corrected and accelerated (BCA) confidence interval (CI) limit to come to
+#' corrected and accelerated (BCa) confidence interval (CI) limit to come to
 #' a decision in terms of similarity (Stevens (2015)).
 #'
 #' @return An object of class \sQuote{\code{bootstrap_f2}} is returned,
@@ -313,7 +313,7 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
 #' Jackknife values
 #'
 #' The function \code{get_jackknife_values()} is required for generation of
-#' vector \eqn{L} for the BCA confidence interval estimation by the
+#' vector \eqn{L} for the BCa confidence interval estimation by the
 #' \code{boot.ci()} function from the \sQuote{\code{boot}} package.
 #'
 #' @param stat_fun The name of the function calculating the statistic of

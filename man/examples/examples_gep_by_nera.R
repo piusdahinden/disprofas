@@ -43,7 +43,8 @@ res <- gep_by_nera(n_p = n_tp, K = K, mean_diff = mean_diff, S_pool = S,
 # represents the Lagrange multiplier lambda.
 
 # If 'max_trial' is too small, the Newton-Raphson search may not converge.
-\dontrun{
+tryCatch(
   gep_by_nera(n_p = n_tp, K = K, mean_diff = mean_diff, S_pool = S,
-              F_crit = F_crit, y = y_b1, max_trial = 5, tol = 1e-9)
-}
+              F_crit = F_crit, y = y_b1, max_trial = 5, tol = 1e-9),
+  warning = function(w) message(w),
+  finally = message("\nMaybe increasing the number of max_trial could help."))

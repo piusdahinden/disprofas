@@ -31,7 +31,15 @@ A data set containing the dissolution data of one reference batch and one
   of the \% drug release observed at 15, 20 and 25 minutes.
 }
 \examples{
-\dontrun{dip3}
+str(dip3)
+
+if (requireNamespace("T2EQ")) {
+library(T2EQ)
+
+  data(ex_data_JoBS, envir = environment())
+  str(ex_data_JoBS)
+  rm(ex_data_JoBS)
+}
 }
 \references{
 Hoffelder, T., Goessl, R., and Wellek, S. Multivariate equivalence tests for

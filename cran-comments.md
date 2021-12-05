@@ -1,11 +1,21 @@
 cran-comments
 ================
 
-<!-- cran-comments.md is generated from caran-comments.Rmd. -->
+<!-- cran-comments.md is generated from cran-comments.Rmd. -->
 
 ## First submission
 
-This is the first submission.
+This is the second iteration of the first submission. In this version I
+have:
+
+-   Removed the example from one of the unexported functions.
+-   Unwrapped examples that were wrapped by \\dontrun{} that are
+    executable in \< 5 sec.
+-   Catching errors from examples that show possible errors by aid of
+    tryCatch() instead of wrapping the code by \\dontrun{}.
+-   Listing the package that is used only in an example in ‘Suggests’
+    and wrapping the example by if(requireNamespace(“pkgname”)){}
+    instead of by \\dontrun{}.
 
 ## Test environments
 

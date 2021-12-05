@@ -27,7 +27,7 @@ The \code{response} values of this data set correspond to the values
   assumed to be in statistical control.
 }
 \examples{
-\dontrun{dip5}
+str(dip5)
 }
 \references{
 SAS Institute Inc. 2013. \emph{SAS/QC(R) 13.1 User's Guide}. Cary, NC:

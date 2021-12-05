@@ -231,20 +231,18 @@ res2$Limits
 # Tolerance intervals are calculated exclusively for the level of the
 # grouping variable that is specified by the reference variable. Therefore,
 # the following code produces the same limits summary as in res2$Limits.
-\dontrun{
-  tmp <- rbind(dip1,
-               data.frame(type = "T2",
-                          tablet = as.factor(1:6),
-                          dip1[7:12, 3:10]))
+tmp <- rbind(dip1,
+             data.frame(type = "T2",
+                        tablet = as.factor(1:6),
+                        dip1[7:12, 3:10]))
 
-  res2 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
-                reference = "R", cap = FALSE)
-  res3 <- mztia(data = tmp, shape = "wide", tcol = 3:10, grouping = "type",
-                reference = "R", cap = FALSE)
+res2 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
+              reference = "R", cap = FALSE)
+res3 <- mztia(data = tmp, shape = "wide", tcol = 3:10, grouping = "type",
+              reference = "R", cap = FALSE)
 
-  isTRUE(all.equal(res2$Limits, res3$Limits))
-  # [1] TRUE
-}
+isTRUE(all.equal(res2$Limits, res3$Limits))
+# [1] TRUE
 }
 \references{
 Martinez, M.N., and Zhao, X. A simple approach for comparing the

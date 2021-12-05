@@ -14,11 +14,9 @@ str(dip2)
 
 # Use of 'rand_mode = "complete"' (the default, randomise complete profiles)
 # Comparison always involves only two groups.
-\dontrun{
-  bs1 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
-                      tcol = 5:8, grouping = "batch", rand_mode = "complete",
-                      R = 200, new_seed = 421, use_EMA = "no")
-}
+bs1 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
+                    tcol = 5:8, grouping = "batch", rand_mode = "complete",
+                    R = 200, new_seed = 421, use_EMA = "no")
 
 # Expected results in bs1[c("Boot", "BCa_CI", "ShahBCa_CI")]
 # Bootstrap Statistics :
@@ -32,11 +30,9 @@ str(dip2)
 # [1] 48.64613 51.75292
 
 # Use of 'rand_mode = "individual"' (randomise per time point)
-\dontrun{
-  bs2 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
-                      tcol = 5:8, grouping = "batch", rand_mode = "individual",
-                      R = 200, new_seed = 421, use_EMA = "no")
-}
+bs2 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
+                    tcol = 5:8, grouping = "batch", rand_mode = "individual",
+                    R = 200, new_seed = 421, use_EMA = "no")
 
 # Expected results in bs2[c("Boot", "BCa_CI", "ShahBCa_CI")]
 # Bootstrap Statistics :
@@ -51,11 +47,12 @@ str(dip2)
 
 # Passing in a data frame with a grouping variable with a number of levels that
 # differs from two produces an error.
-\dontrun{
+tryCatch(
   bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4", "b5"), ],
                tcol = 5:8, grouping = "batch", rand_mode = "individual",
-               R = 200, new_seed = 421, use_EMA = "no")
-}
+               R = 200, new_seed = 421, use_EMA = "no"),
+  error = function(e) message(e),
+  finally = message("\nMaybe you want to remove unesed levels in data."))
 
 # Error in bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4", "b5"),  :
 # The number of levels in column batch differs from 2.
@@ -79,10 +76,8 @@ str(dip1)
 # Use of 'use_EMA = "no"' with 'bounds = c(1, 85)'
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
-\dontrun{
-  bs3.1 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
-                        R = 200, each = 6, use_EMA = "no", bounds = c(1, 85))
-}
+bs3.1 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
+                      R = 200, each = 6, use_EMA = "no", bounds = c(1, 85))
 
 # Expected results in bs3.1[c("Boot", "BCa_CI", "ShahBCa_CI")]
 # Bootstrap Statistics :
@@ -99,10 +94,8 @@ str(dip1)
 # values passed to 'bounds')
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
-\dontrun{
-  bs3.2 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
-                        R = 200, each = 6, use_EMA = "ignore")
-}
+bs3.2 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
+                      R = 200, each = 6, use_EMA = "ignore")
 
 # Expected results in bs3.2[c("Boot", "BCa_CI", "ShahBCa_CI")]
 # Bootstrap Statistics :

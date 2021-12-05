@@ -32,7 +32,7 @@ A data set containing the dissolution data of one reference batch and one
   the \% drug release observed within a period of 120 minutes.
 }
 \examples{
-\dontrun{dip1}
+str(dip1)
 }
 \references{
 Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical

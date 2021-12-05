@@ -140,14 +140,15 @@ f2(data = dip1, tcol = 3:10, grouping = "type", use_EMA = "ignore")
 
 # Passing in a data frame with a grouping variable with a number of levels that
 # differs from two produces an error.
-\dontrun{
-  tmp <- rbind(dip1,
-               data.frame(type = "T2",
-                          tablet = as.factor(1:6),
-                          dip1[7:12, 3:10]))
+tmp <- rbind(dip1,
+             data.frame(type = "T2",
+                        tablet = as.factor(1:6),
+                        dip1[7:12, 3:10]))
 
-  f2(data = tmp, tcol = 3:10, grouping = "type")
-}
+tryCatch(
+  f2(data = tmp, tcol = 3:10, grouping = "type"),
+  error = function(e) message(e),
+  finally = message("\nMaybe you want to remove unesed levels in data."))
 
 # Error in f1(data = tmp, tcol = 3:10, grouping = "type") :
 #   The number of levels in column type differs from 2.

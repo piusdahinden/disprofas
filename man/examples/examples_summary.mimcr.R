@@ -51,11 +51,9 @@ summary(res1)
 
 # Taking only the 15 and 90 minutes testing points into account produces a
 # warning because profiles should comprise a minimum of three testing points.
-\dontrun{
-  res2 <- mimcr(data = dip1, tcol = c(5, 9), grouping = "type", mtad = 15,
-                signif = 0.1)
-  summary(res2)
-}
+res2 <- mimcr(data = dip1, tcol = c(5, 9), grouping = "type", mtad = 15,
+              signif = 0.1)
+summary(res2)
 
 # Warning:
 #   In mimcr(data = dip1, tcol = c(5, 9), grouping = "type", mtad = 15,  :

@@ -284,6 +284,25 @@ res1$Parameters
 #         Obs.U
 #  1.543820e+00
 
+# Comparison with T2-test for equivalence for dissolution data from the 'T2EQ'
+# package:
+if (requireNamespace("T2EQ")) {
+  library(T2EQ)
+  data(ex_data_JoBS)
+
+  T2EQ.dissolution.profiles.hoffelder(
+    X = as.matrix(dip3[dip3$type == "ref", c("x.15", "x.20", "x.25")]),
+    Y = as.matrix(dip3[dip3$type == "test", c("x.15", "x.20", "x.25")]))
+}
+
+# Excerpt of output:
+# Hotelling's T2: 			                     0.3410141
+# Noncentrality parameter:                   30.32296
+# Significance level: 		                    0.05
+# Teststatistic: 			                        0.1033376
+# Quantile of noncent. F-distribution:        4.899274
+# p-value of the T2-test for equivalence: p = 2.890827e-08
+
 # Dissolution data of one reference batch and one test batch of n = 6
 # tablets each:
 str(dip1)
@@ -337,7 +356,7 @@ res3[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 # Use default 'mtad' but set 'signif = 0.1' and use 'bounds = c(1, 95)' so that
 # the complete profiles are taken into account.
 res4 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", mtad = 10,
-              signif = 0.1, , bounds = c(1, 95))
+              signif = 0.1, bounds = c(1, 95))
 res4$Similarity
 res4$Profile.TP
 res4[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
@@ -356,26 +375,29 @@ res4[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 #     0.1449045    19.4271898    33.3180044
 
 # If 'max_trial' is too small, the Newton-Raphson search may not converge.
-\dontrun{
-  mimcr(data = dip1, tcol = 3:10, grouping = "type", max_trial = 5)
-}
+tryCatch(
+  mimcr(data = dip1, tcol = 3:10, grouping = "type", max_trial = 5),
+  warning = function(w) message(w),
+  finally = message("\nMaybe increasing the number of max_trial could help."))
 
 # If 'tol' is too big, the points found by the Newton-Raphson search may not
 # be located on the confidence region boundary.
-\dontrun{
-  mimcr(data = dip3, tcol = 4:6, grouping = "batch", tol = 1)
-}
+tryCatch(
+  mimcr(data = dip3, tcol = 4:6, grouping = "batch", tol = 1),
+  warning = function(w) message(w),
+  finally = message("\nMaybe making tol smaller could help."))
 
 # Passing in a data frame with a grouping variable with a number of levels that
 # differs from two produces an error.
-\dontrun{
-  tmp <- rbind(dip1,
-               data.frame(type = "T2",
-                          tablet = as.factor(1:6),
-                          dip1[7:12, 3:10]))
+tmp <- rbind(dip1,
+             data.frame(type = "T2",
+                        tablet = as.factor(1:6),
+                        dip1[7:12, 3:10]))
 
-  mimcr(data = tmp, tcol = 3:10, grouping = "type", bounds = c(1, 85))
-}
+tryCatch(
+  mimcr(data = tmp, tcol = 3:10, grouping = "type", bounds = c(1, 85)),
+  error = function(e) message(e),
+  finally = message("\nMaybe you want to remove unesed levels in data."))
 
 # Error in mimcr(data = tmp, tcol = 3:10, grouping = "type", bounds = ,  :
 #   The number of levels in column type differs from 2.

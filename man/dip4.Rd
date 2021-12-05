@@ -27,7 +27,15 @@ A data set containing the dissolution data of one reference batch and one
   the \% drug release observed at 10, 20 and 30 minutes.
 }
 \examples{
-\dontrun{dip4}
+str(dip4)
+
+if (requireNamespace("T2EQ")) {
+library(T2EQ)
+
+  data(ex_data_pharmind, envir = environment())
+  str(ex_data_pharmind)
+  rm(ex_data_pharmind)
+}
 }
 \references{
 Hoffelder, T. Highly variable dissolution profiles. Comparison of

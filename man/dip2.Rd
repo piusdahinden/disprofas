@@ -31,7 +31,7 @@ A data set containing the dissolution data of one reference batch and five
   of the \% drug release observed within a period of 180 minutes.
 }
 \examples{
-\dontrun{dip2}
+str(dip2)
 }
 \references{
 Shah, V. P., Tsong, Y., Sathe, P., and Liu, J. P. \emph{In vitro} dissolution

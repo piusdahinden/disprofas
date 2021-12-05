@@ -130,8 +130,6 @@
 #' @seealso \code{\link{get_jackknife_values}}, \code{\link[boot]{boot}},
 #'   \code{\link[boot]{boot.ci}}, \code{\link{mimcr}}, \code{\link{mztia}}.
 #'
-#' @example man/examples/examples_bootstrap_f2.R
-#'
 #' @importFrom stats qnorm
 #' @importFrom stats pnorm
 #' @importFrom stats quantile
@@ -348,8 +346,6 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
 #'
 #' @seealso \code{\link{bootstrap_f2}}, \code{\link[boot]{boot}},
 #'   \code{\link[boot]{boot.ci}}.
-#'
-#' @example man/examples/examples_get_jackknife_values.R
 #'
 #' @keywords internal
 

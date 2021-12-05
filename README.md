@@ -56,7 +56,7 @@ str(dip2)
 # Perform estimation and print a summary
 res1 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                          tcol = 5:8, grouping = "batch",
-                         R = 200, new_seed = 421, useEMA = "no")
+                         R = 200, new_seed = 421, use_EMA = "no")
 
 class(res1)
 #> [1] "bootstrap_f2"
@@ -255,7 +255,7 @@ class(res4)
 summary(res4)
 #> 
 #> Results of Martinez & Zhao Tolerance Interval (TI) Approach
-#> (TI limits calculatd at each time point of the dissolution profiles of a set of reference batches)
+#> (TI limits calculated at each time point of the dissolution profiles of a set of reference batches)
 #> 
 #>   Time     Mean      LTL       UTL   S1.LTL    S1.UTL   S2.LTL    S2.UTL
 #> 1    5 46.77167 27.22641  66.31693 22.22641  71.31693 12.22641  81.31693
@@ -268,7 +268,7 @@ summary(res4)
 #> 8  120 91.43833 80.29321 100.00000 75.29321 105.00000 65.29321 115.00000
 #> 
 #> Abbreviations:
-#> TL: Tolerance Interval Limit (TL); LTL: lower TL; UTL: upper TL; S1: level 1 boundary (LTL - 5%) or (UTL + 5%); S2: level 2 boundary (LTL - 15%) or (UTL + 15%).
+#> TL: Tolerance Interval Limit (TL); LTL: lower TL; UTL: upper TL; S1: level 1 boundary (LTL - 5) or (UTL + 5); S2: level 2 boundary (LTL - 15) or (UTL + 15).
 
 # Prepare graphical representation
 ggres4 <- plot_mztia(res4)

@@ -49,24 +49,20 @@ str(dip2)
 # Bootstrap assessment of data (two groups) by aid of bootstrap_f2() function
 # by using 'rand_mode = "complete"' (the default, randomisation of complete
 # profiles)
-\dontrun{
-  bs1 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
-                      tcol = 5:8, grouping = "batch", rand_mode = "complete",
-                      R = 200, new_seed = 421, use_EMA = "no")
-  pbs1 <- plot(bs1)
+bs1 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
+                    tcol = 5:8, grouping = "batch", rand_mode = "complete",
+                    R = 200, new_seed = 421, use_EMA = "no")
+pbs1 <- plot(bs1)
 
-  # The plot() function returns the 'plot_mztia' object invisibly.
-  class(bs1)
-  class(pbs1)
-}
+# The plot() function returns the 'plot_mztia' object invisibly.
+class(bs1)
+class(pbs1)
 
 # Use of 'rand_mode = "individual"' (randomisation per time point)
-\dontrun{
-  bs2 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
-                      tcol = 5:8, grouping = "batch", rand_mode = "individual",
-                      R = 200, new_seed = 421, use_EMA = "no")
-  plot(bs2)
-}
+bs2 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
+                    tcol = 5:8, grouping = "batch", rand_mode = "individual",
+                    R = 200, new_seed = 421, use_EMA = "no")
+plot(bs2)
 }
 \seealso{
 \code{\link{bootstrap_f2}}, \code{\link[boot]{boot}},

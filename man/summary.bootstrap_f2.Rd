@@ -51,14 +51,12 @@ str(dip2)
 # Bootstrap assessment of data (two groups) by aid of bootstrap_f2() function
 # by using 'rand_mode = "complete"' (the default, randomisation of complete
 # profiles)
-\dontrun{
-  bs1 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
-                      tcol = 5:8, grouping = "batch", rand_mode = "complete",
-                      R = 200, new_seed = 421, use_EMA = "no")
+bs1 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
+                    tcol = 5:8, grouping = "batch", rand_mode = "complete",
+                    R = 200, new_seed = 421, use_EMA = "no")
 
-  # Summary of the assessment
-  summary(bs1)
-}
+# Summary of the assessment
+summary(bs1)
 
 # STRATIFIED BOOTSTRAP
 #
@@ -93,14 +91,12 @@ str(dip2)
 #  48.64613
 
 # Use of 'rand_mode = "individual"' (randomisation per time point)
-\dontrun{
-  bs2 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
-                      tcol = 5:8, grouping = "batch", rand_mode = "individual",
-                      R = 200, new_seed = 421, use_EMA = "no")
+bs2 <- bootstrap_f2(data = dip2[dip2$batch \%in\% c("b0", "b4"), ],
+                    tcol = 5:8, grouping = "batch", rand_mode = "individual",
+                    R = 200, new_seed = 421, use_EMA = "no")
 
-  # Summary of the assessment
-  summary(bs2)
-}
+# Summary of the assessment
+summary(bs2)
 
 # PARAMETRIC BOOTSTRAP
 #

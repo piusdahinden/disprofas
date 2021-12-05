@@ -33,7 +33,7 @@
 #' See reference: Example data set shown in Table 1.
 #'
 #' @examples
-#' \dontrun{dip1}
+#' str(dip1)
 "dip1"
 
 
@@ -71,7 +71,7 @@
 #' See reference: Example data set shown in Table 4.
 #'
 #' @examples
-#' \dontrun{dip2}
+#' str(dip2)
 "dip2"
 
 
@@ -109,7 +109,15 @@
 #' \sQuote{\code{ex_data_JoBS}} from package \sQuote{\code{T2EQ}}.
 #'
 #' @examples
-#' \dontrun{dip3}
+#' str(dip3)
+#'
+#' if (requireNamespace("T2EQ")) {
+#' library(T2EQ)
+#'
+#'   data(ex_data_JoBS, envir = environment())
+#'   str(ex_data_JoBS)
+#'   rm(ex_data_JoBS)
+#' }
 "dip3"
 
 
@@ -143,7 +151,15 @@
 #' \sQuote{\code{ex_data_pharmind}} from package \sQuote{\code{T2EQ}}.
 #'
 #' @examples
-#' \dontrun{dip4}
+#' str(dip4)
+#'
+#' if (requireNamespace("T2EQ")) {
+#' library(T2EQ)
+#'
+#'   data(ex_data_pharmind, envir = environment())
+#'   str(ex_data_pharmind)
+#'   rm(ex_data_pharmind)
+#' }
 "dip4"
 
 
@@ -177,5 +193,5 @@
 #' on page 199.
 #'
 #' @examples
-#' \dontrun{dip5}
+#' str(dip5)
 "dip5"

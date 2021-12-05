@@ -1,11 +1,22 @@
 cran-comments
 ================
 
-<!-- cran-comments.md is generated from caran-comments.Rmd. -->
+<!-- cran-comments.md is generated from cran-comments.Rmd. -->
 
 ## First submission
 
-This is the first submission.
+This is the second iteration of the first submission. In this version I
+have:
+
+-   Removed the example from one of the unexported functions.
+-   Unwrapped examples that were wrapped by \\dontrun{} that are
+    executable in \< 5 sec.
+-   Replaced \\dontrun{} by tryCatch() in order to catch errors from
+    examples that deliberately produce errors.
+-   Listed the package package T2EQ that is used in three examples in
+    ‘Suggests’ and wrapped the examples using a function or data sets
+    from this package by if(requireNamespace(“T2EQ”)){} rather than by
+    \\dontrun{}.
 
 ## Test environments
 

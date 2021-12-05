@@ -43,7 +43,7 @@ str(dip2)
 # Perform estimation and print a summary
 res1 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                          tcol = 5:8, grouping = "batch",
-                         R = 200, new_seed = 421, useEMA = "no")
+                         R = 200, new_seed = 421, use_EMA = "no")
 
 class(res1)
 summary(res1)

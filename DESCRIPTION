@@ -1,7 +1,7 @@
 Type: Package
 Package: disprofas
 Title: Non-Parametric Dissolution Profile Analysis
-Version: 0.1.1
+Version: 0.1.2.9000
 Authors@R: c(
     person("Pius", "Dahinden", , "pius.dahinden@tillotts.com", role = c("aut", "cre")),
     person("Tillotts Pharma AG", , , "tillotts@tillotts.com", role = c("cph", "fnd"))

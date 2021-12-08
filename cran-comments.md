@@ -5,18 +5,13 @@ cran-comments
 
 ## First submission
 
-This is the second iteration of the first submission. In this version I
+This is the third iteration of the first submission. In this version I
 have:
 
--   Removed the example from one of the unexported functions.
--   Unwrapped examples that were wrapped by \\dontrun{} that are
-    executable in \< 5 sec.
--   Replaced \\dontrun{} by tryCatch() in order to catch errors from
-    examples that deliberately produce errors.
--   Listed the package package T2EQ that is used in three examples in
-    ‘Suggests’ and wrapped the examples using a function or data sets
-    from this package by if(requireNamespace(“T2EQ”)){} rather than by
-    \\dontrun{}.
+-   Changed the test parameters of function gep_by_nera(). It uses an
+    iterative algorithm. It did not throw a warning on macOS 11.2.1
+    arm64. I therefore changed the test parameters to be more
+    restrictive.
 
 ## Test environments
 
@@ -25,6 +20,7 @@ have:
 -   R-hub windows-x86_64-devel (r-devel)
 -   R-hub ubuntu-gcc-release (r-release)
 -   R-hub fedora-clang-devel (r-devel)
+-   mac.R-project.org macosx-arm64 (r-release)
 
 ## R CMD check results
 

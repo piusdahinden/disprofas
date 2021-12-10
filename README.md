@@ -15,11 +15,14 @@ for equivalence procedure are available.
 
 ## Installation
 
-**So far, the package has not yet been submitted to CRAN.** The
-development version is available from
-[GitHub](https://github.com/piusdahinden/disprofas). Installation from
-this source is easily done by using `install_github()` function from the
-`devtools` package:
+A stable version of `disprofas` can be installed from CRAN:
+
+``` r
+# install.packages("disprofas")
+```
+
+The development version is available from
+[GitHub](https://github.com/piusdahinden/disprofas) by:
 
 ``` r
 # install.packages("devtools")

@@ -427,7 +427,7 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
 #' @export
 
 plot_mztia <- function(x, ...) {
-  if (class(x) != "mztia") {
+  if (!inherits(x, "mztia")) {
     stop("The parameter x must be an object of class mztia.")
   }
 

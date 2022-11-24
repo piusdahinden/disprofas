@@ -163,7 +163,7 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
   if (!isTRUE(all.equal(tcol, as.integer(tcol)))) {
     stop("The parameter tcol must be an integer (vector).")
   }
-  if (min(tcol) < 1 | max(tcol) > ncol(data)) {
+  if (min(tcol) < 1 || max(tcol) > ncol(data)) {
     stop("Some columns specified by tcol were not found in data frame.")
   }
   if (shape == "wide") {
@@ -195,12 +195,12 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
   if (sum(levels(data[, grouping]) %in% reference) == 0) {
     stop("The reference variable was not found in the grouping column.")
   }
-  if (shape == "long" & is.null(response)) {
+  if (shape == "long" && is.null(response)) {
     stop("When the data frame provided via data is in long format the ",
          "response parameter must be specified.")
   }
   if (!is.null(response)) {
-    if (!is.character(response) | length(response) != 1) {
+    if (!is.character(response) || length(response) != 1) {
       stop("The parameter response must be a string of length 1.")
     }
     if (!(response %in% colnames(data))) {
@@ -210,25 +210,25 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
       stop("The column specified by response is not numeric.")
     }
   }
-  if (alpha <= 0 | alpha > 1) {
+  if (alpha <= 0 || alpha > 1) {
     stop("Please specify alpha as (0, 1]")
   }
-  if (P <= 0 | P > 1) {
+  if (P <= 0 || P > 1) {
     stop("Please specify P as (0, 1]")
   }
   if (!is.logical(cap)) {
     stop("The parameter cap must be a logical.")
   }
-  if (!is.numeric(bounds) | length(bounds) != 2) {
+  if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
   }
-  if (!is.numeric(QS) | length(QS) != 2) {
+  if (!is.numeric(QS) || length(QS) != 2) {
     stop("The paramter QS must be a numeric vector of length 2.")
   }
-  if (sum(QS < 0) > 0 | sum(QS > 100) > 0) {
+  if (sum(QS < 0) > 0 || sum(QS > 100) > 0) {
     stop("Please specify QS in the range [0, 100].")
   }
   if (QS[1] > QS[2]) {

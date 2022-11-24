@@ -267,13 +267,13 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
-  if (!is.numeric(tcol) | length(tcol) < 2) {
+  if (!is.numeric(tcol) || length(tcol) < 2) {
     stop("The parameter tcol must be an integer vector of at least length 2.")
   }
   if (!isTRUE(all.equal(tcol, as.integer(tcol)))) {
     stop("The parameter tcol must be an integer vector.")
   }
-  if (min(tcol) < 1 | max(tcol) > ncol(data)) {
+  if (min(tcol) < 1 || max(tcol) > ncol(data)) {
     stop("Some columns specified by tcol were not found in data frame.")
   }
   if (sum(grepl("\\d", colnames(data[, tcol]))) < length(tcol)) {
@@ -292,16 +292,16 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   if (!is.factor(data[, grouping])) {
     stop("The grouping variable's column in data must be a factor.")
   }
-  if (!is.logical(fit_n_obs) | length(fit_n_obs) != 1) {
+  if (!is.logical(fit_n_obs) || length(fit_n_obs) != 1) {
     stop("The parameter fit_n_obs must be a logical of length 1.")
   }
-  if (mtad <= 0 | mtad > 50) {
+  if (mtad <= 0 || mtad > 50) {
     stop("Please specify mtad as (0, 50]")
   }
-  if (signif <= 0 | signif > 1) {
+  if (signif <= 0 || signif > 1) {
     stop("Please specify signif as (0, 1]")
   }
-  if (!is.numeric(max_trial) | length(max_trial) > 1) {
+  if (!is.numeric(max_trial) || length(max_trial) > 1) {
     stop("The parameter max_trial must be a positive integer of length 1.")
   }
   if (max_trial != as.integer(max_trial)) {
@@ -310,16 +310,16 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   if (max_trial < 0) {
     stop("The parameter max_trial must be a positive integer of length 1.")
   }
-  if (!is.numeric(bounds) | length(bounds) != 2) {
+  if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
   }
-  if (bounds[1] < 0 | bounds[2] > 100) {
+  if (bounds[1] < 0 || bounds[2] > 100) {
     stop("Please specify bounds in the range [0, 100].")
   }
-  if (!is.numeric(tol) | length(tol) > 1) {
+  if (!is.numeric(tol) || length(tol) > 1) {
     stop("The parameter tol must be a non-negative numeric value of length 1.")
   }
   if (tol < 0) {
@@ -419,7 +419,7 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
                 S_pool = l_hs[["S.pool"]], F_crit = as.numeric(t_sl["F.crit"]),
                 y = tmp, max_trial = max_trial, tol = tol))
 
-  if (!is.null(tmp[["Error"]]) | !is.null(tmp[["Warning"]])) {
+  if (!is.null(tmp[["Error"]]) || !is.null(tmp[["Warning"]])) {
       CI_NR <- cbind(LCL = rep(NA, times = t_sl["df1"]),
                      UCL = rep(NA, times = t_sl["df1"]))
       rownames(CI_NR) <- colnames(data[, tcol[ok]])

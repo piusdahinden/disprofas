@@ -144,13 +144,13 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
-  if (!is.numeric(tcol) | length(tcol) < 3) {
+  if (!is.numeric(tcol) || length(tcol) < 3) {
     stop("The parameter tcol must be an integer vector of at least length 3.")
   }
   if (!isTRUE(all.equal(tcol, as.integer(tcol)))) {
     stop("The parameter tcol must be an integer vector.")
   }
-  if (min(tcol) < 1 | max(tcol) > ncol(data)) {
+  if (min(tcol) < 1 || max(tcol) > ncol(data)) {
     stop("Some columns specified by tcol were not found in data frame.")
   }
   if (sum(vapply(data[, tcol], is.numeric, logical(1))) != length(tcol)) {
@@ -168,37 +168,37 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   if (!(rand_mode %in% c("complete", "individual"))) {
     stop("Please specify rand_mode either as \"complete\" or \"individual\".")
   }
-  if (!is.numeric(R) | length(R) > 1) {
+  if (!is.numeric(R) || length(R) > 1) {
     stop("The parameter R must be an integer of length 1.")
   }
   if (!isTRUE(all.equal(R, as.integer(R)))) {
     stop("The parameter R must be an integer of length 1.")
   }
-  if (!is.numeric(each) | length(each) > 1) {
+  if (!is.numeric(each) || length(each) > 1) {
     stop("The parameter each must be an integer of length 1.")
   }
   if (!isTRUE(all.equal(each, as.integer(each)))) {
     stop("The parameter each must be an integer of length 1.")
   }
-  if (!is.numeric(new_seed) | length(new_seed) > 1) {
+  if (!is.numeric(new_seed) || length(new_seed) > 1) {
     stop("The parameter new_seed must be an integer of length 1.")
   }
   if (!isTRUE(all.equal(new_seed, as.integer(new_seed)))) {
     stop("The parameter new_seed must be an integer of length 1.")
   }
-  if (confid <= 0 | confid > 1) {
+  if (confid <= 0 || confid > 1) {
     stop("Please specify confid as (0, 1]")
   }
   if (!(use_EMA %in% c("yes", "no", "ignore"))) {
     stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
-  if (!is.numeric(bounds) | length(bounds) != 2) {
+  if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
   }
-  if (bounds[1] < 0 | bounds[2] > 100) {
+  if (bounds[1] < 0 || bounds[2] > 100) {
     stop("Please specify bounds in the range [0, 100].")
   }
 
@@ -231,7 +231,7 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   #       three numbers.
   # Note that together with the data adjustment the b1 vector must be reset.
 
-  if (2 * each > nrow(data) | sum(b1) != sum(!b1)) {
+  if (2 * each > nrow(data) || sum(b1) != sum(!b1)) {
     warning("The two groups to be compared do not have the same number of ",
             "observations. Thus, the number of rows is adjusted according ",
             "to the largest common value between the parameter each and ",
@@ -247,7 +247,7 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
                             use_EMA = use_EMA, bounds = bounds)
   time_points <- time_points[ok]
 
-  if (use_EMA == "yes" & sum(ok) < 3) {
+  if (use_EMA == "yes" && sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
          "points. The actual profiles comprise ", sum(ok), " points only.")
   }

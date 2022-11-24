@@ -77,13 +77,13 @@ get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
-  if (!is.numeric(tcol) | length(tcol) < 2) {
+  if (!is.numeric(tcol) || length(tcol) < 2) {
     stop("The parameter tcol must be an integer vector of at least length 2.")
   }
   if (!isTRUE(all.equal(tcol, as.integer(tcol)))) {
     stop("The parameter tcol must be an integer vector.")
   }
-  if (min(tcol) < 1 | max(tcol) > ncol(data)) {
+  if (min(tcol) < 1 || max(tcol) > ncol(data)) {
     stop("Some columns specified by tcol were not found in data frame.")
   }
   if (sum(grepl("\\d", colnames(data[, tcol]))) < length(tcol)) {
@@ -93,19 +93,19 @@ get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
   if (sum(vapply(data[, tcol], is.numeric, logical(1))) != length(tcol)) {
     stop("Some columns specified by tcol are not numeric.")
   }
-  if (!is.logical(groups) | length(groups) != nrow(data)) {
+  if (!is.logical(groups) || length(groups) != nrow(data)) {
     stop("The parameter groups must be a logical vector of length nrow(data).")
   }
   if (!(use_EMA %in% c("yes", "no", "ignore"))) {
     stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
-  if (!is.numeric(bounds) | length(bounds) != 2) {
+  if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
   }
-  if (bounds[1] < 0 | bounds[2] > 100) {
+  if (bounds[1] < 0 || bounds[2] > 100) {
     stop("Please specify bounds in the range [0, 100].")
   }
 
@@ -279,7 +279,7 @@ make_grouping <- function(data, grouping) {
 
   b1 <- tolower(substr(x = data[, grouping], start = 1, stop = 1)) %in% "r"
 
-  if (sum(b1) == 0 | sum(b1) == nrow(data)) {
+  if (sum(b1) == 0 || sum(b1) == nrow(data)) {
     b1 <- data[, grouping] == levels(data[, grouping])[1]
   }
 
@@ -315,7 +315,7 @@ balance_observations <- function(data, groups, n_obs) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
-  if (!is.logical(groups) | length(groups) != nrow(data)) {
+  if (!is.logical(groups) || length(groups) != nrow(data)) {
     stop("The parameter groups must be a logical vector of length nrow(data).")
   }
   if (!isTRUE(all.equal(n_obs, as.integer(n_obs)))) {
@@ -385,10 +385,10 @@ rand_indiv_points <- function(data, mle) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
-  if (!inherits(mle, "list") | length(mle) != 2) {
+  if (!inherits(mle, "list") || length(mle) != 2) {
     stop("The parameter mle must be a list of length 2.")
   }
-  if (!is.numeric(mle[[1]]) | length(mle[[1]]) != 1) {
+  if (!is.numeric(mle[[1]]) || length(mle[[1]]) != 1) {
     stop("The first element of mle must be an integer value.")
   }
   if (!isTRUE(all.equal(mle[[1]], as.integer(mle[[1]])))) {
@@ -397,14 +397,14 @@ rand_indiv_points <- function(data, mle) {
   if (nrow(data) != 2 * mle[[1]]) {
     stop("The first element of mle must be half of the number of rows in data.")
   }
-  if (!is.numeric(mle[[2]]) | length(mle[[2]]) < 2) {
+  if (!is.numeric(mle[[2]]) || length(mle[[2]]) < 2) {
     stop("The second element of mle must be an integer vector of at least ",
          "length 2.")
   }
   if (!isTRUE(all.equal(mle[[2]], as.integer(mle[[2]])))) {
     stop("The second element of mle must be an integer vector.")
   }
-  if (min(mle[[2]]) < 1 | max(mle[[2]]) > ncol(data)) {
+  if (min(mle[[2]]) < 1 || max(mle[[2]]) > ncol(data)) {
     stop("Some columns specified by the second element of mle were not found ",
          "in data.")
   }
@@ -521,7 +521,7 @@ rand_indiv_points <- function(data, mle) {
 
 gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
                         max_trial, tol) {
-  if (!is.numeric(n_p) | length(n_p) > 1) {
+  if (!is.numeric(n_p) || length(n_p) > 1) {
     stop("The parameter n_p must be a positive integer.")
   }
   if (n_p != as.integer(n_p)) {
@@ -530,13 +530,13 @@ gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
   if (n_p < 0) {
     stop("The parameter n_p must be a positive integer.")
   }
-  if (!is.numeric(K) | length(K) > 1) {
+  if (!is.numeric(K) || length(K) > 1) {
     stop("The parameter K must be a non-negative numeric value of length 1.")
   }
   if (K < 0) {
     stop("The parameter K must be a non-negative numeric value of length 1.")
   }
-  if (!is.numeric(mean_diff) | length(mean_diff) != n_p) {
+  if (!is.numeric(mean_diff) || length(mean_diff) != n_p) {
     stop("The parameter mean_diff must be a numeric vector of length n_p.")
   }
   if (!is.matrix(S_pool)) {
@@ -545,7 +545,7 @@ gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
   if (!isTRUE(all.equal(dim(S_pool), c(n_p, n_p)))) {
     stop("The parameter S_pool must be a matrix of dimensions n_p x n_p.")
   }
-  if (!is.numeric(F_crit) | length(F_crit) > 1) {
+  if (!is.numeric(F_crit) || length(F_crit) > 1) {
     stop("The parameter F_crit must be a non-negative numeric value of ",
          "length 1.")
   }
@@ -553,10 +553,10 @@ gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
     stop("The parameter F_crit must be a non-negative numeric value of ",
          "length 1.")
   }
-  if (!is.numeric(y) | length(y) != (n_p + 1)) {
+  if (!is.numeric(y) || length(y) != (n_p + 1)) {
     stop("The parameter y must be a numeric vector of length (n_p + 1).")
   }
-  if (!is.numeric(max_trial) | length(max_trial) > 1) {
+  if (!is.numeric(max_trial) || length(max_trial) > 1) {
     stop("The parameter max_trial must be a positive integer of length 1.")
   }
   if (max_trial != as.integer(max_trial)) {
@@ -565,7 +565,7 @@ gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
   if (max_trial < 0) {
     stop("The parameter max_trial must be a positive integer of length 1.")
   }
-  if (!is.numeric(tol) | length(tol) > 1) {
+  if (!is.numeric(tol) || length(tol) > 1) {
     stop("The parameter tol must be a non-negative numeric value of length 1.")
   }
   if (tol < 0) {
@@ -602,7 +602,7 @@ gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
     i <- i + 1
 
     # Test
-    if (sum(abs(t(m_j) %*% m_score1) < tol) > 0 | i >= max_trial) break
+    if (sum(abs(t(m_j) %*% m_score1) < tol) > 0 || i >= max_trial) break
   }
 
   if (sum(abs(t(m_j) %*% m_score1) < tol) == 0) {

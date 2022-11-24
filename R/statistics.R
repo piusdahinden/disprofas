@@ -104,7 +104,7 @@ get_hotellings <- function(m1, m2, signif) {
   if (!isTRUE(all.equal(dim(m1), dim(m2)))) {
     stop("The parameters m1 and m2 must have the same dimensions.")
   }
-  if (signif <= 0 | signif > 1) {
+  if (signif <= 0 || signif > 1) {
     stop("Please specify signif as (0, 1]")
   }
 
@@ -244,7 +244,7 @@ get_sim_lim <- function(mtad, lhs) {
       stop("The parameter lhs must be a list returned by get_hotellings.")
     }
   }
-  if (mtad <= 0 | mtad > 50) {
+  if (mtad <= 0 || mtad > 50) {
     stop("Please specify mtad as (0, 50]")
   }
 
@@ -375,13 +375,13 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
-  if (!is.numeric(tcol) | length(tcol) < 3) {
+  if (!is.numeric(tcol) || length(tcol) < 3) {
     stop("The parameter tcol must be an integer vector of at least length 3.")
   }
   if (!isTRUE(all.equal(tcol, as.integer(tcol)))) {
     stop("The parameter tcol must be an integer vector.")
   }
-  if (min(tcol) < 1 | max(tcol) > ncol(data)) {
+  if (min(tcol) < 1 || max(tcol) > ncol(data)) {
     stop("Some columns specified by tcol were not found in data frame.")
   }
   if (sum(grepl("\\d", colnames(data[, tcol]))) < length(tcol)) {
@@ -403,13 +403,13 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   if (!(use_EMA %in% c("yes", "no", "ignore"))) {
     stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
-  if (!is.numeric(bounds) | length(bounds) != 2) {
+  if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
   }
-  if (bounds[1] < 0 | bounds[2] > 100) {
+  if (bounds[1] < 0 || bounds[2] > 100) {
     stop("Please specify bounds in the range [0, 100].")
   }
 
@@ -435,11 +435,11 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   # Note: an alternative would be to use the least common multiple.
   # Note that together with the data adjustment the b1 vector must be reset.
 
-  if (use_EMA == "yes" & sum(b1) != sum(!b1)) {
+  if (use_EMA == "yes" && sum(b1) != sum(!b1)) {
     stop("The two groups to be compared must have the same number of ",
          "observations.")
   }
-  if (use_EMA %in% c("no", "ignore") & sum(b1) != sum(!b1)) {
+  if (use_EMA %in% c("no", "ignore") && sum(b1) != sum(!b1)) {
     warning("The two groups to be compared do not have the same number of ",
             "observations. Thus, the number of rows is adjusted according ",
             "to the largest common value between the number of observations ",
@@ -463,7 +463,7 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
                             use_EMA = use_EMA, bounds = bounds)
 
-  if (use_EMA == "yes" & sum(ok) < 3) {
+  if (use_EMA == "yes" && sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
          "points. The actual profiles comprise ", sum(ok), " points only.")
   }
@@ -511,7 +511,7 @@ get_f1 <- function(data, ins, tcol, grouping) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
-  if (!is.numeric(ins) | length(ins) < 3 | length(ins) > nrow(data)) {
+  if (!is.numeric(ins) || length(ins) < 3 || length(ins) > nrow(data)) {
     stop("The parameter ins must be an integer vector not longer than ",
          "nrow(data).")
   }
@@ -519,13 +519,13 @@ get_f1 <- function(data, ins, tcol, grouping) {
     stop("The parameter ins must be an integer vector not longer than ",
          "nrow(data).")
   }
-  if (!is.numeric(tcol) | length(tcol) < 3) {
+  if (!is.numeric(tcol) || length(tcol) < 3) {
     stop("The parameter tcol must be an integer vector of at least length 3.")
   }
   if (!isTRUE(all.equal(tcol, as.integer(tcol)))) {
     stop("The parameter tcol must be an integer vector.")
   }
-  if (min(tcol) < 1 | max(tcol) > ncol(data)) {
+  if (min(tcol) < 1 || max(tcol) > ncol(data)) {
     stop("Some columns specified by tcol were not found in data frame.")
   }
   if (sum(grepl("\\d", colnames(data[, tcol]))) < length(tcol)) {
@@ -650,13 +650,13 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
-  if (!is.numeric(tcol) | length(tcol) < 3) {
+  if (!is.numeric(tcol) || length(tcol) < 3) {
     stop("The parameter tcol must be an integer vector of at least length 3.")
   }
   if (!isTRUE(all.equal(tcol, as.integer(tcol)))) {
     stop("The parameter tcol must be an integer vector.")
   }
-  if (min(tcol) < 1 | max(tcol) > ncol(data)) {
+  if (min(tcol) < 1 || max(tcol) > ncol(data)) {
     stop("Some columns specified by tcol were not found in data frame.")
   }
   if (sum(grepl("\\d", colnames(data[, tcol]))) < length(tcol)) {
@@ -678,13 +678,13 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   if (!(use_EMA %in% c("yes", "no", "ignore"))) {
     stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
   }
-  if (!is.numeric(bounds) | length(bounds) != 2) {
+  if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
   }
-  if (bounds[1] < 0 | bounds[2] > 100) {
+  if (bounds[1] < 0 || bounds[2] > 100) {
     stop("Please specify bounds in the range [0, 100].")
   }
 
@@ -710,11 +710,11 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   # Note: an alternative would be to use the least common multiple.
   # Note that together with the data adjustment the b1 vector must be reset.
 
-  if (use_EMA == "yes" & sum(b1) != sum(!b1)) {
+  if (use_EMA == "yes" && sum(b1) != sum(!b1)) {
     stop("The two groups to be compared must have the same number of ",
          "observations.")
   }
-  if (use_EMA %in% c("no", "ignore") & sum(b1) != sum(!b1)) {
+  if (use_EMA %in% c("no", "ignore") && sum(b1) != sum(!b1)) {
     warning("The two groups to be compared do not have the same number of ",
             "observations. Thus, the number of rows is adjusted according ",
             "to the largest common value between the number of observations ",
@@ -738,7 +738,7 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
                             use_EMA = use_EMA, bounds = bounds)
 
-  if (use_EMA == "yes" & sum(ok) < 3) {
+  if (use_EMA == "yes" && sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
          "points. The actual profiles comprise ", sum(ok), " points only.")
   }
@@ -786,7 +786,7 @@ get_f2 <- function(data, ins, tcol, grouping) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
-  if (!is.numeric(ins) | length(ins) < 3 | length(ins) > nrow(data)) {
+  if (!is.numeric(ins) || length(ins) < 3 || length(ins) > nrow(data)) {
     stop("The parameter ins must be an integer vector not longer than ",
          "nrow(data).")
   }
@@ -794,13 +794,13 @@ get_f2 <- function(data, ins, tcol, grouping) {
     stop("The parameter ins must be an integer vector not longer than ",
          "nrow(data).")
   }
-  if (!is.numeric(tcol) | length(tcol) < 3) {
+  if (!is.numeric(tcol) || length(tcol) < 3) {
     stop("The parameter tcol must be an integer vector of at least length 3.")
   }
   if (!isTRUE(all.equal(tcol, as.integer(tcol)))) {
     stop("The parameter tcol must be an integer vector.")
   }
-  if (min(tcol) < 1 | max(tcol) > ncol(data)) {
+  if (min(tcol) < 1 || max(tcol) > ncol(data)) {
     stop("Some columns specified by tcol were not found in data frame.")
   }
   if (sum(grepl("\\d", colnames(data[, tcol]))) < length(tcol)) {

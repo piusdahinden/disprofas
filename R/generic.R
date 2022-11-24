@@ -149,14 +149,6 @@ print.bootstrap_f2 <- function(x, ...) {
 #' @export
 
 summary.mimcr <- function(object, ...) {
-  mf <- match.call(expand.dots = TRUE)
-  m <- match("digits", names(mf), 0L)
-
-  if (m == 0) {
-    digits <- getOption("digits")
-  } else {
-    digits <- mf[[m]]
-  }
 
   cat("\nResults of Model-Independent Multivariate Confidence Region (MIMCR)",
       "\napproach to assess equivalence of highly variable in-vitro",
@@ -313,14 +305,6 @@ print.plot_mztia <- function(x, ...) {
 #' @export
 
 summary.mztia <- function(object, ...) {
-  mf <- match.call(expand.dots = TRUE)
-  m <- match("digits", names(mf), 0L)
-
-  if (m == 0) {
-    digits <- getOption("digits")
-  } else {
-    digits <- mf[[m]]
-  }
 
   cat("\nResults of Martinez & Zhao Tolerance Interval (TI) Approach")
   cat("\n(TI limits calculated at each time point of the",

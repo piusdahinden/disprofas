@@ -405,8 +405,9 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
 #'
 #' @example man/examples/examples_plot_mztia.R
 #'
+#' @importFrom rlang .data
 #' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 aes_string
+#' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_point
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 geom_path
@@ -485,7 +486,9 @@ plot_mztia <- function(x, ...) {
 
   if (x == "time") {
     ggraph <-
-      ggplot(d_res, aes_string(x = x, y = y, colour = type, shape = type),
+      ggplot(d_res,
+             aes(x = .data[[x]], y = .data[[y]],
+                 colour = .data[[type]], shape = .data[[type]]),
              ...) +
       geom_point(
         data = d_res[d_res$frame == "points" & d_res$grouping == reference, ],
@@ -493,9 +496,9 @@ plot_mztia <- function(x, ...) {
       geom_point(
         data = d_res[d_res$frame == "points" & d_res$grouping != reference, ],
         size = 2) +
-      geom_line(data = d_res[d_res$type2 == "Mean", ], size = 1) +
-      geom_path(data = d_res[d_res$type2 == "LTL", ], size = 1) +
-      geom_path(data = d_res[d_res$type2 == "UTL", ], size = 1) +
+      geom_line(data = d_res[d_res$type2 == "Mean", ], linewidth = 1) +
+      geom_path(data = d_res[d_res$type2 == "LTL", ], linewidth = 1) +
+      geom_path(data = d_res[d_res$type2 == "UTL", ], linewidth = 1) +
       scale_colour_manual(
         values = t_colours, breaks = t_breaks, labels = t_labels,
         guide = guide_legend(
@@ -520,19 +523,26 @@ plot_mztia <- function(x, ...) {
   } else {
     ggraph <-
       ggplot(d_res,
-             aes_string(x = x, y = y, colour = grouping, shape = grouping),
+             aes(x = .data[[x]], y = .data[[y]],
+                 colour = .data[[grouping]], shape = .data[[grouping]]),
              ...) +
       geom_jitter(data = d_res[d_res$frame == "points", ],
                   position = position_jitter(spread)) +
       geom_errorbar(data = d_lim,
-                    mapping = aes_string(ymin = s2_ltl, ymax = s2_utl),
-                    colour = "red1", width = 2 * spread, size = 0.8) +
+                    mapping = aes(ymin = .data[[s2_ltl]],
+                                  ymax = .data[[s2_utl]]),
+                    colour = "red1", width = 2 * spread,
+                    linewidth = 0.8) +
       geom_errorbar(data = d_lim,
-                    mapping = aes_string(ymin = s1_ltl, ymax = s1_utl),
-                    colour = "darkorange1", width = 2 * spread, size = 1.0) +
+                    mapping = aes(ymin = .data[[s1_ltl]],
+                                  ymax = .data[[s1_utl]]),
+                    colour = "darkorange1", width = 2 * spread,
+                    linewidth = 1.0) +
       geom_errorbar(data = d_lim,
-                    mapping = aes_string(ymin = ltl, ymax = utl),
-                    colour = "cornsilk4", width = 2 * spread, size = 1.2) +
+                    mapping = aes(ymin = .data[[ltl]],
+                                  ymax = .data[[utl]]),
+                    colour = "cornsilk4", width = 2 * spread,
+                    linewidth = 1.2) +
       theme_bw() + theme(legend.position = "none",
                          plot.margin = unit(c(0.2, 0.4, 0.2, 0.2), "lines"),
                          panel.grid.major = element_line(colour = "grey80"),
@@ -541,7 +551,6 @@ plot_mztia <- function(x, ...) {
                          axis.title = element_text(size = 12),
                          axis.text = element_text(size = 12),
                          axis.ticks.length = unit(0.5, "lines"))
-
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

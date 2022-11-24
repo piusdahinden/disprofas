@@ -33,7 +33,7 @@
 #'   release values. The default is \code{NULL}.
 #' @param alpha A numeric value between 0 and 1 specifying the probability
 #'   level. The default is \code{0.05}.
-#' @param P A numeric value between 0 and 1 specifying the proportion of the
+#' @param pp A numeric value between 0 and 1 specifying the proportion of the
 #'   population being enclosed by the tolerance interval boundaries. The
 #'   default is \code{0.99}.
 #' @param cap A logical variable specifying if the calculated tolerance limits
@@ -43,7 +43,7 @@
 #'   drug release at which the calculated tolerance interval limits should
 #'   be capped (see parameter \eqn{cap}. This parameter is only relevant if
 #'   \code{cap = TRUE}. The default is \code{c(0, 100)}.
-#' @param QS A numeric vector of the form \code{c(Q S1, Q S2)} that specifies
+#' @param qs A numeric vector of the form \code{c(Q S1, Q S2)} that specifies
 #'   the allowable deviations from the specifications in percent according to
 #'   the \eqn{S1} and \eqn{S2} acceptance criteria of USP chapter <711> on
 #'   dissolution. The default is \code{c(5, 15)}.
@@ -53,12 +53,12 @@
 #' @details The tolerance interval approach proposed by Martinez & Zhao (2018)
 #' is a simple approach for the comparison of dissolution profiles. The authors
 #' propose to calculate for each time point of a set of reference dissolution
-#' profiles a tolerance interval (\eqn{TI}), i.e. intervals containing \eqn{P}\%
-#' of the population of potential values for reference product at a probability
-#' level of \eqn{alpha / 2} per tail (i.e., \eqn{(1 - alpha) 100}\% confidence).
-#' Based on these \eqn{TI}s the dissolution profiles of the test batch(es) is
-#' (are) compared, i.e. the corresponding data points should lie within the
-#' \eqn{TI}s. The \eqn{TI}s are calculated as
+#' profiles a tolerance interval (\eqn{TI}), i.e. intervals containing
+#' \eqn{pp}\% of the population of potential values for reference product at a
+#' probability level of \eqn{alpha / 2} per tail (i.e., \eqn{(1 - alpha) 100}\%
+#' confidence). Based on these \eqn{TI}s the dissolution profiles of the test
+#' batch(es) is (are) compared, i.e. the corresponding data points should lie
+#' within the \eqn{TI}s. The \eqn{TI}s are calculated as
 #'
 #' \deqn{Y_{utl,ltl} = \bar{Y} \pm k \times s}{Y_{utl,ltl} = Y.bar +- k*s}
 #'
@@ -146,8 +146,8 @@
 #' @export
 
 mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
-                  alpha = 0.05, P = 0.99, cap = TRUE, bounds = c(0, 100),
-                  QS = c(5, 15), ...) {
+                  alpha = 0.05, pp = 0.99, cap = TRUE, bounds = c(0, 100),
+                  qs = c(5, 15), ...) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -213,8 +213,8 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
   if (alpha <= 0 || alpha > 1) {
     stop("Please specify alpha as (0, 1]")
   }
-  if (P <= 0 || P > 1) {
-    stop("Please specify P as (0, 1]")
+  if (pp <= 0 || pp > 1) {
+    stop("Please specify pp as (0, 1]")
   }
   if (!is.logical(cap)) {
     stop("The parameter cap must be a logical.")
@@ -225,13 +225,13 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
   }
-  if (!is.numeric(QS) || length(QS) != 2) {
-    stop("The paramter QS must be a numeric vector of length 2.")
+  if (!is.numeric(qs) || length(qs) != 2) {
+    stop("The paramter qs must be a numeric vector of length 2.")
   }
-  if (sum(QS < 0) > 0 || sum(QS > 100) > 0) {
-    stop("Please specify QS in the range [0, 100].")
+  if (sum(qs < 0) > 0 || sum(qs > 100) > 0) {
+    stop("Please specify qs in the range [0, 100].")
   }
-  if (QS[1] > QS[2]) {
+  if (qs[1] > qs[2]) {
     stop("Q S1 must be smaller Q S2.")
   }
 
@@ -277,8 +277,8 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
                  FUN = function(x) length(x))$x
   df <- n - 1
   chisq_alpha <- qchisq(alpha, df)
-  z_P <- qnorm((1 + P) / 2)
-  K <- (1 + 1 / (2 * n)) * z_P * sqrt(df / chisq_alpha)
+  z_pp <- qnorm((1 + pp) / 2)
+  kk <- (1 + 1 / (2 * n)) * z_pp * sqrt(df / chisq_alpha)
 
   t_mean <- aggregate(subdat[, response_vbl], by = list(subdat$time.f),
                       FUN = mean, na.rm = TRUE)$x
@@ -286,8 +286,8 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
                     FUN = sd, na.rm = TRUE)$x
   t_x <- unique(subdat$time)
 
-  ltl <- t_mean - K * t_sd
-  utl <- t_mean + K * t_sd
+  ltl <- t_mean - kk * t_sd
+  utl <- t_mean + kk * t_sd
 
   # Adjustment of the tolerance limit (if demanded)
   if (cap == TRUE) {
@@ -316,8 +316,8 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
                                rep("UTL", length(t_x))),
                      time = rep(t_x, times = 7),
                      response = c(t_mean, ltl, utl,
-                                  ltl - QS[1], utl + QS[1],
-                                  ltl - QS[2], utl + QS[2]))
+                                  ltl - qs[1], utl + qs[1],
+                                  ltl - qs[2], utl + qs[2]))
 
   if (!is.null(response)) {
     names(tmp1)[names(tmp1) == "response"] <- response_vbl
@@ -360,10 +360,10 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
                       reference = reference,
                       response = response_vbl,
                       alpha = alpha,
-                      P = P,
+                      pp = pp,
                       cap = cap,
                       bounds = bounds,
-                      QS = QS)
+                      qs = qs)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Compilation of results

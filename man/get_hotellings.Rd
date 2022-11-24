@@ -29,7 +29,7 @@ A list with the following elements is returned:
   the averages, respectively.}
 
 The \code{Parameters} element contains the following information:
-\item{DM}{Mahalanobis distance of the samples.}
+\item{dm}{Mahalanobis distance of the samples.}
 \item{df1}{Degrees of freedom (number of variables or time points).}
 \item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
 \item{alpha}{Provided significance level.}

@@ -7,7 +7,7 @@ test_that("get_hotellings_succeeds", {
 
   # <-><-><-><->
 
-  expect_equal(signif(l_res$Parameters[["DM"]], 7), 26.48562)
+  expect_equal(signif(l_res$Parameters[["dm"]], 7), 26.48562)
   expect_equal(round(l_res$Parameters[["df1"]], 0), 8)
   expect_equal(round(l_res$Parameters[["df2"]], 0), 3)
   expect_equal(signif(l_res$Parameters[["K"]], 7), 0.1125000)

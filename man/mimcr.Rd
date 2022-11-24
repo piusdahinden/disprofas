@@ -73,7 +73,7 @@ the following list elements:
   where no numeric information could be extracted are \code{NA}.}
 
 The \code{Parameters} element contains the following information:
-\item{DM}{The Mahalanobis distance of the samples.}
+\item{dm}{The Mahalanobis distance of the samples.}
 \item{df1}{Degrees of freedom (number of variables or time points).}
 \item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
 \item{alpha}{The provided significance level.}

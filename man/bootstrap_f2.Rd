@@ -9,11 +9,11 @@ bootstrap_f2(
   tcol,
   grouping,
   rand_mode = "complete",
-  R = 999,
+  rr = 999,
   each = 12,
   new_seed = 100,
   confid = 0.9,
-  use_EMA = "no",
+  use_ema = "no",
   bounds = c(1, 85),
   ...
 )
@@ -33,7 +33,7 @@ differentiation of batches or formulations of a drug product).}
 randomised (\code{"complete"}, the default) or individual data points
 (\code{"individual"}).}
 
-\item{R}{An integer specifying the number of bootstrap replicates. The
+\item{rr}{An integer specifying the number of bootstrap replicates. The
 default is \code{999}.}
 
 \item{each}{An integer specifying the number of dissolution profiles to be
@@ -46,26 +46,26 @@ The default is \code{100}.}
 for the calculation of the bootstrap confidence intervals. The default is
 \code{0.9}.}
 
-\item{use_EMA}{A character string indicating if the similarity factor
+\item{use_ema}{A character string indicating if the similarity factor
 \eqn{f_2} should be calculated according to the EMA guideline \dQuote{On
 the investigation of bioequivalence} (\code{"yes"}) or not (\code{"no"},
 the default). The default is \code{"no"} because the bootstrap \eqn{f_2}
 method is one of the possible solutions if the condition concerning the
 variability between the profiles does not allow the evaluation of \eqn{f_2}
 according to the EMA guideline. A third option is \code{"ignore"}. If
-\code{use_EMA} is \code{"yes"} or \code{"no"} the appropriate profile
+\code{use_ema} is \code{"yes"} or \code{"no"} the appropriate profile
 portion is determined on the basis of the values of the parameter
 \code{bounds}. If it is \code{"ignore"}, the complete profiles are used as
 specified by the parameter \code{tcol}.}
 
 \item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
 the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
-drug release given that \code{use_EMA} is \code{"no"}. The default is
+drug release given that \code{use_ema} is \code{"no"}. The default is
 \code{c(1, 85)}. Mean \% release values of any of the two groups being
 compared that are smaller than or equal to the lower bound are ignored and
 only the first mean \% release value that is greater than or equal to the
 upper bound is included while all the subsequent values are ignored. If
-\code{use_EMA} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
+\code{use_ema} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
 definition.}
 
 \item{...}{Named parameters of the functions \code{stat.fun()},
@@ -77,7 +77,7 @@ containing the following list elements:
 \item{Boot}{An object of class \sQuote{\code{boot}} with the corresponding
   components.}
 \item{Profile.TP}{A named numeric vector of the columns in \code{data}
-  specified by \code{tcol} and depending on the selection of \code{use_EMA}.
+  specified by \code{tcol} and depending on the selection of \code{use_ema}.
   Given that the column names contain extractable numeric information,
   e.g., specifying the testing time points of the dissolution profile, it
   contains the corresponding values. Elements where no numeric information
@@ -87,11 +87,11 @@ containing the following list elements:
   intervals.}
 \item{BCa_CI}{The lower and upper limits of the BCa interval calculated
   by the \code{boot.ci()} function from the \sQuote{\code{boot}} package.}
-\item{ShahBCa_CI}{The lower and upper limits of the BCa interval calculated
+\item{Shah_BCa_CI}{The lower and upper limits of the BCa interval calculated
   according to Shah (Shah 1998).}
 }
 \description{
-The function \code{bootstrap_f2()} generates \code{R} bootstrap replicates
+The function \code{bootstrap_f2()} generates \code{rr} bootstrap replicates
 of the similarity factor \eqn{f_2} based on resampling of complete profiles
 (nonparametric bootstrap) or on resampling per time point the values
 between profiles (parametric bootstrap). Estimates of \dQuote{normal},

@@ -1,7 +1,7 @@
 #' Profile portion determination
 #'
 #' The function \code{get_profile_portion()} determines, depending on the value
-#' of \code{use_EMA}, which part of the profile will be used for the similarity
+#' of \code{use_ema}, which part of the profile will be used for the similarity
 #' assessment (EMA: European Medicines Agency).
 #'
 #' @param data A data frame with the dissolution profile data in wide format.
@@ -72,7 +72,7 @@
 #'
 #' @keywords internal
 
-get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
+get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
                                 bounds = c(1, 85)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
@@ -96,8 +96,8 @@ get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
   if (!is.logical(groups) || length(groups) != nrow(data)) {
     stop("The parameter groups must be a logical vector of length nrow(data).")
   }
-  if (!(use_EMA %in% c("yes", "no", "ignore"))) {
-    stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
+  if (!(use_ema %in% c("yes", "no", "ignore"))) {
+    stop("Please specify use_ema either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
@@ -112,7 +112,7 @@ get_profile_portion <- function(data, tcol, groups, use_EMA = "yes",
   n <- length(tcol)
   b1 <- groups
 
-  switch(use_EMA, "yes" = {
+  switch(use_ema, "yes" = {
     m_results <- matrix(NA, ncol = 6, nrow = n)
     colnames(m_results) <- c("mean.1", "mean.2", "sd.1", "sd.2", "CV.1", "CV.2")
     rownames(m_results) <- colnames(data)[tcol]
@@ -418,11 +418,11 @@ rand_indiv_points <- function(data, mle) {
   n <- mle[[1]]
   tcol <- mle[[2]]
 
-  index_R <- matrix(sample.int(n = n, size = n * length(tcol), replace = TRUE),
+  index_rr <- matrix(sample.int(n = n, size = n * length(tcol), replace = TRUE),
                     ncol = length(tcol))
-  index_T <- matrix(sample.int(n = n, size = n * length(tcol),
+  index_tt <- matrix(sample.int(n = n, size = n * length(tcol),
                                replace = TRUE) + n, ncol = length(tcol))
-  im <- rbind(index_R, index_T)
+  im <- rbind(index_rr, index_tt)
 
   res <- data
   for (i in seq_along(tcol)) {
@@ -442,15 +442,15 @@ rand_indiv_points <- function(data, mle) {
 #'
 #' @param n_p A positive integer specifying the number of (time) points
 #'   \eqn{n_p}.
-#' @param K A non-negative numeric value specifying the scaling factor \eqn{K}
-#'   for the calculation of the Hotelling's \eqn{T^2} statistic.
+#' @param kk A non-negative numeric value specifying the scaling factor
+#'   \eqn{kk} for the calculation of the Hotelling's \eqn{T^2} statistic.
 #' @param mean_diff A vector of the mean differences between the dissolution
 #'   profiles of the reference and the test batch. It must have the length
 #'   specified by the parameter \eqn{n_p}.
-#' @param S_pool The pooled variance-covariance matrix of the dissolution
+#' @param m_vc The pooled variance-covariance matrix of the dissolution
 #'   profiles of the reference and the test batch. It must have the dimension
 #'   \eqn{n_p \times n_p}.
-#' @param F_crit The critical \eqn{F} value (i.e. a non-negative numeric).
+#' @param ff_crit The critical \eqn{F} value (i.e. a non-negative numeric).
 #' @param y A numeric vector of \eqn{y} values that serve as starting points
 #'   for the Newton-Raphson search, i.e. values supposed to lie on or close to
 #'   the confidence interval bounds. It must have a length of \eqn{n_p + 1}.
@@ -519,8 +519,7 @@ rand_indiv_points <- function(data, mle) {
 #'
 #' @export
 
-gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
-                        max_trial, tol) {
+gep_by_nera <- function(n_p, kk, mean_diff, m_vc, ff_crit, y, max_trial, tol) {
   if (!is.numeric(n_p) || length(n_p) > 1) {
     stop("The parameter n_p must be a positive integer.")
   }
@@ -530,27 +529,27 @@ gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
   if (n_p < 0) {
     stop("The parameter n_p must be a positive integer.")
   }
-  if (!is.numeric(K) || length(K) > 1) {
-    stop("The parameter K must be a non-negative numeric value of length 1.")
+  if (!is.numeric(kk) || length(kk) > 1) {
+    stop("The parameter kk must be a non-negative numeric value of length 1.")
   }
-  if (K < 0) {
-    stop("The parameter K must be a non-negative numeric value of length 1.")
+  if (kk < 0) {
+    stop("The parameter kk must be a non-negative numeric value of length 1.")
   }
   if (!is.numeric(mean_diff) || length(mean_diff) != n_p) {
     stop("The parameter mean_diff must be a numeric vector of length n_p.")
   }
-  if (!is.matrix(S_pool)) {
-    stop("The parameter S_pool must be a matrix of dimensions n_p x n_p.")
+  if (!is.matrix(m_vc)) {
+    stop("The parameter m_vc must be a matrix of dimensions n_p x n_p.")
   }
-  if (!isTRUE(all.equal(dim(S_pool), c(n_p, n_p)))) {
-    stop("The parameter S_pool must be a matrix of dimensions n_p x n_p.")
+  if (!isTRUE(all.equal(dim(m_vc), c(n_p, n_p)))) {
+    stop("The parameter m_vc must be a matrix of dimensions n_p x n_p.")
   }
-  if (!is.numeric(F_crit) || length(F_crit) > 1) {
-    stop("The parameter F_crit must be a non-negative numeric value of ",
+  if (!is.numeric(ff_crit) || length(ff_crit) > 1) {
+    stop("The parameter ff_crit must be a non-negative numeric value of ",
          "length 1.")
   }
-  if (F_crit < 0) {
-    stop("The parameter F_crit must be a non-negative numeric value of ",
+  if (ff_crit < 0) {
+    stop("The parameter ff_crit must be a non-negative numeric value of ",
          "length 1.")
   }
   if (!is.numeric(y) || length(y) != (n_p + 1)) {
@@ -584,15 +583,15 @@ gep_by_nera <- function(n_p, K, mean_diff, S_pool, F_crit, y,
     lambda <- y[n_p + 1]
 
     # The first partial derivatives
-    f_deriv1 <- 2 * solve(S_pool) %*% t_val - 2 * lambda *
-      K * solve(S_pool) %*% t_diff
-    g_deriv1 <- F_crit - K * t(t_diff) %*% solve(S_pool) %*% t_diff
+    f_deriv1 <- 2 * solve(m_vc) %*% t_val - 2 * lambda *
+      kk * solve(m_vc) %*% t_diff
+    g_deriv1 <- ff_crit - kk * t(t_diff) %*% solve(m_vc) %*% t_diff
 
     m_score1 <- c(f_deriv1, g_deriv1)
 
     # The second partial derivatives (Hessian matrix)
-    f_deriv2 <- 2 * solve(S_pool) - 2 * lambda * K * solve(S_pool)
-    g_deriv2 <- -2 * K * solve(S_pool) %*% t_diff
+    f_deriv2 <- 2 * solve(m_vc) - 2 * lambda * kk * solve(m_vc)
+    g_deriv2 <- -2 * kk * solve(m_vc) %*% t_diff
 
     m_score2 <- rbind(f_deriv2, c(g_deriv2))
     m_score2 <- cbind(m_score2, c(c(g_deriv2), 0))

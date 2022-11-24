@@ -1,6 +1,6 @@
 #' Bootstrap f2
 #'
-#' The function \code{bootstrap_f2()} generates \code{R} bootstrap replicates
+#' The function \code{bootstrap_f2()} generates \code{rr} bootstrap replicates
 #' of the similarity factor \eqn{f_2} based on resampling of complete profiles
 #' (nonparametric bootstrap) or on resampling per time point the values
 #' between profiles (parametric bootstrap). Estimates of \dQuote{normal},
@@ -17,7 +17,7 @@
 #' @param rand_mode A character string indicating if complete profiles shall be
 #'   randomised (\code{"complete"}, the default) or individual data points
 #'   (\code{"individual"}).
-#' @param R An integer specifying the number of bootstrap replicates. The
+#' @param rr An integer specifying the number of bootstrap replicates. The
 #'   default is \code{999}.
 #' @param each An integer specifying the number of dissolution profiles to be
 #'   selected per group per randomisation round. The default is \code{12}.
@@ -26,25 +26,25 @@
 #' @param confid A numeric value between 0 and 1 specifying the confidence limit
 #'   for the calculation of the bootstrap confidence intervals. The default is
 #'   \code{0.9}.
-#' @param use_EMA A character string indicating if the similarity factor
+#' @param use_ema A character string indicating if the similarity factor
 #'   \eqn{f_2} should be calculated according to the EMA guideline \dQuote{On
 #'   the investigation of bioequivalence} (\code{"yes"}) or not (\code{"no"},
 #'   the default). The default is \code{"no"} because the bootstrap \eqn{f_2}
 #'   method is one of the possible solutions if the condition concerning the
 #'   variability between the profiles does not allow the evaluation of \eqn{f_2}
 #'   according to the EMA guideline. A third option is \code{"ignore"}. If
-#'   \code{use_EMA} is \code{"yes"} or \code{"no"} the appropriate profile
+#'   \code{use_ema} is \code{"yes"} or \code{"no"} the appropriate profile
 #'   portion is determined on the basis of the values of the parameter
 #'   \code{bounds}. If it is \code{"ignore"}, the complete profiles are used as
 #'   specified by the parameter \code{tcol}.
 #' @param bounds A numeric vector of the form \code{c(lower, upper)} specifying
 #'   the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
-#'   drug release given that \code{use_EMA} is \code{"no"}. The default is
+#'   drug release given that \code{use_ema} is \code{"no"}. The default is
 #'   \code{c(1, 85)}. Mean \% release values of any of the two groups being
 #'   compared that are smaller than or equal to the lower bound are ignored and
 #'   only the first mean \% release value that is greater than or equal to the
 #'   upper bound is included while all the subsequent values are ignored. If
-#'   \code{use_EMA} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
+#'   \code{use_ema} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
 #'   definition.
 #' @param ... Named parameters of the functions \code{stat.fun()},
 #'   \code{ran.fun()} and \code{boot()}.
@@ -86,7 +86,7 @@
 #' \item{Boot}{An object of class \sQuote{\code{boot}} with the corresponding
 #'   components.}
 #' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
-#'   specified by \code{tcol} and depending on the selection of \code{use_EMA}.
+#'   specified by \code{tcol} and depending on the selection of \code{use_ema}.
 #'   Given that the column names contain extractable numeric information,
 #'   e.g., specifying the testing time points of the dissolution profile, it
 #'   contains the corresponding values. Elements where no numeric information
@@ -96,7 +96,7 @@
 #'   intervals.}
 #' \item{BCa_CI}{The lower and upper limits of the BCa interval calculated
 #'   by the \code{boot.ci()} function from the \sQuote{\code{boot}} package.}
-#' \item{ShahBCa_CI}{The lower and upper limits of the BCa interval calculated
+#' \item{Shah_BCa_CI}{The lower and upper limits of the BCa interval calculated
 #'   according to Shah (Shah 1998).}
 #'
 #' @references
@@ -139,8 +139,8 @@
 #' @export
 
 bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
-                   R = 999, each = 12, new_seed = 100, confid = 0.9,
-                   use_EMA = "no", bounds = c(1, 85), ...) {
+                   rr = 999, each = 12, new_seed = 100, confid = 0.9,
+                   use_ema = "no", bounds = c(1, 85), ...) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -168,11 +168,11 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   if (!(rand_mode %in% c("complete", "individual"))) {
     stop("Please specify rand_mode either as \"complete\" or \"individual\".")
   }
-  if (!is.numeric(R) || length(R) > 1) {
-    stop("The parameter R must be an integer of length 1.")
+  if (!is.numeric(rr) || length(rr) > 1) {
+    stop("The parameter rr must be an integer of length 1.")
   }
-  if (!isTRUE(all.equal(R, as.integer(R)))) {
-    stop("The parameter R must be an integer of length 1.")
+  if (!isTRUE(all.equal(rr, as.integer(rr)))) {
+    stop("The parameter rr must be an integer of length 1.")
   }
   if (!is.numeric(each) || length(each) > 1) {
     stop("The parameter each must be an integer of length 1.")
@@ -189,8 +189,8 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   if (confid <= 0 || confid > 1) {
     stop("Please specify confid as (0, 1]")
   }
-  if (!(use_EMA %in% c("yes", "no", "ignore"))) {
-    stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
+  if (!(use_ema %in% c("yes", "no", "ignore"))) {
+    stop("Please specify use_ema either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
@@ -244,10 +244,10 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   # <-><-><-><->
   # Determination of dissolution profile ranges to be compared
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_EMA = use_EMA, bounds = bounds)
+                            use_ema = use_ema, bounds = bounds)
   time_points <- time_points[ok]
 
-  if (use_EMA == "yes" && sum(ok) < 3) {
+  if (use_ema == "yes" && sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
          "points. The actual profiles comprise ", sum(ok), " points only.")
   }
@@ -261,14 +261,14 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
 
   set.seed(new_seed)
   switch(rand_mode, "complete" = {
-    t_boot <- boot(data = data, statistic = get_f2, R = R,
+    t_boot <- boot(data = data, statistic = get_f2, R = rr,
                    strata = data[, grouping], grouping = grouping,
                    tcol = tcol[ok], ...)
   }, "individual" = {
     mle <- vector(mode = "list", length = 2)
     mle[[1]] <- nrow(data) / 2
     mle[[2]] <- tcol[ok]
-    t_boot <- boot(data = data, statistic = get_f2, R = R,
+    t_boot <- boot(data = data, statistic = get_f2, R = rr,
                    sim = "parametric", ran.gen = rand_indiv_points,
                    mle = mle, grouping = grouping, tcol = tcol[ok],
                    ins = seq_along(b1), ...)
@@ -287,14 +287,14 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   a <- (sum((jack$theta.jack - jack$loo.values)^3)) /
     (sum(b1) / 2 *
        sum((jack$theta.jack - jack$loo.values)^2)^(3 / 2))
-  z0 <- qnorm(sum(t_boot$t < t_boot$t0) / R)
+  z0 <- qnorm(sum(t_boot$t < t_boot$t0) / rr)
 
-  BCa_LL <- pnorm(z0 + (z0 + qnorm((1 - confid) / 2)) /
+  bca_ll <- pnorm(z0 + (z0 + qnorm((1 - confid) / 2)) /
                     (1 - a * (z0 + qnorm((1 - confid) / 2))))
-  BCa_UL <- pnorm(z0 + (z0 + qnorm(1 - (1 - confid) / 2)) /
+  bca_ul <- pnorm(z0 + (z0 + qnorm(1 - (1 - confid) / 2)) /
                     (1 - a * (z0 + qnorm(1 - (1 - confid) / 2))))
-  ShahBCa_CI <- as.numeric(c(quantile(t_boot$t, BCa_LL),
-                             quantile(t_boot$t, BCa_UL)))
+  shah_bca_ci <- as.numeric(c(quantile(t_boot$t, bca_ll),
+                             quantile(t_boot$t, bca_ul)))
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Compilation of results
@@ -304,7 +304,7 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
                  L = jack$loo.values,
                  CI = cis,
                  BCa_CI = as.numeric(cis$bca[4:5]),
-                 ShahBCa_CI = ShahBCa_CI),
+                 Shah_BCa_CI = shah_bca_ci),
             class = "bootstrap_f2")
 }
 

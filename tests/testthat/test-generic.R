@@ -3,7 +3,7 @@ context("Generic summary and print (and plot) functions")
 test_that("plot.bootstrap_f2_succeeds", {
   re <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                      tcol = 5:8, grouping = "batch",
-                     R = 200, new_seed = 421, use_EMA = "no")
+                     rr = 200, new_seed = 421, use_ema = "no")
 
   # <-><-><-><->
 
@@ -14,7 +14,7 @@ test_that("plot.bootstrap_f2_succeeds", {
 test_that("summary.bootstrap_f2_succeeds", {
   re <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                      tcol = 5:8, grouping = "batch",
-                     R = 200, new_seed = 421, use_EMA = "no")
+                     rr = 200, new_seed = 421, use_ema = "no")
 
   # <-><-><-><->
 
@@ -29,7 +29,7 @@ test_that("summary.bootstrap_f2_succeeds", {
 test_that("print.bootstrap_f2_succeeds", {
   re <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                      tcol = 5:8, grouping = "batch",
-                     R = 200, new_seed = 421, use_EMA = "no")
+                     rr = 200, new_seed = 421, use_ema = "no")
 
   # <-><-><-><->
 
@@ -74,11 +74,11 @@ test_that("print.mimcr_succeeds", {
 
 test_that("plot.plot_mztia_succeeds", {
   re1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
-               reference = "R", response = NULL, alpha = 0.05, P = 0.99,
-               cap = FALSE, bounds = c(0, 100), QS = c(5, 15))
+               reference = "R", response = NULL, alpha = 0.05, pp = 0.99,
+               cap = FALSE, bounds = c(0, 100), qs = c(5, 15))
   re2 <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
                reference = "reference", response = "weight", alpha = 0.05,
-               P = 0.99, cap = FALSE, bounds = c(0, 100), QS = c(5, 15) / 100)
+               pp = 0.99, cap = FALSE, bounds = c(0, 100), qs = c(5, 15) / 100)
 
   # <-><-><-><->
 
@@ -107,11 +107,11 @@ test_that("plot.plot_mztia_succeeds", {
 
 test_that("print.plot_mztia_succeeds", {
   re1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
-               reference = "R", response = NULL, alpha = 0.05, P = 0.99,
-               cap = FALSE, bounds = c(0, 100), QS = c(5, 15))
+               reference = "R", response = NULL, alpha = 0.05, pp = 0.99,
+               cap = FALSE, bounds = c(0, 100), qs = c(5, 15))
   re2 <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
                reference = "reference", response = "weight", alpha = 0.05,
-               P = 0.99, cap = FALSE, bounds = c(0, 100), QS = c(5, 15) / 100)
+               pp = 0.99, cap = FALSE, bounds = c(0, 100), qs = c(5, 15) / 100)
 
   # <-><-><-><->
 
@@ -140,7 +140,7 @@ test_that("print.plot_mztia_succeeds", {
 
 test_that("summary.mztia_succeeds", {
   re <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
-              reference = "R", alpha = 0.05, P = 0.99, cap = FALSE)
+              reference = "R", alpha = 0.05, pp = 0.99, cap = FALSE)
 
   # <-><-><-><->
 
@@ -154,7 +154,7 @@ test_that("summary.mztia_succeeds", {
 
 test_that("print.mztia_succeeds", {
   re <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
-              reference = "R", alpha = 0.05, P = 0.99, cap = FALSE)
+              reference = "R", alpha = 0.05, pp = 0.99, cap = FALSE)
 
   # <-><-><-><->
 

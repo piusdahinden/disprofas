@@ -40,7 +40,7 @@ plot.bootstrap_f2 <- function(x, ...) {
   plot(x$Boot, ...)
 
   cat("\nShah's lower 90% BCa confidence interval:\n",
-      formatC(as.numeric(x$ShahBCa_CI[1]), digits = digits),
+      formatC(as.numeric(x$Shah_BCa_CI[1]), digits = digits),
       "\n\n")
 
   invisible(x)
@@ -94,7 +94,7 @@ summary.bootstrap_f2 <- function(object, ...) {
   print(object$CI, ...)
 
   cat("\n\nShah's lower 90% BCa confidence interval:\n",
-      formatC(as.numeric(object$ShahBCa_CI[1]), digits = digits),
+      formatC(as.numeric(object$Shah_BCa_CI[1]), digits = digits),
       "\n\n")
 
   invisible(object)

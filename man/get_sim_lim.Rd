@@ -18,7 +18,7 @@ statistic for small samples as returned by the function
 }
 \value{
 A vector containing the following information is returned:
-\item{DM}{The Mahalanobis distance of the samples.}
+\item{dm}{The Mahalanobis distance of the samples.}
 \item{df1}{Degrees of freedom (number of variables or time points).}
 \item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
 \item{alpha}{The provided significance level.}

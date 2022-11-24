@@ -4,7 +4,7 @@
 \alias{f2}
 \title{Similarity factor f2 for dissolution data}
 \usage{
-f2(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85))
+f2(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85))
 }
 \arguments{
 \item{data}{A data frame with the dissolution profile data in wide format.}
@@ -17,10 +17,10 @@ longer.}
 contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 
-\item{use_EMA}{A character string indicating if the similarity factor
+\item{use_ema}{A character string indicating if the similarity factor
 \eqn{f_2} should be calculated following the EMA guideline \dQuote{On the
 investigation of bioequivalence} (\code{"yes"}, the default) or not
-(\code{"no"}). A third option is \code{"ignore"}. If \code{use_EMA} is
+(\code{"no"}). A third option is \code{"ignore"}. If \code{use_ema} is
 \code{"yes"} or \code{"no"} the appropriate profile portion is determined
 on the basis of the values of the parameter \code{bounds}. If it is
 \code{"ignore"}, the complete profiles are used as specified by the
@@ -28,19 +28,19 @@ parameter \code{tcol}.}
 
 \item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
 the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
-drug release given that \code{use_EMA} is \code{"no"}. The default is
+drug release given that \code{use_ema} is \code{"no"}. The default is
 \code{c(1, 85)}. Mean \% release values of any of the two groups being
 compared that are smaller than or equal to the lower bound are ignored and
 only the first mean \% release value that is greater than or equal to the
 upper bound is included while all the subsequent values are ignored. If
-\code{use_EMA} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
+\code{use_ema} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
 definition.}
 }
 \value{
 A list with the following elements is returned:
 \item{f2}{A numeric value representing the similarity factor \eqn{f_2}.}
 \item{Profile.TP}{A named numeric vector of the columns in \code{data}
-  specified by \code{tcol} and depending on the selection of \code{use_EMA}.
+  specified by \code{tcol} and depending on the selection of \code{use_ema}.
   Given that the column names contain extractable numeric information,
   e.g., specifying the testing time points of the dissolution profile, it
   contains the corresponding values. Elements where no numeric information

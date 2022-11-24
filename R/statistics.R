@@ -62,7 +62,7 @@
 #'   the averages, respectively.}
 #'
 #' The \code{Parameters} element contains the following information:
-#' \item{DM}{Mahalanobis distance of the samples.}
+#' \item{dm}{Mahalanobis distance of the samples.}
 #' \item{df1}{Degrees of freedom (number of variables or time points).}
 #' \item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
 #' \item{alpha}{Provided significance level.}
@@ -111,16 +111,16 @@ get_hotellings <- function(m1, m2, signif) {
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Calculation of various parameters
 
-  # Number of profile time points (equal to sum(diag(solve(t_S) %*% t_S))) and
-  # number of observations of the reference and test group
+  # Number of profile time points (equal to sum(diag(solve(m_vc) %*% m_vc)))
+  # and number of observations of the reference and test group
   n_tp <- ncol(m1)
   n_b1 <- n_b2 <- nrow(m1)
 
   # Covariance matrices of the reference and test group and their pooled
   # covariance matrix
-  S_b1 <- cov(m1)
-  S_b2 <- cov(m2)
-  t_S <- ((n_b1 - 1) * S_b1 + (n_b2 - 1) * S_b2) / (n_b1 + n_b2 - 2)
+  m_vc_b1 <- cov(m1)
+  m_vc_b2 <- cov(m2)
+  m_vc <- ((n_b1 - 1) * m_vc_b1 + (n_b2 - 1) * m_vc_b2) / (n_b1 + n_b2 - 2)
 
   # Average dissolution at a given time point of the reference and test group
   # and the corresponding difference vector
@@ -128,8 +128,8 @@ get_hotellings <- function(m1, m2, signif) {
   mean_b2 <- apply(X = m2, MARGIN = 2, FUN = mean)
   mean_diff <- mean_b2 - mean_b1
 
-  # Mahalanobis distance (DM)
-  DM <- sqrt(t(mean_diff) %*% solve(t_S) %*% mean_diff)
+  # Mahalanobis distance (dm)
+  dm <- sqrt(t(mean_diff) %*% solve(m_vc) %*% mean_diff)
 
   # Degrees of freedom
   df1 <- n_tp
@@ -137,33 +137,33 @@ get_hotellings <- function(m1, m2, signif) {
 
   # Scaling factors for the calculation of the Hotelling's T2 statistic
   k <- (n_b2 * n_b1) / (n_b2 + n_b1)
-  K <- k * df2 / ((n_b2 + n_b1 - 2) * df1)
+  kk <- k * df2 / ((n_b2 + n_b1 - 2) * df1)
 
-  # Hotelling's T2 statistic (general) and observed F value
-  T2_value <- k * DM^2
-  F_obs <- K * DM^2
+  # Hotelling's T2 statistic (general) and observed F value (ff_obs)
+  tt2_value <- k * dm^2
+  ff_obs <- kk * dm^2
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Calculation of critical F values
 
   # (1 - alpha) * 100th percentile of the F distribution with given degrees of
   # freedom
-  F_crit <- qf(p = (1 - signif), df1 = df1, df2 = df2)
+  ff_crit <- qf(p = (1 - signif), df1 = df1, df2 = df2)
 
-  # Probability of seeing something as or even more extreme than F_obs
-  p_F <- 1 - pf(F_obs, df1 = df1, df2 = df2)
+  # Probability of seeing something as or even more extreme than ff_obs
+  p_ff <- 1 - pf(ff_obs, df1 = df1, df2 = df2)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Compilation of results
 
-  t_res <- c(DM, df1, df2, signif, K, k, T2_value, F_obs, F_crit, p_F)
-  names(t_res) <- c("DM", "df1", "df2", "signif", "K", "k",
+  t_res <- c(dm, df1, df2, signif, kk, k, tt2_value, ff_obs, ff_crit, p_ff)
+  names(t_res) <- c("dm", "df1", "df2", "signif", "K", "k",
                     "T2", "F", "F.crit", "p.F")
 
   l_res <- list(Parameters = t_res,
-                S.pool = t_S,
-                covs = list(S.b1 = S_b1,
-                           S.b2 = S_b2),
+                S.pool = m_vc,
+                covs = list(S.b1 = m_vc_b1,
+                           S.b2 = m_vc_b2),
                 means = list(mean.b1 = mean_b1,
                              mean.b2 = mean_b2,
                              mean.diff = mean_diff))
@@ -190,7 +190,7 @@ get_hotellings <- function(m1, m2, signif) {
 #' @inheritSection mimcr T2 test for equivalence
 #'
 #' @return A vector containing the following information is returned:
-#' \item{DM}{The Mahalanobis distance of the samples.}
+#' \item{dm}{The Mahalanobis distance of the samples.}
 #' \item{df1}{Degrees of freedom (number of variables or time points).}
 #' \item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
 #' \item{alpha}{The provided significance level.}
@@ -253,34 +253,34 @@ get_sim_lim <- function(mtad, lhs) {
 
   hs <- lhs[[1]]
 
-  # Global similarity limit D_crit determined according to Tsong 1996.
-  # Note that D_glob is a vector of p * mtad specified as the global (or local)
+  # Global similarity limit d_crit determined according to Tsong 1996.
+  # Note that d_glob is a vector of p * mtad specified as the global (or local)
   # similarity limit (in percent), i.e. the maximum tolerable average mean_diff
   # at all time points p.
-  D_glob <- rep(mtad, times = hs["df1"])
-  D_crit <- sqrt(t(D_glob) %*% solve(lhs[[2]]) %*% D_glob)
+  d_glob <- rep(mtad, times = hs["df1"])
+  d_crit <- sqrt(t(d_glob) %*% solve(lhs[[2]]) %*% d_glob)
 
   # Non-centrality parameter that is based on  the equivalence region
-  ncp_Hoffelder <- hs["k"] * D_crit^2
+  ncp_hoffelder <- hs["k"] * d_crit^2
 
   # alpha * 100th percentile of the F distribution with given degrees of freedom
   # and the
-  F_crit_Hoffelder <-
-    qf(p = hs["signif"], df1 = hs["df1"], df2 = hs["df2"], ncp = ncp_Hoffelder)
+  ff_crit_hoffelder <-
+    qf(p = hs["signif"], df1 = hs["df1"], df2 = hs["df2"], ncp = ncp_hoffelder)
 
-  # Probability of seeing something as or even more extreme than F_obs, given
+  # Probability of seeing something as or even more extreme than ff_obs, given
   # the degrees of freedom and the non-centrality parameter defined by the
   # equivalence region
-  p_F_Hoffelder <-
-    pf(hs["F"], df1 = hs["df1"], df2 = hs["df2"], ncp = ncp_Hoffelder)
+  p_ff_hoffelder <-
+    pf(hs["F"], df1 = hs["df1"], df2 = hs["df2"], ncp = ncp_hoffelder)
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Compilation of results
 
-  t_res <- c(hs["DM"], hs["df1"], hs["df2"], hs["signif"], hs["K"],
-             hs["k"], hs["T2"], hs["F"], ncp_Hoffelder, hs["F.crit"],
-             F_crit_Hoffelder, hs["p.F"], p_F_Hoffelder, mtad, D_crit)
-  names(t_res) <- c("DM", "df1", "df2", "alpha", "K", "k", "T2",
+  t_res <- c(hs["dm"], hs["df1"], hs["df2"], hs["signif"], hs["K"],
+             hs["k"], hs["T2"], hs["F"], ncp_hoffelder, hs["F.crit"],
+             ff_crit_hoffelder, hs["p.F"], p_ff_hoffelder, mtad, d_crit)
+  names(t_res) <- c("dm", "df1", "df2", "alpha", "K", "k", "T2",
                     "F", "ncp.Hoffelder", "F.crit", "F.crit.Hoffelder",
                     "p.F", "p.F.Hoffelder", "MTAD", "Sim.Limit")
   return(t_res)
@@ -290,11 +290,11 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' The function \code{f1()} calculates the dissimilarity factor \eqn{f_1}.
 #'
-#' @param use_EMA A character string indicating if the dissimilarity factor
+#' @param use_ema A character string indicating if the dissimilarity factor
 #'   \eqn{f_1} should be calculated following the EMA guideline \dQuote{On
 #'   the investigation of bioequivalence} (\code{"yes"}, the default) or not
 #'   (\code{"no"}), i.e. the recommendations concerning the similarity factor
-#'   \eqn{f_2}. A third option is \code{"ignore"}. If \code{use_EMA} is
+#'   \eqn{f_2}. A third option is \code{"ignore"}. If \code{use_ema} is
 #'   \code{"yes"} or \code{"no"} the appropriate profile portion is determined
 #'   on the basis of the values of the parameter \code{bounds}. If it is
 #'   \code{"ignore"}, the complete profiles are used as specified by the
@@ -342,7 +342,7 @@ get_sim_lim <- function(mtad, lhs) {
 #' @return A list with the following elements is returned:
 #' \item{f1}{A numeric value representing the similarity factor \eqn{f_1}.}
 #' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
-#'   specified by \code{tcol} and depending on the selection of \code{use_EMA}.
+#'   specified by \code{tcol} and depending on the selection of \code{use_ema}.
 #'   Given that the column names contain extractable numeric information,
 #'   e.g., specifying the testing time points of the dissolution profile, it
 #'   contains the corresponding values. Elements where no numeric information
@@ -371,7 +371,7 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' @export
 
-f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
+f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -400,8 +400,8 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   if (!is.factor(data[, grouping])) {
     stop("The grouping variable's column in data must be a factor.")
   }
-  if (!(use_EMA %in% c("yes", "no", "ignore"))) {
-    stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
+  if (!(use_ema %in% c("yes", "no", "ignore"))) {
+    stop("Please specify use_ema either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
@@ -427,7 +427,7 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   b1 <- make_grouping(data = data, grouping = grouping)
 
   # Check if the two groups have the same number of observations. If  not so,
-  # and if the parameter use_EMA is either "no" or "ignore", adjust the data
+  # and if the parameter use_ema is either "no" or "ignore", adjust the data
   # frames in such a way that both groups to be compared will have the same
   # number of observations and that the number of observations per group
   # corresponds to the largest common value (lcv) between number of observations
@@ -435,11 +435,11 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   # Note: an alternative would be to use the least common multiple.
   # Note that together with the data adjustment the b1 vector must be reset.
 
-  if (use_EMA == "yes" && sum(b1) != sum(!b1)) {
+  if (use_ema == "yes" && sum(b1) != sum(!b1)) {
     stop("The two groups to be compared must have the same number of ",
          "observations.")
   }
-  if (use_EMA %in% c("no", "ignore") && sum(b1) != sum(!b1)) {
+  if (use_ema %in% c("no", "ignore") && sum(b1) != sum(!b1)) {
     warning("The two groups to be compared do not have the same number of ",
             "observations. Thus, the number of rows is adjusted according ",
             "to the largest common value between the number of observations ",
@@ -461,9 +461,9 @@ f1 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_EMA = use_EMA, bounds = bounds)
+                            use_ema = use_ema, bounds = bounds)
 
-  if (use_EMA == "yes" && sum(ok) < 3) {
+  if (use_ema == "yes" && sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
          "points. The actual profiles comprise ", sum(ok), " points only.")
   }
@@ -557,11 +557,11 @@ get_f1 <- function(data, ins, tcol, grouping) {
 
   b1 <- make_grouping(data = data[ins, ], grouping = grouping)
 
-  R_i <- apply(data[ins, ][b1, tcol], MARGIN = 2, FUN = mean)
-  T_i <- apply(data[ins, ][!b1, tcol], MARGIN = 2, FUN = mean)
+  rr_i <- apply(data[ins, ][b1, tcol], MARGIN = 2, FUN = mean)
+  tt_i <- apply(data[ins, ][!b1, tcol], MARGIN = 2, FUN = mean)
 
-  ddelta_hat <- sum(abs(R_i - T_i))
-  f1 <- 100 * ddelta_hat / sum(R_i)
+  ddelta_hat <- sum(abs(rr_i - tt_i))
+  f1 <- 100 * ddelta_hat / sum(rr_i)
 
   return(f1)
 }
@@ -570,10 +570,10 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' The function \code{f2()} calculates the similarity factor \eqn{f_2}.
 #'
-#' @param use_EMA A character string indicating if the similarity factor
+#' @param use_ema A character string indicating if the similarity factor
 #'   \eqn{f_2} should be calculated following the EMA guideline \dQuote{On the
 #'   investigation of bioequivalence} (\code{"yes"}, the default) or not
-#'   (\code{"no"}). A third option is \code{"ignore"}. If \code{use_EMA} is
+#'   (\code{"no"}). A third option is \code{"ignore"}. If \code{use_ema} is
 #'   \code{"yes"} or \code{"no"} the appropriate profile portion is determined
 #'   on the basis of the values of the parameter \code{bounds}. If it is
 #'   \code{"ignore"}, the complete profiles are used as specified by the
@@ -617,7 +617,7 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #' @return A list with the following elements is returned:
 #' \item{f2}{A numeric value representing the similarity factor \eqn{f_2}.}
 #' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
-#'   specified by \code{tcol} and depending on the selection of \code{use_EMA}.
+#'   specified by \code{tcol} and depending on the selection of \code{use_ema}.
 #'   Given that the column names contain extractable numeric information,
 #'   e.g., specifying the testing time points of the dissolution profile, it
 #'   contains the corresponding values. Elements where no numeric information
@@ -646,7 +646,7 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' @export
 
-f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
+f2 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -675,8 +675,8 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   if (!is.factor(data[, grouping])) {
     stop("The grouping variable's column in data must be a factor.")
   }
-  if (!(use_EMA %in% c("yes", "no", "ignore"))) {
-    stop("Please specify use_EMA either as \"yes\" or \"no\" or \"ignore\".")
+  if (!(use_ema %in% c("yes", "no", "ignore"))) {
+    stop("Please specify use_ema either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
     stop("The paramter bounds must be a numeric vector of length 2.")
@@ -702,7 +702,7 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   b1 <- make_grouping(data = data, grouping = grouping)
 
   # Check if the two groups have the same number of observations. If  not so,
-  # and if the parameter use_EMA is either "no" or "ignore", adjust the data
+  # and if the parameter use_ema is either "no" or "ignore", adjust the data
   # frames in such a way that both groups to be compared will have the same
   # number of observations and that the number of observations per group
   # corresponds to the largest common value (lcv) between number of observations
@@ -710,11 +710,11 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   # Note: an alternative would be to use the least common multiple.
   # Note that together with the data adjustment the b1 vector must be reset.
 
-  if (use_EMA == "yes" && sum(b1) != sum(!b1)) {
+  if (use_ema == "yes" && sum(b1) != sum(!b1)) {
     stop("The two groups to be compared must have the same number of ",
          "observations.")
   }
-  if (use_EMA %in% c("no", "ignore") && sum(b1) != sum(!b1)) {
+  if (use_ema %in% c("no", "ignore") && sum(b1) != sum(!b1)) {
     warning("The two groups to be compared do not have the same number of ",
             "observations. Thus, the number of rows is adjusted according ",
             "to the largest common value between the number of observations ",
@@ -736,9 +736,9 @@ f2 <- function(data, tcol, grouping, use_EMA = "yes", bounds = c(1, 85)) {
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_EMA = use_EMA, bounds = bounds)
+                            use_ema = use_ema, bounds = bounds)
 
-  if (use_EMA == "yes" && sum(ok) < 3) {
+  if (use_ema == "yes" && sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time ",
          "points. The actual profiles comprise ", sum(ok), " points only.")
   }
@@ -833,10 +833,10 @@ get_f2 <- function(data, ins, tcol, grouping) {
   n <- length(tcol)
   b1 <- make_grouping(data = data[ins, ], grouping = grouping)
 
-  R_i <- apply(data[ins, ][b1, tcol], MARGIN = 2, FUN = mean)
-  T_i <- apply(data[ins, ][!b1, tcol], MARGIN = 2, FUN = mean)
+  rr_i <- apply(data[ins, ][b1, tcol], MARGIN = 2, FUN = mean)
+  tt_i <- apply(data[ins, ][!b1, tcol], MARGIN = 2, FUN = mean)
 
-  ddelta_hat <- 1 + sum((R_i - T_i)^2) / n
+  ddelta_hat <- 1 + sum((rr_i - tt_i)^2) / n
   f2 <- 50 * log10(100 / sqrt(ddelta_hat))
 
   return(f2)

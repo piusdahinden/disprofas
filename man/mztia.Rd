@@ -12,10 +12,10 @@ mztia(
   reference,
   response = NULL,
   alpha = 0.05,
-  P = 0.99,
+  pp = 0.99,
   cap = TRUE,
   bounds = c(0, 100),
-  QS = c(5, 15),
+  qs = c(5, 15),
   ...
 )
 }
@@ -52,7 +52,7 @@ release values. The default is \code{NULL}.}
 \item{alpha}{A numeric value between 0 and 1 specifying the probability
 level. The default is \code{0.05}.}
 
-\item{P}{A numeric value between 0 and 1 specifying the proportion of the
+\item{pp}{A numeric value between 0 and 1 specifying the proportion of the
 population being enclosed by the tolerance interval boundaries. The
 default is \code{0.99}.}
 
@@ -65,7 +65,7 @@ drug release at which the calculated tolerance interval limits should
 be capped (see parameter \eqn{cap}. This parameter is only relevant if
 \code{cap = TRUE}. The default is \code{c(0, 100)}.}
 
-\item{QS}{A numeric vector of the form \code{c(Q S1, Q S2)} that specifies
+\item{qs}{A numeric vector of the form \code{c(Q S1, Q S2)} that specifies
 the allowable deviations from the specifications in percent according to
 the \eqn{S1} and \eqn{S2} acceptance criteria of USP chapter <711> on
 dissolution. The default is \code{c(5, 15)}.}
@@ -101,12 +101,12 @@ specified percentage.
 The tolerance interval approach proposed by Martinez & Zhao (2018)
 is a simple approach for the comparison of dissolution profiles. The authors
 propose to calculate for each time point of a set of reference dissolution
-profiles a tolerance interval (\eqn{TI}), i.e. intervals containing \eqn{P}\%
-of the population of potential values for reference product at a probability
-level of \eqn{alpha / 2} per tail (i.e., \eqn{(1 - alpha) 100}\% confidence).
-Based on these \eqn{TI}s the dissolution profiles of the test batch(es) is
-(are) compared, i.e. the corresponding data points should lie within the
-\eqn{TI}s. The \eqn{TI}s are calculated as
+profiles a tolerance interval (\eqn{TI}), i.e. intervals containing
+\eqn{pp}\% of the population of potential values for reference product at a
+probability level of \eqn{alpha / 2} per tail (i.e., \eqn{(1 - alpha) 100}\%
+confidence). Based on these \eqn{TI}s the dissolution profiles of the test
+batch(es) is (are) compared, i.e. the corresponding data points should lie
+within the \eqn{TI}s. The \eqn{TI}s are calculated as
 
 \deqn{Y_{utl,ltl} = \bar{Y} \pm k \times s}{Y_{utl,ltl} = Y.bar +- k*s}
 

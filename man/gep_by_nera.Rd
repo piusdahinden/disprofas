@@ -4,24 +4,24 @@
 \alias{gep_by_nera}
 \title{Points on confidence region (found by Newton-Raphson search)}
 \usage{
-gep_by_nera(n_p, K, mean_diff, S_pool, F_crit, y, max_trial, tol)
+gep_by_nera(n_p, kk, mean_diff, m_vc, ff_crit, y, max_trial, tol)
 }
 \arguments{
 \item{n_p}{A positive integer specifying the number of (time) points
 \eqn{n_p}.}
 
-\item{K}{A non-negative numeric value specifying the scaling factor \eqn{K}
-for the calculation of the Hotelling's \eqn{T^2} statistic.}
+\item{kk}{A non-negative numeric value specifying the scaling factor
+\eqn{kk} for the calculation of the Hotelling's \eqn{T^2} statistic.}
 
 \item{mean_diff}{A vector of the mean differences between the dissolution
 profiles of the reference and the test batch. It must have the length
 specified by the parameter \eqn{n_p}.}
 
-\item{S_pool}{The pooled variance-covariance matrix of the dissolution
+\item{m_vc}{The pooled variance-covariance matrix of the dissolution
 profiles of the reference and the test batch. It must have the dimension
 \eqn{n_p \times n_p}.}
 
-\item{F_crit}{The critical \eqn{F} value (i.e. a non-negative numeric).}
+\item{ff_crit}{The critical \eqn{F} value (i.e. a non-negative numeric).}
 
 \item{y}{A numeric vector of \eqn{y} values that serve as starting points
 for the Newton-Raphson search, i.e. values supposed to lie on or close to

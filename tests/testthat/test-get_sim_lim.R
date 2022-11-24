@@ -8,7 +8,7 @@ test_that("get_sim_lim_succeeds", {
 
   # <-><-><-><->
 
-  expect_equivalent(signif(t_res["DM"], 7), 26.48562)
+  expect_equivalent(signif(t_res["dm"], 7), 26.48562)
   expect_equivalent(round(t_res["df1"], 0), 8)
   expect_equivalent(round(t_res["df2"], 0), 3)
   expect_equivalent(signif(t_res["K"], 7), 0.1125000)

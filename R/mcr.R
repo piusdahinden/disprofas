@@ -182,7 +182,7 @@
 #'   where no numeric information could be extracted are \code{NA}.}
 #'
 #' The \code{Parameters} element contains the following information:
-#' \item{DM}{The Mahalanobis distance of the samples.}
+#' \item{dm}{The Mahalanobis distance of the samples.}
 #' \item{df1}{Degrees of freedom (number of variables or time points).}
 #' \item{df2}{Degrees of freedom (number of rows - number of variables - 1).}
 #' \item{alpha}{The provided significance level.}
@@ -374,7 +374,7 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_EMA = "no", bounds = bounds)
+                            use_ema = "no", bounds = bounds)
 
   if (sum(ok) < 3) {
     warning("The profiles should comprise a minimum of 3 time points. ",
@@ -398,9 +398,9 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
 
   # Similarity conclusion based on Hoffelder's p value
   if (t_sl["p.F.Hoffelder"] < signif) {
-    conclusion_Hoffelder <- "Similar"
+    conclusion_hoffelder <- "Similar"
   } else {
-    conclusion_Hoffelder <- "Dissimilar"
+    conclusion_hoffelder <- "Dissimilar"
   }
 
   # Compilation of results
@@ -414,18 +414,18 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
 
   tmp <- rep(1, times = t_sl["df1"] + 1)
   tmp <- try_get_model(
-    gep_by_nera(n_p = as.numeric(t_sl["df1"]), K = as.numeric(t_sl["K"]),
+    gep_by_nera(n_p = as.numeric(t_sl["df1"]), kk = as.numeric(t_sl["K"]),
                 mean_diff = l_hs[["means"]][["mean.diff"]],
-                S_pool = l_hs[["S.pool"]], F_crit = as.numeric(t_sl["F.crit"]),
+                m_vc = l_hs[["S.pool"]], ff_crit = as.numeric(t_sl["F.crit"]),
                 y = tmp, max_trial = max_trial, tol = tol))
 
   if (!is.null(tmp[["Error"]]) || !is.null(tmp[["Warning"]])) {
-      CI_NR <- cbind(LCL = rep(NA, times = t_sl["df1"]),
+      nr_ci <- cbind(LCL = rep(NA, times = t_sl["df1"]),
                      UCL = rep(NA, times = t_sl["df1"]))
-      rownames(CI_NR) <- colnames(data[, tcol[ok]])
+      rownames(nr_ci) <- colnames(data[, tcol[ok]])
 
       # Similarity conclusion based on Tsong's D_crit
-      conclusion_Tsong <- "Dissimilar"
+      conclusion_tsong <- "Dissimilar"
     } else {
       y_b1 <- tmp[["Model"]][["points"]]
 
@@ -444,12 +444,12 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
         (y_b1[1:t_sl["df1"]] - l_hs[["means"]][["mean.diff"]])
 
       if (round(kdvd, tol) != round(t_sl["F.crit"], tol)) {
-        CI_NR <- cbind(LCL = rep(NA, times = t_sl["df1"]),
+        nr_ci <- cbind(LCL = rep(NA, times = t_sl["df1"]),
                        UCL = rep(NA, times = t_sl["df1"]))
-        rownames(CI_NR) <- colnames(data[, tcol[ok]])
+        rownames(nr_ci) <- colnames(data[, tcol[ok]])
 
         # Similarity conclusion based on Tsong's D_crit
-        conclusion_Tsong <- "Dissimilar"
+        conclusion_tsong <- "Dissimilar"
 
         warning("The points found by the Newton-Raphson search are not ",
                 "located on the confidence region boundary.")
@@ -459,43 +459,43 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
         # calculated. Then it is checked if the longer distance is smaller than
         # the global similarity limit D_crit.
 
-        MD1 <- sqrt(t(y_b1[1:t_sl["df1"]]) %*% solve(l_hs[["S.pool"]]) %*%
+        md_1 <- sqrt(t(y_b1[1:t_sl["df1"]]) %*% solve(l_hs[["S.pool"]]) %*%
                       y_b1[1:t_sl["df1"]])
-        MD2 <- sqrt(t(y_b2[1:t_sl["df1"]]) %*% solve(l_hs[["S.pool"]]) %*%
+        md_2 <- sqrt(t(y_b2[1:t_sl["df1"]]) %*% solve(l_hs[["S.pool"]]) %*%
                       y_b2[1:t_sl["df1"]])
 
-        t_res[length(t_res) - 1] <- min(MD1, MD2)
-        t_res[length(t_res)] <- max(MD1, MD2)
+        t_res[length(t_res) - 1] <- min(md_1, md_2)
+        t_res[length(t_res)] <- max(md_1, md_2)
 
         # Similarity conclusion based on Tsong's D_crit
         if (t_res[length(t_res)] < t_sl["Sim.Limit"]) {
-          conclusion_Tsong <- "Similar"
+          conclusion_tsong <- "Similar"
         } else {
-          conclusion_Tsong <- "Dissimilar"
+          conclusion_tsong <- "Dissimilar"
         }
 
-        if (MD1 < MD2) {
-          CI_NR <- cbind(LCL = y_b1[1:t_sl["df1"]], UCL = y_b2[1:t_sl["df1"]])
-          rownames(CI_NR) <- colnames(data[, tcol[ok]])
+        if (md_1 < md_2) {
+          nr_ci <- cbind(LCL = y_b1[1:t_sl["df1"]], UCL = y_b2[1:t_sl["df1"]])
+          rownames(nr_ci) <- colnames(data[, tcol[ok]])
         } else {
-          CI_NR <- cbind(LCL = y_b2[1:t_sl["df1"]], UCL = y_b1[1:t_sl["df1"]])
-          rownames(CI_NR) <- colnames(data[, tcol[ok]])
+          nr_ci <- cbind(LCL = y_b2[1:t_sl["df1"]], UCL = y_b1[1:t_sl["df1"]])
+          rownames(nr_ci) <- colnames(data[, tcol[ok]])
         }
       }
     }
 
-  l_NR <- vector(mode = "list", length = 6)
-  names(l_NR) <-
+  l_nr <- vector(mode = "list", length = 6)
+  names(l_nr) <-
     c("CI", "converged", "n.trial", "max.trial", "Warning", "Error")
 
-  l_NR[[1]] <- CI_NR
-  l_NR[[2]] <- tmp[["Model"]]$converged
-  l_NR[[3]] <- tmp[["Model"]]$n.trial
-  l_NR[[4]] <- tmp[["Model"]]$max.trial
-  if (!is.null(tmp[["Warning"]])) l_NR[[5]] <- tmp[["Warning"]]
-  if (!is.null(tmp[["Error"]])) l_NR[[6]] <- tmp[["Error"]]
+  l_nr[[1]] <- nr_ci
+  l_nr[[2]] <- tmp[["Model"]]$converged
+  l_nr[[3]] <- tmp[["Model"]]$n.trial
+  l_nr[[4]] <- tmp[["Model"]]$max.trial
+  if (!is.null(tmp[["Warning"]])) l_nr[[5]] <- tmp[["Warning"]]
+  if (!is.null(tmp[["Error"]])) l_nr[[6]] <- tmp[["Error"]]
 
-  conclusions <- c(conclusion_Tsong, conclusion_Hoffelder)
+  conclusions <- c(conclusion_tsong, conclusion_hoffelder)
   names(conclusions) <- c("Tsong", "Hoffelder")
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -503,7 +503,7 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
 
   structure(list(Similarity = conclusions,
                  Parameters = t_res,
-                 NR.CI = l_NR,
+                 NR.CI = l_nr,
                  Profile.TP = time_points),
             class = "mimcr")
 }

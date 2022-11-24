@@ -8,7 +8,7 @@ test_that("mimcr_results_match_Hoffelder_2015", {
 
   # <-><-><-><->
 
-  expect_equal(signif(l_res$Parameters[["DM"]], 7), 0.2384023)
+  expect_equal(signif(l_res$Parameters[["dm"]], 7), 0.2384023)
   expect_equal(round(l_res$Parameters[["df1"]], 0), 3)
   expect_equal(round(l_res$Parameters[["df2"]], 0), 20)
   expect_equal(round(l_res$Parameters[["alpha"]], 2), 0.05)
@@ -33,7 +33,7 @@ test_that("mimcr_results_match_Hoffelder_2016", {
 
   # <-><-><-><->
 
-  expect_equal(signif(l_res$Parameters[["DM"]], 7), 2.823976)
+  expect_equal(signif(l_res$Parameters[["dm"]], 7), 2.823976)
   expect_equal(round(l_res$Parameters[["df1"]], 0), 3)
   expect_equal(round(l_res$Parameters[["df2"]], 0), 20)
   expect_equal(round(l_res$Parameters[["alpha"]], 2), 0.05)
@@ -60,7 +60,7 @@ test_that("mimcr_results_match_Tsong_1996_two", {
 
   # <-><-><-><->
 
-  expect_equal(signif(l_res$Parameters[["DM"]], 7), 10.44045)
+  expect_equal(signif(l_res$Parameters[["dm"]], 7), 10.44045)
   expect_equal(round(l_res$Parameters[["df1"]], 0), 2)
   expect_equal(round(l_res$Parameters[["df2"]], 0), 9)
   expect_equal(round(l_res$Parameters[["alpha"]], 2), 0.1)
@@ -84,7 +84,7 @@ test_that("mimcr_results_match_Tsong_1996_all", {
 
   # <-><-><-><->
 
-  expect_equal(signif(l_res$Parameters[["DM"]], 7), 26.48562)
+  expect_equal(signif(l_res$Parameters[["dm"]], 7), 26.48562)
   expect_equal(round(l_res$Parameters[["df1"]], 0), 8)
   expect_equal(round(l_res$Parameters[["df2"]], 0), 3)
   expect_equal(round(l_res$Parameters[["alpha"]], 2), 0.1)

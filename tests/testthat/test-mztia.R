@@ -15,17 +15,19 @@ test_that("mztia_succeeds_CAPABILITY", {
                       ncol = 2, byrow = FALSE)
 
   ll <-
-    apply(m_alpha_P, MARGIN = 1, FUN = function(x)
+    apply(m_alpha_P, MARGIN = 1, FUN = function(x) {
       mztia(data = dip5, shape = "long", tcol = 1, grouping = "type",
             reference = "reference", response = "weight", alpha = x[1],
-            P = x[2], cap = FALSE, bounds = c(0, 100), QS = c(5, 15))
-      [["Data"]][102, "weight"])
+            P = x[2], cap = FALSE, bounds = c(0, 100), QS = c(5, 15)
+            )[["Data"]][102, "weight"]
+    })
   ul <-
-    apply(m_alpha_P, MARGIN = 1, FUN = function(x)
+    apply(m_alpha_P, MARGIN = 1, FUN = function(x) {
       mztia(data = dip5, shape = "long", tcol = 1, grouping = "type",
             reference = "reference", response = "weight", alpha = x[1],
-            P = x[2], cap = FALSE, bounds = c(0, 100), QS = c(5, 15))
-      [["Data"]][103, "weight"])
+            P = x[2], cap = FALSE, bounds = c(0, 100), QS = c(5, 15)
+            )[["Data"]][103, "weight"]
+    })
 
   # <-><-><-><->
 

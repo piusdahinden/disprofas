@@ -174,7 +174,8 @@ test_that("mimcr_fails", {
           tol = 1e-9),
     "fit_n_obs must be a logical")
   expect_error(
-    mimcr(data = dip1, tcol = 3:10, grouping = "type", fit_n_obs = c(T, F),
+    mimcr(data = dip1, tcol = 3:10, grouping = "type",
+          fit_n_obs = c(TRUE, FALSE),
           mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "fit_n_obs must be a logical")

@@ -507,7 +507,8 @@ plot_mztia <- function(x, ...) {
       scale_shape_manual(
         values = t_symbols, breaks = t_breaks, labels = t_labels) +
       theme_bw() + theme(legend.justification = c(1, 0),
-                         legend.position = c(1, 0.01),
+                         legend.position = "inside",
+                         legend.position.inside = c(1, 0.01),
                          legend.key.size = unit(1.5, "lines"),
                          plot.margin = unit(c(0.2, 0.4, 0.2, 0.2), "lines"),
                          panel.grid.major = element_line(colour = "grey80"),

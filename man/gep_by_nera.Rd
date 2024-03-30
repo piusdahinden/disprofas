@@ -176,8 +176,8 @@ F_crit <- qf(p = (1 - 0.05), df1 = df_b1, df2 = df_b2)
 y_b1 <- rep(1, times = (n_tp + 1))
 
 # Calling gep_by_nera()
-res <- gep_by_nera(n_p = n_tp, K = K, mean_diff = mean_diff, S_pool = S,
-                   F_crit = F_crit, y = y_b1, max_trial = 100, tol = 1e-9)
+res <- gep_by_nera(n_p = n_tp, kk = K, mean_diff = mean_diff, m_vc = S,
+                   ff_crit = F_crit, y = y_b1, max_trial = 100, tol = 1e-9)
 
 # Expected result in res[["points"]]
 #              [,1]
@@ -195,11 +195,13 @@ res <- gep_by_nera(n_p = n_tp, K = K, mean_diff = mean_diff, S_pool = S,
 # represents the Lagrange multiplier lambda.
 
 # If 'max_trial' is too small, the Newton-Raphson search may not converge.
-tryCatch(
-  gep_by_nera(n_p = n_tp, K = K, mean_diff = mean_diff, S_pool = S,
-              F_crit = F_crit, y = y_b1, max_trial = 5, tol = 1e-9),
-  warning = function(w) message(w),
-  finally = message("\nMaybe increasing the number of max_trial could help."))
+\dontrun{
+  tryCatch(
+    gep_by_nera(n_p = n_tp, kk = K, mean_diff = mean_diff, m_vc = S,
+                ff_crit = F_crit, y = y_b1, max_trial = 5, tol = 1e-9),
+    warning = function(w) message(w),
+    finally = message("\nMaybe increasing the number of max_trial could help."))
+}
 }
 \references{
 United States Food and Drug Administration (FDA). Guidance for industry:

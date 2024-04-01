@@ -11,7 +11,7 @@ summary(res1)
 # Did the Newton-Raphson search converge? Yes
 #
 # Parameters (general):
-#   Significance level:                 0.05
+# Significance level:                   0.05
 # Degrees of freedom (1):               7
 # Degrees of freedom (2):               4
 # Mahalanobis distance (MD):            25.72
@@ -52,7 +52,7 @@ summary(res1)
   # Did the Newton-Raphson search converge? Yes
   #
   # Parameters (general):
-  #   Significance level:                 0.1
+  # Significance level:                   0.1
   # Degrees of freedom (1):               2
   # Degrees of freedom (2):               9
   # Mahalanobis distance (MD):            10.44

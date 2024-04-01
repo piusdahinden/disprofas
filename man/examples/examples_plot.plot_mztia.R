@@ -4,9 +4,8 @@ res1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
 
 # The 'mztia' object can be passed on to the plot_mztia() function. This
 # function does not produce any output but returns a 'plot_mztia' object.
-gg1 <- plot_mztia(res1)
-
 \dontrun{
+  gg1 <- plot_mztia(res1)
   gg2 <- plot(gg1)
 
   # The plot() function returns the 'plot_mztia' object invisibly.

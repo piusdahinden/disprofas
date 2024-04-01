@@ -52,7 +52,19 @@ test_that("summary.mimcr_succeeds", {
   expect_output(summary(re), "Yes")
   expect_output(summary(re), "Similar")
 
+  expect_output(summary(re, digits = 5), "3")
+  expect_output(summary(re, digits = 5), "20")
+  expect_output(summary(re, digits = 5), "0.2384")
+  expect_output(summary(re, digits = 5), "1.8182")
+  expect_output(summary(re, digits = 5), "6")
+  expect_output(summary(re, digits = 5), "0.34101")
+
+  expect_output(summary(re, digits = 5), "10")
+  expect_output(summary(re, digits = 5), "2.2481")
   expect_output(summary(re, digits = 5), "1.5438")
+
+  expect_output(summary(re, digits = 5), "30.323")
+  expect_output(summary(re, digits = 5), "4.8993")
   expect_output(summary(re, digits = 5), "2.8908e-08")
 })
 
@@ -67,8 +79,20 @@ test_that("print.mimcr_succeeds", {
   expect_output(print(re), "Yes")
   expect_output(print(re), "Similar")
 
-  expect_output(print(re, digits = 5), "1.5438")
-  expect_output(print(re, digits = 5), "2.8908e-08")
+  expect_output(summary(re, digits = 5), "3")
+  expect_output(summary(re, digits = 5), "20")
+  expect_output(summary(re, digits = 5), "0.2384")
+  expect_output(summary(re, digits = 5), "1.8182")
+  expect_output(summary(re, digits = 5), "6")
+  expect_output(summary(re, digits = 5), "0.34101")
+
+  expect_output(summary(re, digits = 5), "10")
+  expect_output(summary(re, digits = 5), "2.2481")
+  expect_output(summary(re, digits = 5), "1.5438")
+
+  expect_output(summary(re, digits = 5), "30.323")
+  expect_output(summary(re, digits = 5), "4.8993")
+  expect_output(summary(re, digits = 5), "2.8908e-08")
 })
 
 

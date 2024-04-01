@@ -165,7 +165,7 @@ summary.mimcr <- function(object, ...) {
       "\nDegrees of freedom (2):              ",
       formatC(unname(object[["Parameters"]]["df2"]), ...),
       "\nMahalanobis distance (MD):           ",
-      formatC(unname(object[["Parameters"]]["DM"]), ...),
+      formatC(unname(object[["Parameters"]]["dm"]), ...),
       "\n(F) scaling factor K:                ",
       formatC(unname(object[["Parameters"]]["K"]), ...),
       "\n(MD) scaling factor k:               ",

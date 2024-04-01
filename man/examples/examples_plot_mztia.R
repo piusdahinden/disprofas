@@ -5,8 +5,10 @@ res1 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
 # The 'mztia' object can be passed on to the plot_mztia() function. This
 # function does not produce any output. It returns a 'plot_mztia' object that
 # is essentially an 'mztia' object augmented by a 'ggplot' object.
-gg1 <- plot_mztia(res1)
-gg1
+\dontrun{
+  gg1 <- plot_mztia(res1)
+  gg1
+}
 
 # Since the element gg1$Graph is a 'ggplot' object it can be used for further
 # manipulation by aid of 'ggplot2' functions.
@@ -24,10 +26,10 @@ res2 <- mztia(data = dip5, shape = "long", tcol = 3, grouping = "type",
              reference = "reference", response = "weight", cap = FALSE,
              QS = c(5, 15) / 100)
 
-gg2 <- plot_mztia(res2)
-gg2
-
 \dontrun{
+  gg2 <- plot_mztia(res2)
+  gg2
+
   if (requireNamespace("ggplot2")) {
     library(ggplot2)
 

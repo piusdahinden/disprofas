@@ -52,11 +52,10 @@ test_that("mimcr_results_match_Hoffelder_2016", {
 })
 
 test_that("mimcr_results_match_Tsong_1996_two", {
-  l_res <-
-    suppressWarnings(mimcr(data = dip1[, c("type", "tablet", "t.15", "t.90")],
-                           tcol = 3:4, grouping = "type", fit_n_obs = FALSE,
-                           mtad = 15, signif = 0.1, max_trial = 50,
-                           bounds = c(1, 100), tol = 1e-9))
+  l_res <- suppressWarnings(
+    mimcr(data = dip1[, c("type", "tablet", "t.15", "t.90")], tcol = 3:4,
+          grouping = "type", fit_n_obs = FALSE, mtad = 15, signif = 0.1,
+          max_trial = 50, bounds = c(1, 100), tol = 1e-9))
 
   # <-><-><-><->
 
@@ -101,6 +100,84 @@ test_that("mimcr_results_match_Tsong_1996_all", {
   expect_equivalent(signif(l_res[["NR.CI"]][["CI"]][, 2], 7),
                     c(-29.80331, -25.81346, -22.06682, -18.61370, -12.60063,
                        -0.8763830, 4.260311, 6.287733))
+})
+
+test_that("mimcr_gets_inverted_ellipse", {
+  l_res <- suppressWarnings(
+    mimcr(data = dip4, tcol = 3:4, grouping = "type", fit_n_obs = FALSE,
+          mtad = 10, signif = 0.1, bounds = c(1, 100), tol = 1e-9))
+
+  # <-><-><-><->
+
+  expect_equal(signif(l_res$Parameters[["dm"]], 7), 0.3349041)
+  expect_equal(round(l_res$Parameters[["df1"]], 0), 2)
+  expect_equal(round(l_res$Parameters[["df2"]], 0), 21)
+  expect_equal(round(l_res$Parameters[["alpha"]], 2), 0.1)
+  expect_equal(signif(l_res$Parameters[["K"]], 7), 2.863636)
+  expect_equal(signif(l_res$Parameters[["T2"]], 7), 0.6729645)
+  expect_equal(signif(l_res$Parameters[["F.crit"]], 7), 2.574569)
+  expect_equal(signif(l_res$Parameters[["Sim.Limit"]], 7), 14.58178)
+  expect_equal(signif(l_res$Parameters[["Obs.L"]], 7), 0.6132815)
+  expect_equal(signif(l_res$Parameters[["Obs.U"]], 7), 1.283090)
+
+  expect_equivalent(signif(l_res[["NR.CI"]][["CI"]][, 1], 7),
+                    c(-2.899425, -0.6104052))
+  expect_equivalent(signif(l_res[["NR.CI"]][["CI"]][, 2], 7),
+                    c(6.066091, 1.277072))
+})
+
+test_that("mimcr_warns", {
+  tmp <- rbind(dip2[dip2$batch == "b0", ],
+               dip2[dip2$batch == "b4" & dip2$tablet %in% as.character(1:6), ])
+
+  # <-><-><-><->
+
+  expect_warning(
+    mimcr(data = tmp, tcol = 4:8, grouping = "type", fit_n_obs = TRUE,
+          mtad = 10, signif = 0.1, max_trial = 50,  bounds = c(1, 85),
+          tol = 1e-9),
+    "Rows from the group with redundant observations")
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  expect_warning(
+    mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
+          mtad = 10, signif = 0.1, max_trial = 50,  bounds = c(1, 55),
+          tol = 1e-9),
+    "The profiles should comprise a minimum of 3 time points")
+  expect_warning(
+    mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
+          mtad = 10, signif = 0.1, max_trial = 50,  bounds = c(1, 85),
+          tol = 1),
+    "The points found by the Newton-Raphson search")
+})
+
+test_that("mimcr_nera_estimation_fails", {
+  tmp1 <- expect_warning(
+    mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
+          mtad = 10, signif = 0.1, max_trial = 5,  bounds = c(1, 85),
+          tol = 1e-15),
+    "Newton-Raphson search did not converge")
+
+  tmp2 <- suppressWarnings(
+    mimcr(data = dip2[dip2$batch %in% c("b0", "b4"), ],
+          tcol = c(6, 8), grouping = "type", fit_n_obs = FALSE,
+          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
+          tol = 1e-15))
+
+  # <-><-><->
+
+  expect_equivalent(tmp1[["Similarity"]]["Tsong"], as.character(NA))
+  expect_equivalent(tmp1[["NR.CI"]][["CI"]][, "LCL"], rep(NA, 3))
+  expect_equivalent(tmp1[["NR.CI"]][["CI"]][, "UCL"], rep(NA, 3))
+  expect_equivalent(tmp1[["NR.CI"]][["converged"]], FALSE)
+  expect_equivalent(tmp1[["NR.CI"]][["points.on.crb"]], NA)
+
+  expect_equivalent(tmp2[["Similarity"]]["Tsong"], as.character(NA))
+  expect_equivalent(tmp2[["NR.CI"]][["CI"]][, "LCL"], rep(NA, 2))
+  expect_equivalent(tmp2[["NR.CI"]][["CI"]][, "UCL"], rep(NA, 2))
+  expect_equivalent(tmp2[["NR.CI"]][["converged"]], NA)
+  expect_equivalent(tmp2[["NR.CI"]][["points.on.crb"]], NA)
 })
 
 test_that("mimcr_fails", {
@@ -264,42 +341,4 @@ test_that("mimcr_fails", {
           mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
           tol = 1e-9),
     "The treatments to be tested")
-})
-
-test_that("mimcr_warns", {
-  tmp <- rbind(dip2[dip2$batch == "b0", ],
-               dip2[dip2$batch == "b4" & dip2$tablet %in% as.character(1:6), ])
-
-  # <-><-><-><->
-
-  expect_warning(
-    mimcr(data = tmp, tcol = 4:8, grouping = "type", fit_n_obs = TRUE,
-          mtad = 10, signif = 0.1, max_trial = 50,  bounds = c(1, 85),
-          tol = 1e-9),
-    "Rows from the group with redundant observations")
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  expect_warning(
-    mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
-          mtad = 10, signif = 0.1, max_trial = 50,  bounds = c(1, 55),
-          tol = 1e-9),
-    "The profiles should comprise a minimum of 3 time points")
-  expect_warning(
-    mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
-          mtad = 10, signif = 0.1, max_trial = 50,  bounds = c(1, 85),
-          tol = 1),
-    "The points found by the Newton-Raphson search")
-})
-
-test_that("mimcr_nera_estimation_fails", {
-  tmp1 <- expect_warning(
-    mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
-          mtad = 10, signif = 0.1, max_trial = 5,  bounds = c(1, 85),
-          tol = 1e-15),
-    "Newton-Raphson search did not converge")
-
-  expect_equivalent(tmp1[["Similarity"]]["Tsong"], "Dissimilar")
-  expect_equivalent(tmp1[["NR.CI"]][["CI"]][, "LCL"], rep(NA, 3))
-  expect_equivalent(tmp1[["NR.CI"]][["CI"]][, "UCL"], rep(NA, 3))
 })

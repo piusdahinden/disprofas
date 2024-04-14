@@ -154,8 +154,19 @@ summary.mimcr <- function(object, ...) {
       "\napproach to assess equivalence of highly variable in-vitro",
       "\ndissolution profiles of two drug product formulations")
 
-  cat("\n\nDid the Newton-Raphson search converge?", c("No", "Yes")
-      [object$NR.CI$converged  + 1])
+  cat("\n\nDid the Newton-Raphson search converge? ")
+  if (!is.na(object$NR.CI$converged)) {
+    cat(c("No", "Yes")[object$NR.CI$converged  + 1])
+  } else {
+    cat("NA")
+  }
+
+  cat("\nAre the points located on the confidence region boundary (CRB)? ")
+  if (!is.na(object$NR.CI$points.on.crb)) {
+    cat(c("No", "Yes")[object$NR.CI$points.on.crb  + 1])
+  } else {
+    cat("NA")
+  }
 
   cat("\n\nParameters (general):",
       "\nSignificance level:                  ",
@@ -274,7 +285,7 @@ plot.plot_mztia <- function(x, ...) {
 
 print.plot_mztia <- function(x, ...) {
 
-  plot(x$Graph, ...)
+  plot.plot_mztia(x = x, ...)
 
   invisible(x)
 }

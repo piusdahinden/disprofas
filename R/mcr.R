@@ -209,6 +209,10 @@
 #' The \code{NR.CI} element contains the following information:
 #' \item{CI}{A matrix of the points on the \eqn{CR} bounds for each time point.}
 #' \item{converged}{A logical specifying if the NR algorithm converged or not.}
+#' \item{points.on.crb}{A logical specifying if the point that were found by
+#'   the NR algorithm sit on the confidence region boundary or not, i.e. if
+#'   the T2 statistic of the found data points, in relation to the mean
+#'   difference, is equal to the critical F value.}
 #' \item{n.trial}{Number of trials until convergence.}
 #' \item{max.trial}{Maximal number of trials.}
 #' \item{Warning}{A warning message, if applicable, or otherwise NULL.}
@@ -412,22 +416,25 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   # to Tsong 1996 and checking if these points are within the global
   # similarity limit D_glob
 
-  tmp <- rep(1, times = t_sl["df1"] + 1)
-  tmp <- try_get_model(
+  l_nera <- try_get_model(
     gep_by_nera(n_p = as.numeric(t_sl["df1"]), kk = as.numeric(t_sl["K"]),
                 mean_diff = l_hs[["means"]][["mean.diff"]],
                 m_vc = l_hs[["S.pool"]], ff_crit = as.numeric(t_sl["F.crit"]),
-                y = tmp, max_trial = max_trial, tol = tol))
+                y = rep(1, times = t_sl["df1"] + 1), max_trial = max_trial,
+                tol = tol))
 
-  if (!is.null(tmp[["Error"]]) || !is.null(tmp[["Warning"]])) {
+  if (!is.null(l_nera[["Error"]]) || !is.null(l_nera[["Warning"]])) {
       nr_ci <- cbind(LCL = rep(NA, times = t_sl["df1"]),
                      UCL = rep(NA, times = t_sl["df1"]))
       rownames(nr_ci) <- colnames(data[, tcol[ok]])
 
       # Similarity conclusion based on Tsong's D_crit
-      conclusion_tsong <- "Dissimilar"
+      conclusion_tsong <- NA
+
+      # Location of points on the confidence region boundary
+      l_nera[["Model"]]$points.on.crb <- NA
     } else {
-      y_b1 <- tmp[["Model"]][["points"]]
+      y_b1 <- l_nera[["Model"]][["points"]]
 
       # The points at the ellipse's opposite side are obtained by subtraction.
       y_b2 <- l_hs[["means"]][["mean.diff"]] +
@@ -448,16 +455,19 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
                        UCL = rep(NA, times = t_sl["df1"]))
         rownames(nr_ci) <- colnames(data[, tcol[ok]])
 
-        # Similarity conclusion based on Tsong's D_crit
-        conclusion_tsong <- "Dissimilar"
-
         warning("The points found by the Newton-Raphson search are not ",
-                "located on the confidence region boundary.")
+                "located on the confidence region boundary (CRB).")
+        l_nera[["Model"]]$points.on.crb <- FALSE
+
+        # Similarity conclusion based on Tsong's D_crit
+        conclusion_tsong <- NA
       } else {
+        l_nera[["Model"]]$points.on.crb <- TRUE
+
         # If it has been confirmed that the found data points are located on
-        # the confidence boundary, the corresponding Mahalanobis distances are
-        # calculated. Then it is checked if the longer distance is smaller than
-        # the global similarity limit D_crit.
+        # the confidence region boundary, the corresponding Mahalanobis
+        # distances are calculated. Then it is checked if the longer distance
+        # is smaller than the global similarity limit D_crit.
 
         md_1 <- sqrt(t(y_b1[1:t_sl["df1"]]) %*% solve(l_hs[["S.pool"]]) %*%
                       y_b1[1:t_sl["df1"]])
@@ -484,16 +494,24 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
       }
     }
 
-  l_nr <- vector(mode = "list", length = 6)
-  names(l_nr) <-
-    c("CI", "converged", "n.trial", "max.trial", "Warning", "Error")
+  l_nr <- list(CI = NA,
+               converged = NA,
+               points.on.crb = NA,
+               n.trial = NA,
+               max.trial = max_trial,
+               Warning = NA,
+               Error = NA)
 
-  l_nr[[1]] <- nr_ci
-  l_nr[[2]] <- tmp[["Model"]]$converged
-  l_nr[[3]] <- tmp[["Model"]]$n.trial
-  l_nr[[4]] <- tmp[["Model"]]$max.trial
-  if (!is.null(tmp[["Warning"]])) l_nr[[5]] <- tmp[["Warning"]]
-  if (!is.null(tmp[["Error"]])) l_nr[[6]] <- tmp[["Error"]]
+  if (!is.null(l_nera[["Error"]])) {
+    l_nr[["CI"]] <- nr_ci
+    l_nr[["Error"]] <- l_nera[["Error"]]
+  } else {
+    l_nr[["CI"]] <- nr_ci
+    l_nr[["converged"]] <- l_nera[["Model"]]$converged
+    l_nr[["points.on.crb"]] <- l_nera[["Model"]]$points.on.crb
+    l_nr[["n.trial"]] <- l_nera[["Model"]]$n.trial
+    if (!is.null(l_nera[["Warning"]])) l_nr[["Warning"]] <- l_nera[["Warning"]]
+  }
 
   conclusions <- c(conclusion_tsong, conclusion_hoffelder)
   names(conclusions) <- c("Tsong", "Hoffelder")

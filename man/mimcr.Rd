@@ -100,6 +100,10 @@ The \code{Parameters} element contains the following information:
 The \code{NR.CI} element contains the following information:
 \item{CI}{A matrix of the points on the \eqn{CR} bounds for each time point.}
 \item{converged}{A logical specifying if the NR algorithm converged or not.}
+\item{points.on.crb}{A logical specifying if the point that were found by
+  the NR algorithm sit on the confidence region boundary or not, i.e. if
+  the T2 statistic of the found data points, in relation to the mean
+  difference, is equal to the critical F value.}
 \item{n.trial}{Number of trials until convergence.}
 \item{max.trial}{Maximal number of trials.}
 \item{Warning}{A warning message, if applicable, or otherwise NULL.}

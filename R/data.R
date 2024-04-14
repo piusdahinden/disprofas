@@ -195,3 +195,76 @@
 #' @examples
 #' str(dip5)
 "dip5"
+
+
+#' Dissolution data of a reference and a test batch
+#'
+#' A data set containing the simulated dissolution data of one reference batch
+#'   and one test batch of \eqn{n = 12} tablets each, i.e. the dissolution
+#'   profiles of the \% drug release observed within a period of 140 minutes.
+#'   The profiles are simulated to have a kink between 115 and 125 minutes.
+#'
+#' @docType data
+#'
+#' @usage data(dip6)
+#'
+#' @format A data frame with 24 observations and 31 variables:
+#' \describe{
+#'   \item{type}{Factor with levels \code{R} (Reference) and \code{T} (Test)}
+#'   \item{tablet}{Factor with levels \code{1} to \code{12} representing
+#'     individual tablets}
+#'   \item{t.5}{Numeric of the \% release at the 5 minutes testing point}
+#'   \item{t.10}{Numeric of the \% release at the 10 minutes testing point}
+#'   \item{t.15}{Numeric of the \% release at the 15 minutes testing point}
+#'   \item{...}{...}
+#'   \item{t.130}{Numeric of the \% release at the 130 minutes testing point}
+#'   \item{t.135}{Numeric of the \% release at the 135 minutes testing point}
+#'   \item{t.140}{Numeric of the \% release at the 140 minutes testing point}
+#' }
+#'
+#' @examples
+#' str(dip6)
+"dip6"
+
+
+#' Parameter estimates of Weibull fit to individual dissolution profiles
+#'
+#' A data set containing the Weibull parameter estimates obtained from fitting
+#'   Weibull curves to the cumulative dissolution profiles of individual
+#'   tablets of three reference batches and batches and one test batch,
+#'   \eqn{n = 12} tablets each. The Weibull curve is fitted according to the
+#'   formula \eqn{x(t) = x_{max} ( 1 - exp(- \alpha t^{\beta}))}, where
+#'   \eqn{x(t)} is the percent released at time \eqn{t} divided by \eqn{100},
+#'   \eqn{x_{max}} is the maximal release (set to be \eqn{100}, i.e. assumed
+#'   to be a constant).
+#'
+#' @docType data
+#'
+#' @usage data(dip7)
+#'
+#' @format A data frame with 48 observations and 5 variables:
+#' \describe{
+#'   \item{tablet}{Factor with levels \code{1} to \code{12} representing
+#'     individual tablets}
+#'   \item{batch}{Factor with levels \code{b0}, \code{b1}, \code{b2}, \code{b3}
+#'     and \code{b4}}
+#'   \item{type}{Factor with levels \code{ref} (Reference) and \code{test}
+#'     (Test)}
+#'   \item{alpha}{Weibull parameter \eqn{\alpha}, i.e. is the scale parameter
+#'     being a function of the undissolved proportion at \eqn{t = 1}}
+#'   \item{beta}{Weibull parameter \eqn{\beta}, i.e. is the shape parameter
+#'     which is related to the dissolution rate per unit of time}
+#' }
+#'
+#' @references
+#' Tsong, Y., Hammerstrom, T., Chen, J.J. Multipoint dissolution specification
+#' and acceptance sampling rule based on profile modeling and principal
+#' component analysis. \emph{J Biopharm Stat}. 1997; \strong{7}(3): 423-439.\cr
+#' \doi{10.1080/10543409708835198}
+#'
+#' @source
+#' See reference: Example data set shown in Table 4.
+#'
+#' @examples
+#' str(dip7)
+"dip7"

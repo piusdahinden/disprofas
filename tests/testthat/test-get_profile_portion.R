@@ -17,12 +17,17 @@ test_that("get_profile_portion_succeeds", {
     data = dip1, tcol = 3:10, groups = (dip1$type == "R"), use_ema = "ignore",
     bounds = c(1, 85)))
 
+  res4 <- unname(get_profile_portion(
+    data = dip6, tcol = 3:26, groups = (dip6$type == "R"), use_ema = "yes",
+    bounds = c(1, 80)))
+
   expect_equal(
     tico_names,
     c("t.5", "t.10", "t.15", "t.20", "t.30", "t.60", "t.90", "t.120"))
   expect_equal(res1, c(rep(TRUE, 7), FALSE))
   expect_equal(res2, c(rep(TRUE, 6), FALSE, FALSE))
   expect_equal(res3, c(rep(TRUE, 8)))
+  expect_equal(res4, c(rep(FALSE, 7), rep(TRUE, 13), rep(FALSE, 4)))
 })
 
 test_that("get_profile_portion_fails", {

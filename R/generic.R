@@ -155,15 +155,15 @@ summary.mimcr <- function(object, ...) {
       "\ndissolution profiles of two drug product formulations")
 
   cat("\n\nDid the Newton-Raphson search converge? ")
-  if (!is.na(object$NR.CI$converged)) {
-    cat(c("No", "Yes")[object$NR.CI$converged  + 1])
+  if (!is.na(object[["NR.CI"]][["converged"]])) {
+    cat(c("No", "Yes")[object[["NR.CI"]][["converged"]]  + 1])
   } else {
     cat("NA")
   }
 
   cat("\nAre the points located on the confidence region boundary (CRB)? ")
-  if (!is.na(object$NR.CI$points.on.crb)) {
-    cat(c("No", "Yes")[object$NR.CI$points.on.crb  + 1])
+  if (!is.na(object[["NR.CI"]][["points.on.crb"]])) {
+    cat(c("No", "Yes")[object[["NR.CI"]][["points.on.crb"]]  + 1])
   } else {
     cat("NA")
   }

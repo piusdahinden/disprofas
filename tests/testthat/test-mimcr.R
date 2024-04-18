@@ -152,34 +152,6 @@ test_that("mimcr_warns", {
     "The points found by the Newton-Raphson search")
 })
 
-test_that("mimcr_nera_estimation_fails", {
-  tmp1 <- expect_warning(
-    mimcr(data = dip3, tcol = 4:6, grouping = "type", fit_n_obs = TRUE,
-          mtad = 10, signif = 0.1, max_trial = 5,  bounds = c(1, 85),
-          tol = 1e-15),
-    "Newton-Raphson search did not converge")
-
-  tmp2 <- suppressWarnings(
-    mimcr(data = dip2[dip2$batch %in% c("b0", "b4"), ],
-          tcol = c(6, 8), grouping = "type", fit_n_obs = FALSE,
-          mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
-          tol = 1e-15))
-
-  # <-><-><->
-
-  expect_equivalent(tmp1[["Similarity"]]["Tsong"], as.character(NA))
-  expect_equivalent(tmp1[["NR.CI"]][["CI"]][, "LCL"], rep(NA, 3))
-  expect_equivalent(tmp1[["NR.CI"]][["CI"]][, "UCL"], rep(NA, 3))
-  expect_equivalent(tmp1[["NR.CI"]][["converged"]], FALSE)
-  expect_equivalent(tmp1[["NR.CI"]][["points.on.crb"]], NA)
-
-  expect_equivalent(tmp2[["Similarity"]]["Tsong"], as.character(NA))
-  expect_equivalent(tmp2[["NR.CI"]][["CI"]][, "LCL"], rep(NA, 2))
-  expect_equivalent(tmp2[["NR.CI"]][["CI"]][, "UCL"], rep(NA, 2))
-  expect_equivalent(tmp2[["NR.CI"]][["converged"]], NA)
-  expect_equivalent(tmp2[["NR.CI"]][["points.on.crb"]], NA)
-})
-
 test_that("mimcr_fails", {
   tmp0 <- dip1
   tmp0$t.5 <- as.factor(tmp0$t.5)

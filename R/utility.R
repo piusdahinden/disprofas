@@ -432,23 +432,27 @@ rand_indiv_points <- function(data, mle) {
   return(res)
 }
 
-#' Points on confidence region (found by Newton-Raphson search)
+#' Get points on confidence region bounds by Newton-Raphson search
 #'
-#' The function \code{gep_by_nera()} is a function for finding points on
-#' confidence region (\eqn{CR}) bounds by aid of the \dQuote{Method of Lagrange
-#' Multipliers} (MLM) and by \dQuote{Newton-Raphson} (nera) optimisation. The
-#' multivariate confidence interval for profiles with four time points, e.g.,
-#' is an \dQuote{ellipse} in four dimensions.
+#' The function \code{gep_by_nera()} is a function for finding points that
+#' ideally sit on specific confidence region bounds (\eqn{CRB}) by aid of the
+#' \dQuote{Method of Lagrange Multipliers} (MLM) and by \dQuote{Newton-Raphson}
+#' (nera) optimisation. The multivariate confidence interval for profiles with
+#' four time points, e.g., is an \dQuote{ellipse} in four dimensions.
 #'
 #' @param n_p A positive integer specifying the number of (time) points
 #'   \eqn{n_p}.
 #' @param kk A non-negative numeric value specifying the scaling factor
 #'   \eqn{kk} for the calculation of the Hotelling's \eqn{T^2} statistic.
 #' @param mean_diff A vector of the mean differences between the dissolution
-#'   profiles of the reference and the test batch. It must have the length
-#'   specified by the parameter \eqn{n_p}.
+#'   profiles or model parameters of the reference and the test batch(es) or
+#'   the averages of the model parameters of a specific group of batch(es)
+#'   (reference or  test). It must have the length specified by the parameter
+#'   \eqn{n_p}.
 #' @param m_vc The pooled variance-covariance matrix of the dissolution
-#'   profiles of the reference and the test batch. It must have the dimension
+#'   profiles or model parameters of the reference and the test batch(es) or
+#'   the variance-covariance matrix of the model parameters of a specific
+#'   group of batch(es) (reference or test). It must have the dimension
 #'   \eqn{n_p \times n_p}.
 #' @param ff_crit The critical \eqn{F} value (i.e. a non-negative numeric).
 #' @param y A numeric vector of \eqn{y} values that serve as starting points
@@ -457,7 +461,7 @@ rand_indiv_points <- function(data, mle) {
 #' @inheritParams mimcr
 #'
 #' @details The function \code{gep_by_nera()} determines the points on the
-#' \eqn{CR} bounds for each of the \eqn{n_p} time points. It does so by aid
+#' bounds \eqn{CRB} for each of the \eqn{n_p} time points. It does so by aid
 #' of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
 #' \dQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
 #' Connolly (Connolly 2000).
@@ -471,16 +475,23 @@ rand_indiv_points <- function(data, mle) {
 #'
 #' @return A list with the following elements is returned:
 #' \item{points}{A matrix with one column and \eqn{n_p + 1} rows is returned,
-#'   where rows \eqn{1} to \eqn{n_p} represent, for each time point, the points
-#'   on the \eqn{CR} bounds. For symmetry reasons, the points on the opposite
-#'   side are obtained by addition/subtraction. The last row in the matrix,
-#'   with index \eqn{n_p + 1}, represents the \eqn{\lambda} parameter of the
-#'   MLM, also known as \emph{lambda multiplier method}, that is used to
-#'   optimise under constraint(s). The variable \eqn{\lambda} is thus called
-#'   the \emph{Lagrange multiplier}.}
+#'   where rows \eqn{1} to \eqn{n_p} represent, for each time point or model
+#'   parameter, the points on the \eqn{CRB}. For symmetry reasons, the points
+#'   on the opposite side are obtained by addition/subtraction. The last row
+#'   in the matrix, with index \eqn{n_p + 1}, represents the \eqn{\lambda}
+#'   parameter of the MLM, also known as \emph{lambda multiplier method}, that
+#'   is used to optimise under constraint(s). The variable \eqn{\lambda} is
+#'   thus called the \emph{Lagrange multiplier}.}
 #' \item{converged}{A logical stating if the NR algorithm converged or not.}
+#' \item{points.on.crb}{A logical stating if the points found by the NR
+#'   algorithm sit on the sit on the confidence region bounds (\code{TRUE}) or
+#'   not (\code{FALSE}). Since it is not know a priori it is \code{NA} by
+#'   default. The parameter is set by the \code{\link{check_point_location}()}
+#'   function.}
 #' \item{n.trial}{Number of trials until convergence.}
 #' \item{max.trial}{Maximal number of trials.}
+#' \item{tol}{A non-negative numeric specifying the accepted minimal difference
+#'   between two consecutive search rounds, i.e. the tolerance.}
 #'
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
@@ -513,7 +524,8 @@ rand_indiv_points <- function(data, mle) {
 #' NY.\cr
 #' \url{https://analytics.ncsu.edu/sesug/2000/p-902.pdf}
 #'
-#' @seealso \code{\link{mimcr}}, \code{\link{bootstrap_f2}}.
+#' @seealso \code{\link{check_point_location}}, \code{\link{mimcr}},
+#' \code{\link{bootstrap_f2}}.
 #'
 #' @example man/examples/examples_gep_by_nera.R
 #'
@@ -613,6 +625,98 @@ gep_by_nera <- function(n_p, kk, mean_diff, m_vc, ff_crit, y, max_trial, tol) {
 
   return(list(points = y,
               converged = ifelse(i >= max_trial, FALSE, TRUE),
+              points.on.crb = NA,
               n.trial = i,
-              max.trial = max_trial))
+              max.trial = max_trial,
+              tol = tol))
+}
+
+#' Check point location
+#'
+#' The function \code{check_point_location()} checks if points that were found
+#' by the \code{\link{gep_by_nera}()} function sit on specified confidence
+#' region bounds (\eqn{CRB}) or not. This is necessary because the points found
+#' by aid of the \dQuote{Method of Lagrange Multipliers} (MLM) and
+#' \dQuote{Newton-Raphson} (nera) optimisation may not sit on the \eqn{CRB}.
+#'
+#' @param lpt A list returned by the \code{\link{gep_by_nera}()} function.
+#' @param lhs A list of the estimates of Hotelling's two-sample \eqn{T^2}
+#'   statistic for small samples as returned by the function
+#'   \code{\link{get_hotellings}()}.
+#'
+#' @details The function \code{check_point_location()} checks if points that
+#' were found by the \code{\link{gep_by_nera}()} function sit on specified
+#' confidence region bounds (\eqn{CRB}) or not. The \code{\link{gep_by_nera}()}
+#' function determines the points on the \eqn{CRB} for each of the \eqn{n_p}
+#' time points or model parameters by aid of the \dQuote{Method of Lagrange
+#' Multipliers} (MLM) and by \dQuote{Newton-Raphson} (nera) optimisation, as
+#' proposed by Margaret Connolly (Connolly 2000). However, since the points
+#' found may not sit on  the specified \eqn{CRB}, it must be checked if the
+#' points returned by the \code{\link{gep_by_nera}()} function do sit on the
+#' \eqn{CRB} or not.
+#'
+#' @return The function returns the list that was passed in via the \code{lpt}
+#' parameter with a modified \code{points.on.crb} element, i.e. set as
+#' \code{TRUE} if the points sit on the \eqn{CRB} or \code{FALSE} if they do
+#' not sit on the \eqn{CRB}.
+#'
+#' @references
+#' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
+#' assessment of mean differences between two dissolution data sets.
+#' \emph{Drug Inf J}. 1996; \strong{30}: 1105-1112.\cr
+#' \doi{10.1177/009286159603000427}
+#'
+#' Connolly, M. SAS(R) IML Code to calculate an upper confidence limit for
+#' multivariate statistical distance; 2000; Wyeth Lederle Vaccines, Pearl River,
+#' NY.\cr
+#' \url{https://analytics.ncsu.edu/sesug/2000/p-902.pdf}
+#'
+#' @seealso \code{\link{mimcr}}, \code{\link{gep_by_nera}}.
+#'
+#' @example man/examples/examples_check_point_location.R
+#'
+#' @export
+
+check_point_location <- function(lpt, lhs) {
+  if (!inherits(lpt, "list")) {
+    stop("The parameter lpt must be a list returned by gep_by_nera().")
+  } else {
+    if (sum(names(lpt) %in% c("points", "converged", "points.on.crb",
+                              "n.trial", "max.trial", "tol")) != 6) {
+      stop("The parameter lpt must be a list returned by gep_by_nera().")
+    }
+  }
+  if (!inherits(lhs, "list")) {
+    stop("The parameter lhs must be a list returned by get_hotellings().")
+  } else {
+    if (sum(names(lhs) %in% c("Parameters", "S.pool", "covs", "means")) != 4) {
+      stop("The parameter lhs must be a list returned by get_hotellings().")
+    }
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  y_b1 <- lpt[["points"]]
+
+  # The points at the ellipse's opposite side are obtained by subtraction.
+  y_b2 <- lhs[["means"]][["mean.diff"]] +
+    (lhs[["means"]][["mean.diff"]] - y_b1[1:lhs[["Parameters"]]["df1"]])
+
+  kdvd <-
+    lhs[["Parameters"]]["K"] *
+    t(y_b1[1:lhs[["Parameters"]]["df1"]] - lhs[["means"]][["mean.diff"]]) %*%
+    solve(lhs[["S.pool"]]) %*%
+    (y_b1[1:lhs[["Parameters"]]["df1"]] - lhs[["means"]][["mean.diff"]])
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Compilation of results
+
+  if (round(kdvd, lpt[["tol"]]) ==
+      round(lhs[["Parameters"]]["F.crit"], lpt[["tol"]])) {
+    lpt[["points.on.crb"]] <- TRUE
+  } else {
+    lpt[["points.on.crb"]] <- FALSE
+  }
+
+  return(lpt)
 }

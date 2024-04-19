@@ -50,8 +50,8 @@
 #' }
 #'
 #' @return A list with the following elements is returned:
-#' \item{Parameters}{Parameters determined for the estimation of
-#'   Hotelling's \eqn{T^2}.}
+#' \item{Parameters}{Parameters determined for the estimation of Hotelling's
+#'   \eqn{T^2}.}
 #' \item{S.pool}{Pooled variance-covariance matrix.}
 #' \item{covs}{A list with the elements \code{S.b1} and \code{S.b2}, i.e. the
 #'   variance-covariance matrices of the reference and the test group,
@@ -238,10 +238,10 @@ get_hotellings <- function(m1, m2, signif) {
 
 get_sim_lim <- function(mtad, lhs) {
   if (!inherits(lhs, "list")) {
-    stop("The parameter lhs must be a list returned by get_hotellings.")
+    stop("The parameter lhs must be a list returned by get_hotellings().")
   } else {
     if (sum(names(lhs) %in% c("Parameters", "S.pool", "covs", "means")) != 4) {
-      stop("The parameter lhs must be a list returned by get_hotellings.")
+      stop("The parameter lhs must be a list returned by get_hotellings().")
     }
   }
   if (mtad <= 0 || mtad > 50) {

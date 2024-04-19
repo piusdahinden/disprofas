@@ -255,8 +255,8 @@
 #' 2016; \strong{78}(4): 587-592.\cr
 #' \url{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
-#' @seealso \code{\link{gep_by_nera}}, \code{\link{bootstrap_f2}},
-#'   \code{\link{mztia}}.
+#' @seealso \code{\link{mdmcr}}, \code{\link{gep_by_nera}},
+#'   \code{\link{bootstrap_f2}}, \code{\link{mztia}}.
 #'
 #' @example man/examples/examples_mimcr.R
 #'
@@ -407,21 +407,27 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
     conclusion_hoffelder <- "Dissimilar"
   }
 
-  # Compilation of results
-  t_res <- c(t_sl, NA, NA)
-  names(t_res)[(length(t_res) - 1):length(t_res)] <- c("Obs.L", "Obs.U")
-
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Determination of points on the confidence region (CR) according
-  # to Tsong 1996 and checking if these points are within the global
-  # similarity limit D_glob
+  # Determination of points on the confidence region boundary (CRB) according
+  # to Tsong 1996
 
   l_nera <- try_get_model(
-    gep_by_nera(n_p = as.numeric(t_sl["df1"]), kk = as.numeric(t_sl["K"]),
+    gep_by_nera(n_p = as.numeric(l_hs[["Parameters"]]["df1"]),
+                kk = as.numeric(l_hs[["Parameters"]]["K"]),
                 mean_diff = l_hs[["means"]][["mean.diff"]],
-                m_vc = l_hs[["S.pool"]], ff_crit = as.numeric(t_sl["F.crit"]),
-                y = rep(1, times = t_sl["df1"] + 1), max_trial = max_trial,
+                m_vc = l_hs[["S.pool"]],
+                ff_crit = as.numeric(l_hs[["Parameters"]]["F.crit"]),
+                y = rep(1, times = l_hs[["Parameters"]]["df1"] + 1),
+                max_trial = max_trial,
                 tol = tol))
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Check if the estimation by gep_by_nera() was successful and if the points
+  # that were found sit on the CRB
+
+  # Extend t_res vector for the reporting of the results
+  t_res <- c(t_sl, NA, NA)
+  names(t_res)[(length(t_res) - 1):length(t_res)] <- c("Obs.L", "Obs.U")
 
   if (!is.null(l_nera[["Error"]]) || !is.null(l_nera[["Warning"]])) {
       nr_ci <- cbind(LCL = rep(NA, times = t_sl["df1"]),
@@ -430,54 +436,40 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
 
       # Similarity conclusion based on Tsong's D_crit
       conclusion_tsong <- NA
-
-      # Location of points on the confidence region boundary
-      l_nera[["Model"]]$points.on.crb <- NA
     } else {
-      y_b1 <- l_nera[["Model"]][["points"]]
+      # If the found points are not located on the CRB
+      l_nera[["Model"]] <- check_point_location(lpt = l_nera[["Model"]],
+                                                lhs = l_hs)
 
-      # The points at the ellipse's opposite side are obtained by subtraction.
-      y_b2 <- l_hs[["means"]][["mean.diff"]] +
-        (l_hs[["means"]][["mean.diff"]] - y_b1[1:t_sl["df1"]])
-
-      # At this point, it has to be checked if the T2 statistic of the found
-      # data points, compared with the mean difference, is equal to the critical
-      # F value. If not so, the found points are not located on the confidence
-      # region boundary.
-
-      kdvd <-
-        t_sl["K"] * t(y_b1[1:t_sl["df1"]] - l_hs[["means"]][["mean.diff"]]) %*%
-        solve(l_hs[["S.pool"]]) %*%
-        (y_b1[1:t_sl["df1"]] - l_hs[["means"]][["mean.diff"]])
-
-      if (round(kdvd, tol) != round(t_sl["F.crit"], tol)) {
+      if (!l_nera[["Model"]][["points.on.crb"]]) {
         nr_ci <- cbind(LCL = rep(NA, times = t_sl["df1"]),
                        UCL = rep(NA, times = t_sl["df1"]))
         rownames(nr_ci) <- colnames(data[, tcol[ok]])
 
         warning("The points found by the Newton-Raphson search are not ",
                 "located on the confidence region boundary (CRB).")
-        l_nera[["Model"]]$points.on.crb <- FALSE
 
         # Similarity conclusion based on Tsong's D_crit
         conclusion_tsong <- NA
       } else {
-        l_nera[["Model"]]$points.on.crb <- TRUE
-
         # If it has been confirmed that the found data points are located on
-        # the confidence region boundary, the corresponding Mahalanobis
-        # distances are calculated. Then it is checked if the longer distance
-        # is smaller than the global similarity limit D_crit.
-
+        # the CRB, the corresponding Mahalanobis distances are calculated.
+        # Then it is checked if the longer distance is smaller than the global
+        # similarity limit.
+        y_b1 <- l_nera[["Model"]][["points"]]
         md_1 <- sqrt(t(y_b1[1:t_sl["df1"]]) %*% solve(l_hs[["S.pool"]]) %*%
-                      y_b1[1:t_sl["df1"]])
+                       y_b1[1:t_sl["df1"]])
+
+        # The points at the ellipse's opposite side are obtained by subtraction.
+        y_b2 <- l_hs[["means"]][["mean.diff"]] +
+          (l_hs[["means"]][["mean.diff"]] - y_b1[1:t_sl["df1"]])
         md_2 <- sqrt(t(y_b2[1:t_sl["df1"]]) %*% solve(l_hs[["S.pool"]]) %*%
                       y_b2[1:t_sl["df1"]])
 
         t_res[length(t_res) - 1] <- min(md_1, md_2)
         t_res[length(t_res)] <- max(md_1, md_2)
 
-        # Similarity conclusion based on Tsong's D_crit
+        # Similarity conclusion based on Tsong's similarity limit
         if (t_res[length(t_res)] < t_sl["Sim.Limit"]) {
           conclusion_tsong <- "Similar"
         } else {
@@ -507,9 +499,9 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
     l_nr[["Error"]] <- l_nera[["Error"]]
   } else {
     l_nr[["CI"]] <- nr_ci
-    l_nr[["converged"]] <- l_nera[["Model"]]$converged
-    l_nr[["points.on.crb"]] <- l_nera[["Model"]]$points.on.crb
-    l_nr[["n.trial"]] <- l_nera[["Model"]]$n.trial
+    l_nr[["converged"]] <- l_nera[["Model"]][["converged"]]
+    l_nr[["points.on.crb"]] <- l_nera[["Model"]][["points.on.crb"]]
+    l_nr[["n.trial"]] <- l_nera[["Model"]][["n.trial"]]
     if (!is.null(l_nera[["Warning"]])) l_nr[["Warning"]] <- l_nera[["Warning"]]
   }
 

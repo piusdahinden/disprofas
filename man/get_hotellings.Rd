@@ -17,8 +17,8 @@ specifying the significance level. The default value is \code{0.05}.}
 }
 \value{
 A list with the following elements is returned:
-\item{Parameters}{Parameters determined for the estimation of
-  Hotelling's \eqn{T^2}.}
+\item{Parameters}{Parameters determined for the estimation of Hotelling's
+  \eqn{T^2}.}
 \item{S.pool}{Pooled variance-covariance matrix.}
 \item{covs}{A list with the elements \code{S.b1} and \code{S.b2}, i.e. the
   variance-covariance matrices of the reference and the test group,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utility.R
 \name{gep_by_nera}
 \alias{gep_by_nera}
-\title{Points on confidence region (found by Newton-Raphson search)}
+\title{Get points on confidence region bounds by Newton-Raphson search}
 \usage{
 gep_by_nera(n_p, kk, mean_diff, m_vc, ff_crit, y, max_trial, tol)
 }
@@ -14,11 +14,15 @@ gep_by_nera(n_p, kk, mean_diff, m_vc, ff_crit, y, max_trial, tol)
 \eqn{kk} for the calculation of the Hotelling's \eqn{T^2} statistic.}
 
 \item{mean_diff}{A vector of the mean differences between the dissolution
-profiles of the reference and the test batch. It must have the length
-specified by the parameter \eqn{n_p}.}
+profiles or model parameters of the reference and the test batch(es) or
+the averages of the model parameters of a specific group of batch(es)
+(reference or  test). It must have the length specified by the parameter
+\eqn{n_p}.}
 
 \item{m_vc}{The pooled variance-covariance matrix of the dissolution
-profiles of the reference and the test batch. It must have the dimension
+profiles or model parameters of the reference and the test batch(es) or
+the variance-covariance matrix of the model parameters of a specific
+group of batch(es) (reference or test). It must have the dimension
 \eqn{n_p \times n_p}.}
 
 \item{ff_crit}{The critical \eqn{F} value (i.e. a non-negative numeric).}
@@ -36,27 +40,34 @@ difference between two consecutive search rounds.}
 \value{
 A list with the following elements is returned:
 \item{points}{A matrix with one column and \eqn{n_p + 1} rows is returned,
-  where rows \eqn{1} to \eqn{n_p} represent, for each time point, the points
-  on the \eqn{CR} bounds. For symmetry reasons, the points on the opposite
-  side are obtained by addition/subtraction. The last row in the matrix,
-  with index \eqn{n_p + 1}, represents the \eqn{\lambda} parameter of the
-  MLM, also known as \emph{lambda multiplier method}, that is used to
-  optimise under constraint(s). The variable \eqn{\lambda} is thus called
-  the \emph{Lagrange multiplier}.}
+  where rows \eqn{1} to \eqn{n_p} represent, for each time point or model
+  parameter, the points on the \eqn{CRB}. For symmetry reasons, the points
+  on the opposite side are obtained by addition/subtraction. The last row
+  in the matrix, with index \eqn{n_p + 1}, represents the \eqn{\lambda}
+  parameter of the MLM, also known as \emph{lambda multiplier method}, that
+  is used to optimise under constraint(s). The variable \eqn{\lambda} is
+  thus called the \emph{Lagrange multiplier}.}
 \item{converged}{A logical stating if the NR algorithm converged or not.}
+\item{points.on.crb}{A logical stating if the points found by the NR
+  algorithm sit on the sit on the confidence region bounds (\code{TRUE}) or
+  not (\code{FALSE}). Since it is not know a priori it is \code{NA} by
+  default. The parameter is set by the \code{\link{check_point_location}()}
+  function.}
 \item{n.trial}{Number of trials until convergence.}
 \item{max.trial}{Maximal number of trials.}
+\item{tol}{A non-negative numeric specifying the accepted minimal difference
+  between two consecutive search rounds, i.e. the tolerance.}
 }
 \description{
-The function \code{gep_by_nera()} is a function for finding points on
-confidence region (\eqn{CR}) bounds by aid of the \dQuote{Method of Lagrange
-Multipliers} (MLM) and by \dQuote{Newton-Raphson} (nera) optimisation. The
-multivariate confidence interval for profiles with four time points, e.g.,
-is an \dQuote{ellipse} in four dimensions.
+The function \code{gep_by_nera()} is a function for finding points that
+ideally sit on specific confidence region bounds (\eqn{CRB}) by aid of the
+\dQuote{Method of Lagrange Multipliers} (MLM) and by \dQuote{Newton-Raphson}
+(nera) optimisation. The multivariate confidence interval for profiles with
+four time points, e.g., is an \dQuote{ellipse} in four dimensions.
 }
 \details{
 The function \code{gep_by_nera()} determines the points on the
-\eqn{CR} bounds for each of the \eqn{n_p} time points. It does so by aid
+bounds \eqn{CRB} for each of the \eqn{n_p} time points. It does so by aid
 of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
 \dQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
 Connolly (Connolly 2000).
@@ -153,31 +164,22 @@ confidence region for the possible true differences. \cr
 # Collecting the required information
 time_points <- suppressWarnings(as.numeric(gsub("([^0-9])", "",
                                                 colnames(dip1))))
-tico <- which(!is.na(time_points))
+tcol <- which(!is.na(time_points))
 b1 <- dip1$type == "R"
 
-n_tp <- length(tico)
-n_b1 <- length(dip1[b1, "type"])
-n_b2 <- length(dip1[!b1, "type"])
-df_b1 <- n_tp
-df_b2 <- n_b1 + n_b2 - n_tp - 1
-K_limit <- (n_b2 * n_b1) / (n_b2 + n_b1)
-K <- K_limit * df_b2 / (df_b1 * (n_b2 + n_b1 - 2))
-
-mean_b1 <- apply(X = dip1[b1, tico], MARGIN = 2, FUN = mean)
-mean_b2 <- apply(X = dip1[!b1, tico], MARGIN = 2, FUN = mean)
-mean_diff <- mean_b2 - mean_b1
-
-S_b1 <- cov(dip1[b1, tico])
-S_b2 <- cov(dip1[!b1, tico])
-S <- ((n_b1 - 1) * S_b1 + (n_b2 - 1) * S_b2) / (n_b1 + n_b2 - 2)
-
-F_crit <- qf(p = (1 - 0.05), df1 = df_b1, df2 = df_b2)
-y_b1 <- rep(1, times = (n_tp + 1))
+# Hotelling's T2 statistics
+l_hs <- get_hotellings(m1 = as.matrix(dip1[b1, tcol]),
+                       m2 = as.matrix(dip1[!b1, tcol]),
+                       signif = 0.05)
 
 # Calling gep_by_nera()
-res <- gep_by_nera(n_p = n_tp, kk = K, mean_diff = mean_diff, m_vc = S,
-                   ff_crit = F_crit, y = y_b1, max_trial = 100, tol = 1e-9)
+res <- gep_by_nera(n_p = as.numeric(l_hs[["Parameters"]]["df1"]),
+                   kk = as.numeric(l_hs[["Parameters"]]["K"]),
+                   mean_diff = l_hs[["means"]][["mean.diff"]],
+                   m_vc = l_hs[["S.pool"]],
+                   ff_crit = as.numeric(l_hs[["Parameters"]]["F.crit"]),
+                   y = rep(1, times = l_hs[["Parameters"]]["df1"] + 1),
+                   max_trial = 100, tol = 1e-9)
 
 # Expected result in res[["points"]]
 #              [,1]
@@ -197,8 +199,13 @@ res <- gep_by_nera(n_p = n_tp, kk = K, mean_diff = mean_diff, m_vc = S,
 # If 'max_trial' is too small, the Newton-Raphson search may not converge.
 \dontrun{
   tryCatch(
-    gep_by_nera(n_p = n_tp, kk = K, mean_diff = mean_diff, m_vc = S,
-                ff_crit = F_crit, y = y_b1, max_trial = 5, tol = 1e-9),
+    gep_by_nera(n_p = as.numeric(l_hs[["Parameters"]]["df1"]),
+                kk = as.numeric(l_hs[["Parameters"]]["K"]),
+                mean_diff = l_hs[["means"]][["mean.diff"]],
+                m_vc = l_hs[["S.pool"]],
+                ff_crit = as.numeric(l_hs[["Parameters"]]["F.crit"]),
+                y = rep(1, times = l_hs[["Parameters"]]["df1"] + 1),
+                max_trial = 5, tol = 1e-9),
     warning = function(w) message(w),
     finally = message("\nMaybe increasing the number of max_trial could help."))
 }
@@ -235,5 +242,6 @@ NY.\cr
 \url{https://analytics.ncsu.edu/sesug/2000/p-902.pdf}
 }
 \seealso{
-\code{\link{mimcr}}, \code{\link{bootstrap_f2}}.
+\code{\link{check_point_location}}, \code{\link{mimcr}},
+\code{\link{bootstrap_f2}}.
 }

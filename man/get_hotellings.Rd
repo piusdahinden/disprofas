@@ -7,10 +7,14 @@
 get_hotellings(m1, m2, signif)
 }
 \arguments{
-\item{m1}{A matrix with the data of the reference group.}
+\item{m1}{A matrix with the data of the reference group, e.g. a matrix
+representing dissolution profiles, i.e. with rows for the different dosage
+units and columns for the different time points, or a matrix for the
+different model parameters (columns) of different dosage units (rows).}
 
-\item{m2}{A matrix with the same dimensions as matrix \code{m1}, with the
-data of the test group.}
+\item{m2}{A matrix, ideally with the same dimensions as matrix \code{m1},
+with the data of the test group with the characteristics corresponding
+to matrix \code{m1}.}
 
 \item{signif}{A positive numeric value between \code{0} and \code{1}
 specifying the significance level. The default value is \code{0.05}.}
@@ -27,6 +31,10 @@ A list with the following elements is returned:
   \code{mean.diff}, i.e. the average profile values (for each time point) of
   the reference and the test group and the corresponding differences of
   the averages, respectively.}
+\item{CI}{A list with the elements \code{Hotelling} and \code{Bonferroni},
+  i.e. data frames with columns \code{LCL} and \code{UCL} for the lower
+  and upper \eqn{(1 - \alpha)100\%} confidence limits, respectively, and
+  rows for each time point or model parameter.}
 
 The \code{Parameters} element contains the following information:
 \item{dm}{Mahalanobis distance of the samples.}
@@ -40,6 +48,7 @@ The \code{Parameters} element contains the following information:
 \item{T2}{Hotelling's \eqn{T^2} statistic (\eqn{F}-distributed).}
 \item{F}{Observed \eqn{F} value.}
 \item{F.crit}{Critical \eqn{F} value.}
+\item{t.crit}{Critical \eqn{t} value.}
 \item{p.F}{\eqn{p} value for Hotelling's \eqn{T^2} test statistic.}
 }
 \description{
@@ -87,6 +96,33 @@ The following assumptions concerning the data are made:
 \item Both populations are normally distributed.
 }
 }
+\section{Confidence intervals}{
+
+Confidence intervals for the mean differences at each time point or
+confidence intervals for the mean differences between the parameter
+estimates of the reference and the test group are calculated by aid of
+the formula
+
+\deqn{\bar{x}_{1k} - \bar{x}_{2k} \pm sqrt{
+  \frac{(n_1 + n_2 - 2) p}{n_1 + n_2 - p - 1}
+  F_{p, n_1 + n_2 - p - 1, \alpha}}
+  \sqrt{ \left( \frac{1}{n_1} + \frac{1}{n_2} \right) s_k^2} .}{%
+  x.bar_{1k} - x.bar_{2k} \pm sqrt(((n_1 + n_2 - 2) p) / (n_1 + n_2 - p - 1)
+  F_{p, n_1 + n_2 - p - 1, \alpha}) sqrt((1 / n_1 + 1 / n_2) s_k^2) .}
+
+With \eqn{(1 - \alpha)100\%} confidence these intervals cover their
+respective linear combinations of the differences between the means of
+the two sample groups. If not the linear combination of the variables is
+of interest but rather the individual variables, then the Bonferroni
+corrected confidence intervals should be used as given in the following
+expression
+
+\deqn{\bar{x}_{1k} - \bar{x}_{2k} \pm t_{n_1 + n_2 - 2, \frac{\alpha}{2 p}}
+  \sqrt{ \left( \frac{1}{n_1} + \frac{1}{n_2} \right) s_k^2} .}{%
+  x.bar_{1k}- x.bar_{2k} \pm t_{n_1 + n_2 - 2, \alpha / (2 p)}
+  sqrt((1 / n_1 + 1 / n_2) s_k^2) .}
+}
+
 \examples{
 # Estimation of the parameters for Hotelling's two-sample T2 statistic
 # (for small samples)

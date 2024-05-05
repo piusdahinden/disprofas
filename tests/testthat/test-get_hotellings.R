@@ -1,4 +1,4 @@
-context("Get Hotelling's T2 statistics")
+context("Get Hotelling's T2 statistics for two indepependent (small) samples")
 
 test_that("get_hotellings_succeeds", {
   l_res <- get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),

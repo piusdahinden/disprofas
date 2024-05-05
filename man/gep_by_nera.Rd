@@ -41,12 +41,12 @@ difference between two consecutive search rounds.}
 A list with the following elements is returned:
 \item{points}{A matrix with one column and \eqn{n_p + 1} rows is returned,
   where rows \eqn{1} to \eqn{n_p} represent, for each time point or model
-  parameter, the points on the \eqn{CRB}. For symmetry reasons, the points
-  on the opposite side are obtained by addition/subtraction. The last row
-  in the matrix, with index \eqn{n_p + 1}, represents the \eqn{\lambda}
-  parameter of the MLM, also known as \emph{lambda multiplier method}, that
-  is used to optimise under constraint(s). The variable \eqn{\lambda} is
-  thus called the \emph{Lagrange multiplier}.}
+  parameter, the points on the \eqn{\textit{CRB}}. For symmetry reasons,
+  the points on the opposite side are obtained by addition/subtraction.
+  The last row in the matrix, with index \eqn{n_p + 1}, represents the
+  \eqn{\lambda} parameter of the MLM, also known as \emph{lambda multiplier
+  method}, that is used to optimise under constraint(s). The variable
+  \eqn{\lambda} is thus called the \emph{Lagrange multiplier}.}
 \item{converged}{A logical stating if the NR algorithm converged or not.}
 \item{points.on.crb}{A logical stating if the points found by the NR
   algorithm sit on the sit on the confidence region bounds (\code{TRUE}) or
@@ -60,14 +60,15 @@ A list with the following elements is returned:
 }
 \description{
 The function \code{gep_by_nera()} is a function for finding points that
-ideally sit on specific confidence region bounds (\eqn{CRB}) by aid of the
-\dQuote{Method of Lagrange Multipliers} (MLM) and by \dQuote{Newton-Raphson}
-(nera) optimisation. The multivariate confidence interval for profiles with
-four time points, e.g., is an \dQuote{ellipse} in four dimensions.
+ideally sit on specific confidence region bounds (\eqn{\textit{CRB}}) by
+aid of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
+\dQuote{Newton-Raphson} (nera) optimisation. The multivariate confidence
+interval for profiles with four time points, e.g., is an \dQuote{ellipse}
+in four dimensions.
 }
 \details{
 The function \code{gep_by_nera()} determines the points on the
-bounds \eqn{CRB} for each of the \eqn{n_p} time points. It does so by aid
+\eqn{\textit{CRB}} for each of the \eqn{n_p} time points. It does so by aid
 of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
 \dQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
 Connolly (Connolly 2000).
@@ -92,8 +93,8 @@ stepwise procedure:
 \enumerate{
 \item Establish a similarity limit in terms of \dQuote{Multivariate
   Statistical Distance} (MSD) based on inter-batch differences in \% drug
-  release from reference (standard approved) formulations, i.e. the so-
-  called \dQuote{Equivalence Margin} (EM).
+  release from reference (standard approved) formulations, i.e. the
+  so-called \dQuote{Equivalence Margin} (EM).
 \item Calculate the MSD between test and reference mean dissolutions.
 \item Estimate the 90\% confidence interval (CI) of the true MSD as
   determined in step 2.
@@ -113,16 +114,21 @@ to this method, a multivariate statistical distance, called Mahalanobis
 distance, is used to measure the difference between two multivariate means.
 This distance measure is calculated as
 
-\deqn{D_M = \sqrt{ \left( \bm{x_T} - \bm{x_R} \right)^{\top}
-  \bm{S}_{pooled}^{-1} \left( \bm{x_T} - \bm{x_R} \right)} ,}{%
+\deqn{D_M = \sqrt{ \left( \bm{x}_T - \bm{x}_R \right)^{\top}
+  \bm{S}_{pooled}^{-1} \left( \bm{x}_T - \bm{x}_R \right)} ,}{%
   D_M = sqrt((x_T - x_R)^{\top} S_{pooled}^{-1} (x_T - x_R)) ,}
 
-where \eqn{\bm{S}_{pooled} = \frac{\left( \bm{S}_T + \bm{S}_R \right)}{2}}{%
-S_{pooled} = (S_T + S_R) / 2} is the sample variance-covariance matrix
-pooled across the batches, \eqn{\bm{x}_T}{x_T} and \eqn{\bm{x}_R}{x_R} are
-the vectors of the sample means for the test (\eqn{T}) and reference
+where \eqn{\bm{S}_{pooled}} is the sample variance-covariance matrix pooled
+across the comparative groups, \eqn{\bm{x}_T}{x_T} and \eqn{\bm{x}_R}{x_R}
+are the vectors of the sample means for the test (\eqn{T}) and reference
 (\eqn{R}) profiles, and \eqn{\bm{S}_T}{S_T} and \eqn{\bm{S}_R}{x_R} are the
-variance-covariance matrices of the test and reference profiles.
+variance-covariance matrices of the test and reference profiles. The pooled
+variance-covariance matrix \eqn{\bm{S}_{pooled}}{S_{pooled}} is calculated
+by
+
+\deqn{\bm{S}_{pooled} = \frac{(n_R - 1) \bm{S}_R + (n_T - 1) \bm{S}_T}{%
+  n_R + n_T - 2} .}{S_{pooled} = ((n_R - 1) S_R + (n_T - 1) S_T) /
+  (n_R + n_T - 2) .}
 
 In order to determine the similarity limits in terms of the MSD, i.e. the
 Mahalanobis distance between the two multivariate means of the dissolution
@@ -137,27 +143,31 @@ where \eqn{\bm{d}_g}{d_g} is a \eqn{1 \times p}{1 x p} vector with all
 e.g., \eqn{15}\%, for the maximum tolerable difference at all time points,
 and \eqn{p} is the number of sampling points. By assuming that the data
 follow a multivariate normal distribution, the 90\% confidence region
-(\eqn{CR}) bounds for the true difference between the mean vectors,
+(\eqn{\textit{CR}}) bounds for the true difference between the mean vectors,
 \eqn{\bm{\mu}_T - \bm{\mu}_R}{\mu_T - \mu_R}, can be computed for the
 resultant vector \eqn{\bm{\mu}}{\mu} to satisfy the following condition:
 
-\deqn{\bm{CR} = K \left( \bm{\mu} - \left( \bm{x_T} - \bm{x_R} \right)
-  \right)^{\top} \bm{S}_{pooled}^{-1} \left( \bm{\mu} - \left( \bm{x_T} -
-  \bm{x_R} \right) \right) \leq F_{p, n_T + n_R - p - 1, 0.9} ,}{%
+\deqn{\bm{\textit{CR}} = K \left( \bm{\mu} - \left( \bm{x}_T -
+  \bm{x}_R \right) \right)^{\top} \bm{S}_{pooled}^{-1} \left( \bm{\mu} -
+  \left( \bm{x}_T - \bm{x}_R \right) \right) \leq
+  F_{p, n_T + n_R - p - 1, 0.9} ,}{%
   CR = sqrt((\mu - (x_T - x_R))^{\top} S_{pooled}^{-1} (\mu - (x_T - x_R)))
   \leq F_{p, n_T + n_R - p - 1, 0.9} ,}
 
 where \eqn{K} is the scaling factor that is calculated as
 
-\deqn{K = \frac{n_T n_R}{n_T + n_R} \cdot \frac{n_T + n_R - p - 1}{
-  \left( n_T + n_R - 2 \right) \cdot p} ,}{%
-  (n_T n_R) / (n_T + n_R) * (n_T + n_R - p - 1) / ((n_T + n_R - 2) p) ,}
+\deqn{K = \frac{n_T n_R}{n_T + n_R} \; \frac{n_T + n_R - p - 1}{
+  \left( n_T + n_R - 2 \right) p} ,}{%
+  (n_T n_R) / (n_T + n_R) (n_T + n_R - p - 1) / ((n_T + n_R - 2) p) ,}
 
 and \eqn{F_{p, n_T + n_R - p - 1, 0.9}} is the \eqn{90^{th}} percentile of
 the \eqn{F} distribution with degrees of freedom \eqn{p} and
-\eqn{n_T + n_R - p - 1}. It is obvious that \eqn{(n_T + n_R)} must be greater
-than \eqn{(p + 1)}. The formula for \eqn{CR} gives a \eqn{p}-variate 90\%
-confidence region for the possible true differences. \cr
+\eqn{n_T + n_R - p - 1}, where \eqn{n_T} and \eqn{n_R} are the number of
+observations of the reference and the test group, respectively, and \eqn{p}
+is the number of sampling or time points, as mentioned already. It is
+obvious that \eqn{(n_T + n_R)} must be greater than \eqn{(p + 1)}. The
+formula for \eqn{\textit{CR}} gives a \eqn{p}-variate 90\% confidence region
+for the possible true differences. \cr
 }
 
 \examples{
@@ -223,9 +233,9 @@ testing, and \emph{in vivo} bioequivalence documentation (SUPAC-IR). 1995.\cr
 
 European Medicines Agency (EMA), Committee for Medicinal Products for
 Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-\url{https://www.ema.europa.eu/en/documents/scientific-guideline/
-guideline-investigation-bioequivalence-rev1_en.pdf}
+\href{https://www.ema.europa.eu/en/documents/scientific-guideline/
+guideline-investigation-bioequivalence-rev1_en.pdf}{
+CPMP/EWP/QWP/1401/98 Rev. 1}.
 
 Moore, J.W., and Flanner, H.H. Mathematical comparison of curves with an
 emphasis on \emph{in-vitro} dissolution profiles. \emph{Pharm Tech}. 1996;

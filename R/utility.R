@@ -66,9 +66,9 @@
 #' @references
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-#' CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-#' \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
-#' guideline-investigation-bioequivalence-rev1_en.pdf}
+#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/
+#' guideline-investigation-bioequivalence-rev1_en.pdf}{
+#' CPMP/EWP/QWP/1401/98 Rev. 1}.
 #'
 #' @keywords internal
 
@@ -251,7 +251,7 @@ get_time_points <- function(svec) {
 #'
 #' @details If one of the two levels of the \code{grouping} column is named
 #' \dQuote{references} or \dQuote{References} or some abbreviation thereof
-#' (in the extreme case just \dQuote{r}) this level will be used as reference
+#' (in the extreme case just \dQuote{r}), this level will be used as reference
 #' level. Otherwise the first level of the \code{grouping} column (according to
 #' the level sorting of the column) will be assumed representing the reference
 #' group.
@@ -435,10 +435,11 @@ rand_indiv_points <- function(data, mle) {
 #' Get points on confidence region bounds by Newton-Raphson search
 #'
 #' The function \code{gep_by_nera()} is a function for finding points that
-#' ideally sit on specific confidence region bounds (\eqn{CRB}) by aid of the
-#' \dQuote{Method of Lagrange Multipliers} (MLM) and by \dQuote{Newton-Raphson}
-#' (nera) optimisation. The multivariate confidence interval for profiles with
-#' four time points, e.g., is an \dQuote{ellipse} in four dimensions.
+#' ideally sit on specific confidence region bounds (\eqn{\textit{CRB}}) by
+#' aid of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
+#' \dQuote{Newton-Raphson} (nera) optimisation. The multivariate confidence
+#' interval for profiles with four time points, e.g., is an \dQuote{ellipse}
+#' in four dimensions.
 #'
 #' @param n_p A positive integer specifying the number of (time) points
 #'   \eqn{n_p}.
@@ -461,7 +462,7 @@ rand_indiv_points <- function(data, mle) {
 #' @inheritParams mimcr
 #'
 #' @details The function \code{gep_by_nera()} determines the points on the
-#' bounds \eqn{CRB} for each of the \eqn{n_p} time points. It does so by aid
+#' \eqn{\textit{CRB}} for each of the \eqn{n_p} time points. It does so by aid
 #' of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
 #' \dQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
 #' Connolly (Connolly 2000).
@@ -476,12 +477,12 @@ rand_indiv_points <- function(data, mle) {
 #' @return A list with the following elements is returned:
 #' \item{points}{A matrix with one column and \eqn{n_p + 1} rows is returned,
 #'   where rows \eqn{1} to \eqn{n_p} represent, for each time point or model
-#'   parameter, the points on the \eqn{CRB}. For symmetry reasons, the points
-#'   on the opposite side are obtained by addition/subtraction. The last row
-#'   in the matrix, with index \eqn{n_p + 1}, represents the \eqn{\lambda}
-#'   parameter of the MLM, also known as \emph{lambda multiplier method}, that
-#'   is used to optimise under constraint(s). The variable \eqn{\lambda} is
-#'   thus called the \emph{Lagrange multiplier}.}
+#'   parameter, the points on the \eqn{\textit{CRB}}. For symmetry reasons,
+#'   the points on the opposite side are obtained by addition/subtraction.
+#'   The last row in the matrix, with index \eqn{n_p + 1}, represents the
+#'   \eqn{\lambda} parameter of the MLM, also known as \emph{lambda multiplier
+#'   method}, that is used to optimise under constraint(s). The variable
+#'   \eqn{\lambda} is thus called the \emph{Lagrange multiplier}.}
 #' \item{converged}{A logical stating if the NR algorithm converged or not.}
 #' \item{points.on.crb}{A logical stating if the points found by the NR
 #'   algorithm sit on the sit on the confidence region bounds (\code{TRUE}) or
@@ -506,9 +507,9 @@ rand_indiv_points <- function(data, mle) {
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-#' CPMP/EWP/QWP/1401/98 Rev. 1.\cr
-#' \url{https://www.ema.europa.eu/en/documents/scientific-guideline/
-#' guideline-investigation-bioequivalence-rev1_en.pdf}
+#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/
+#' guideline-investigation-bioequivalence-rev1_en.pdf}{
+#' CPMP/EWP/QWP/1401/98 Rev. 1}.
 #'
 #' Moore, J.W., and Flanner, H.H. Mathematical comparison of curves with an
 #' emphasis on \emph{in-vitro} dissolution profiles. \emph{Pharm Tech}. 1996;
@@ -635,9 +636,10 @@ gep_by_nera <- function(n_p, kk, mean_diff, m_vc, ff_crit, y, max_trial, tol) {
 #'
 #' The function \code{check_point_location()} checks if points that were found
 #' by the \code{\link{gep_by_nera}()} function sit on specified confidence
-#' region bounds (\eqn{CRB}) or not. This is necessary because the points found
-#' by aid of the \dQuote{Method of Lagrange Multipliers} (MLM) and
-#' \dQuote{Newton-Raphson} (nera) optimisation may not sit on the \eqn{CRB}.
+#' region bounds (\eqn{\textit{CRB}}) or not. This is necessary because the
+#' points found by aid of the \dQuote{Method of Lagrange Multipliers} (MLM)
+#' and \dQuote{Newton-Raphson} (nera) optimisation may not sit on the
+#' \eqn{\textit{CRB}}.
 #'
 #' @param lpt A list returned by the \code{\link{gep_by_nera}()} function.
 #' @param lhs A list of the estimates of Hotelling's two-sample \eqn{T^2}
@@ -646,19 +648,20 @@ gep_by_nera <- function(n_p, kk, mean_diff, m_vc, ff_crit, y, max_trial, tol) {
 #'
 #' @details The function \code{check_point_location()} checks if points that
 #' were found by the \code{\link{gep_by_nera}()} function sit on specified
-#' confidence region bounds (\eqn{CRB}) or not. The \code{\link{gep_by_nera}()}
-#' function determines the points on the \eqn{CRB} for each of the \eqn{n_p}
-#' time points or model parameters by aid of the \dQuote{Method of Lagrange
-#' Multipliers} (MLM) and by \dQuote{Newton-Raphson} (nera) optimisation, as
-#' proposed by Margaret Connolly (Connolly 2000). However, since the points
-#' found may not sit on  the specified \eqn{CRB}, it must be checked if the
-#' points returned by the \code{\link{gep_by_nera}()} function do sit on the
-#' \eqn{CRB} or not.
+#' confidence region bounds (\eqn{\textit{CRB}}) or not. The
+#' \code{\link{gep_by_nera}()} function determines the points on the
+#' \eqn{\textit{CRB}} for each of the \eqn{n_p} time points or model parameters
+#' by aid of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
+#' \dQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
+#' Connolly (Connolly 2000). However, since the points found may not sit on
+#' the specified \eqn{\textit{CRB}}, it must be checked if the points returned
+#' by the \code{\link{gep_by_nera}()} function do sit on the \eqn{\textit{CRB}}
+#' or not.
 #'
 #' @return The function returns the list that was passed in via the \code{lpt}
 #' parameter with a modified \code{points.on.crb} element, i.e. set as
-#' \code{TRUE} if the points sit on the \eqn{CRB} or \code{FALSE} if they do
-#' not sit on the \eqn{CRB}.
+#' \code{TRUE} if the points sit on the \eqn{\textit{CRB}} or \code{FALSE} if
+#' they do not sit on the \eqn{\textit{CRB}}.
 #'
 #' @references
 #' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical

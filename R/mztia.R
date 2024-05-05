@@ -2,11 +2,11 @@
 #'
 #' The \emph{Martinez & Zhao Tolerance Interval Approach} (\code{mztia}) is a
 #' simple approach for the comparison of dissolution profiles. The
-#' \code{mztia()} function calculates tolerance intervals (TI) at each time
-#' point of the dissolution profiles of a set of reference batches. By aid
-#' of a graphical display the test batches are checked to lie within the TI
-#' boundaries or within certain limits exceeding the TI boundaries by a
-#' specified percentage.
+#' \code{mztia()} function calculates tolerance intervals (\eqn{\textit{TI}})
+#' at each time point of the dissolution profiles of a set of reference
+#' batches. By aid of a graphical display the test batches are checked to lie
+#' within the \eqn{\textit{TI}} boundaries or within certain limits exceeding
+#' the \eqn{\textit{TI}} boundaries by a specified percentage.
 #'
 #' @param data A data frame with the dissolution profile data in wide or in
 #'   long format (see parameter \code{shape}). If the data frame is in wide
@@ -53,12 +53,13 @@
 #' @details The tolerance interval approach proposed by Martinez & Zhao (2018)
 #' is a simple approach for the comparison of dissolution profiles. The authors
 #' propose to calculate for each time point of a set of reference dissolution
-#' profiles a tolerance interval (\eqn{TI}), i.e. intervals containing
+#' profiles a tolerance interval (\eqn{\textit{TI}}), i.e. intervals containing
 #' \eqn{pp}\% of the population of potential values for reference product at a
 #' probability level of \eqn{alpha / 2} per tail (i.e., \eqn{(1 - alpha) 100}\%
-#' confidence). Based on these \eqn{TI}s the dissolution profiles of the test
-#' batch(es) is (are) compared, i.e. the corresponding data points should lie
-#' within the \eqn{TI}s. The \eqn{TI}s are calculated as
+#' confidence). Based on these \eqn{\textit{TI}}s the dissolution profiles of
+#' the test batch(es) is (are) compared, i.e. the corresponding data points
+#' should lie within the \eqn{\textit{TI}}s. The \eqn{\textit{TI}}s are
+#' calculated as
 #'
 #' \deqn{Y_{utl,ltl} = \bar{Y} \pm k \times s}{Y_{utl,ltl} = Y.bar +- k*s}
 #'
@@ -71,10 +72,10 @@
 #' Martinez & Zhao propose allowing acceptable deviations by utilizing the
 #' concepts described by the United States Pharmacopoeia (USP), chapter <711>
 #' on dissolution, defining \emph{allowable deviations from a set of product
-#' specifications} (\eqn{Q}). The \eqn{TI}s serve as the target value \eqn{Q}
-#' at each sampling time. The allowable deviations about \eqn{Q} are defined
-#' by the \eqn{S1} and \eqn{S2} acceptance criteria of USP chapter <711> on
-#' dissolution:
+#' specifications} (\eqn{Q}). The \eqn{\textit{TI}}s serve as the target value
+#' \eqn{Q} at each sampling time. The allowable deviations about \eqn{Q} are
+#' defined by the \eqn{S1} and \eqn{S2} acceptance criteria of USP chapter
+#' <711> on dissolution:
 #' \enumerate{
 #' \item The \eqn{S1} level boundary is defined by \eqn{Q \pm 5}{Q +- 5}\%
 #'   at each time point. For every 12 profiles tested, only one profile is
@@ -89,13 +90,14 @@
 #' additional runs of the reference product must be performed. It is deemed
 #' appropriate to use the same values of \eqn{S1} and \eqn{S2} across all time
 #' points because the high variability associated with the early sampling times
-#' is already factored into the \eqn{TI}s.
+#' is already factored into the \eqn{\textit{TI}}s.
 #'
-#' \eqn{TI} calculation according to Hahn is proposed because it appeared to be
-#' more numerically stable and gave more consistent \eqn{TI}s than the \eqn{TI}
-#' calculation method proposed by Howe (Howe 1969) when samples were very
-#' variable. The reason might be due to the less stringent requirements
-#' imposed by Hahn's method with respect to the normality of the data.
+#' \eqn{\textit{TI}} calculation according to Hahn is proposed because it
+#' appeared to be more numerically stable and gave more consistent
+#' \eqn{\textit{TI}}s than the \eqn{\textit{TI}} calculation method proposed
+#' by Howe (Howe 1969) when samples were very variable. The reason might be due
+#' to the less stringent requirements imposed by Hahn's method with respect to
+#' the normality of the data.
 #'
 #' @return An object of class \sQuote{\code{mztia}} is returned, containing the
 #' following elements:

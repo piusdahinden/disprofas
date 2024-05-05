@@ -16,27 +16,29 @@ statistic for small samples as returned by the function
 \value{
 The function returns the list that was passed in via the \code{lpt}
 parameter with a modified \code{points.on.crb} element, i.e. set as
-\code{TRUE} if the points sit on the \eqn{CRB} or \code{FALSE} if they do
-not sit on the \eqn{CRB}.
+\code{TRUE} if the points sit on the \eqn{\textit{CRB}} or \code{FALSE} if
+they do not sit on the \eqn{\textit{CRB}}.
 }
 \description{
 The function \code{check_point_location()} checks if points that were found
 by the \code{\link{gep_by_nera}()} function sit on specified confidence
-region bounds (\eqn{CRB}) or not. This is necessary because the points found
-by aid of the \dQuote{Method of Lagrange Multipliers} (MLM) and
-\dQuote{Newton-Raphson} (nera) optimisation may not sit on the \eqn{CRB}.
+region bounds (\eqn{\textit{CRB}}) or not. This is necessary because the
+points found by aid of the \dQuote{Method of Lagrange Multipliers} (MLM)
+and \dQuote{Newton-Raphson} (nera) optimisation may not sit on the
+\eqn{\textit{CRB}}.
 }
 \details{
 The function \code{check_point_location()} checks if points that
 were found by the \code{\link{gep_by_nera}()} function sit on specified
-confidence region bounds (\eqn{CRB}) or not. The \code{\link{gep_by_nera}()}
-function determines the points on the \eqn{CRB} for each of the \eqn{n_p}
-time points or model parameters by aid of the \dQuote{Method of Lagrange
-Multipliers} (MLM) and by \dQuote{Newton-Raphson} (nera) optimisation, as
-proposed by Margaret Connolly (Connolly 2000). However, since the points
-found may not sit on  the specified \eqn{CRB}, it must be checked if the
-points returned by the \code{\link{gep_by_nera}()} function do sit on the
-\eqn{CRB} or not.
+confidence region bounds (\eqn{\textit{CRB}}) or not. The
+\code{\link{gep_by_nera}()} function determines the points on the
+\eqn{\textit{CRB}} for each of the \eqn{n_p} time points or model parameters
+by aid of the \dQuote{Method of Lagrange Multipliers} (MLM) and by
+\dQuote{Newton-Raphson} (nera) optimisation, as proposed by Margaret
+Connolly (Connolly 2000). However, since the points found may not sit on
+the specified \eqn{\textit{CRB}}, it must be checked if the points returned
+by the \code{\link{gep_by_nera}()} function do sit on the \eqn{\textit{CRB}}
+or not.
 }
 \examples{
 # Collecting the required information

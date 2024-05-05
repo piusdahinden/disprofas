@@ -18,7 +18,7 @@ test_that("get_profile_portion_succeeds", {
     bounds = c(1, 85)))
 
   res4 <- unname(get_profile_portion(
-    data = dip6, tcol = 3:26, groups = (dip6$type == "R"), use_ema = "yes",
+    data = dip6, tcol = 3:31, groups = (dip6$type == "R"), use_ema = "yes",
     bounds = c(1, 80)))
 
   expect_equal(
@@ -27,7 +27,7 @@ test_that("get_profile_portion_succeeds", {
   expect_equal(res1, c(rep(TRUE, 7), FALSE))
   expect_equal(res2, c(rep(TRUE, 6), FALSE, FALSE))
   expect_equal(res3, c(rep(TRUE, 8)))
-  expect_equal(res4, c(rep(FALSE, 7), rep(TRUE, 13), rep(FALSE, 4)))
+  expect_equal(res4, c(rep(FALSE, 8), rep(TRUE, 12), rep(FALSE, 9)))
 })
 
 test_that("get_profile_portion_fails", {

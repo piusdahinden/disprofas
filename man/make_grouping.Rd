@@ -25,7 +25,7 @@ The function \code{make_grouping()} makes the grouping according to the
 \details{
 If one of the two levels of the \code{grouping} column is named
 \dQuote{references} or \dQuote{References} or some abbreviation thereof
-(in the extreme case just \dQuote{r}) this level will be used as reference
+(in the extreme case just \dQuote{r}), this level will be used as reference
 level. Otherwise the first level of the \code{grouping} column (according to
 the level sorting of the column) will be assumed representing the reference
 group.

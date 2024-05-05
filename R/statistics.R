@@ -397,8 +397,8 @@ get_hotellings <- function(m1, m2, signif) {
   if (!is.matrix(m2)) {
     stop("The sample m2 must be provided as matrix.")
   }
-  if (!isTRUE(all.equal(dim(m1), dim(m2)))) {
-    stop("The parameters m1 and m2 must have the same dimensions.")
+  if (!(ncol(m1) == ncol(m2))) {
+    stop("The matrices m1 and m2 must have the same number of columns.")
   }
   if (signif <= 0 || signif > 1) {
     stop("Please specify signif as (0, 1]")

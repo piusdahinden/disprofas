@@ -213,10 +213,32 @@
 #'   \item{type}{Factor with levels \code{R} (Reference) and \code{T} (Test)}
 #'   \item{tablet}{Factor with levels \code{1} to \code{12} representing
 #'     individual tablets}
+#'   \item{t.0}{Numeric of the \% release at the initial testing point}
 #'   \item{t.5}{Numeric of the \% release at the 5 minutes testing point}
 #'   \item{t.10}{Numeric of the \% release at the 10 minutes testing point}
 #'   \item{t.15}{Numeric of the \% release at the 15 minutes testing point}
-#'   \item{...}{...}
+#'   \item{t.20}{Numeric of the \% release at the 20 minutes testing point}
+#'   \item{t.25}{Numeric of the \% release at the 25 minutes testing point}
+#'   \item{t.30}{Numeric of the \% release at the 30 minutes testing point}
+#'   \item{t.35}{Numeric of the \% release at the 35 minutes testing point}
+#'   \item{t.40}{Numeric of the \% release at the 40 minutes testing point}
+#'   \item{t.45}{Numeric of the \% release at the 45 minutes testing point}
+#'   \item{t.50}{Numeric of the \% release at the 50 minutes testing point}
+#'   \item{t.55}{Numeric of the \% release at the 55 minutes testing point}
+#'   \item{t.60}{Numeric of the \% release at the 60 minutes testing point}
+#'   \item{t.65}{Numeric of the \% release at the 65 minutes testing point}
+#'   \item{t.70}{Numeric of the \% release at the 70 minutes testing point}
+#'   \item{t.75}{Numeric of the \% release at the 75 minutes testing point}
+#'   \item{t.80}{Numeric of the \% release at the 80 minutes testing point}
+#'   \item{t.85}{Numeric of the \% release at the 85 minutes testing point}
+#'   \item{t.90}{Numeric of the \% release at the 90 minutes testing point}
+#'   \item{t.95}{Numeric of the \% release at the 95 minutes testing point}
+#'   \item{t.100}{Numeric of the \% release at the 100 minutes testing point}
+#'   \item{t.105}{Numeric of the \% release at the 105 minutes testing point}
+#'   \item{t.110}{Numeric of the \% release at the 110 minutes testing point}
+#'   \item{t.115}{Numeric of the \% release at the 115 minutes testing point}
+#'   \item{t.120}{Numeric of the \% release at the 120 minutes testing point}
+#'   \item{t.125}{Numeric of the \% release at the 125 minutes testing point}
 #'   \item{t.130}{Numeric of the \% release at the 130 minutes testing point}
 #'   \item{t.135}{Numeric of the \% release at the 135 minutes testing point}
 #'   \item{t.140}{Numeric of the \% release at the 140 minutes testing point}
@@ -250,9 +272,9 @@
 #'     and \code{b4}}
 #'   \item{type}{Factor with levels \code{ref} (Reference) and \code{test}
 #'     (Test)}
-#'   \item{alpha}{Weibull parameter \eqn{\alpha}, i.e. is the scale parameter
+#'   \item{alpha}{Weibull parameter \eqn{\alpha}, i.e. the scale parameter
 #'     being a function of the undissolved proportion at \eqn{t = 1}}
-#'   \item{beta}{Weibull parameter \eqn{\beta}, i.e. is the shape parameter
+#'   \item{beta}{Weibull parameter \eqn{\beta}, i.e. the shape parameter
 #'     which is related to the dissolution rate per unit of time}
 #' }
 #'
@@ -268,3 +290,41 @@
 #' @examples
 #' str(dip7)
 "dip7"
+
+
+#' Parameter estimates of Weibull fit to individual dissolution profiles
+#'
+#' A data set containing the Weibull parameter estimates obtained from fitting
+#'   Weibull curves to the cumulative dissolution profiles of individual
+#'   tablets of one reference batch and one test or post-change batch with a
+#'   minor modification and a secont test or post-change batch with a major
+#'   modification, \eqn{n = 12} tablets each.
+#'
+#' @docType data
+#'
+#' @usage data(dip8)
+#'
+#' @format A data frame with 36 observations and 4 variables:
+#' \describe{
+#'   \item{tablet}{Factor with levels \code{1} to \code{12} representing
+#'     individual tablets}
+#'   \item{type}{Factor with levels \code{ref} (Reference), \code{minor} (Test)
+#'     and \code{major} (Test)}
+#'   \item{alpha}{Weibull parameter \eqn{\alpha}, i.e. the scale parameter
+#'     being a function of the undissolved proportion at \eqn{t = 1}}
+#'   \item{beta}{Weibull parameter \eqn{\beta}, i.e. the shape parameter
+#'     which is related to the dissolution rate per unit of time}
+#' }
+#'
+#' @references
+#' Sathe, P.M., Tsong, Y., and Shah, V.P. \emph{In-Vitro} dissolution profile
+#' comparison: Statistics and analysis, model dependent approach.
+#' \emph{Pharm Res}. 1996; \strong{13}(12): 1799-1803.\cr
+#' \doi{10.1023/a:1016020822093}
+#'
+#' @source
+#' See reference: Example data set shown in Table III.
+#'
+#' @examples
+#' str(dip8)
+"dip8"

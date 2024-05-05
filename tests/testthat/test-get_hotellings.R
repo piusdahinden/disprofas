@@ -68,12 +68,12 @@ test_that("get_hotellings_fails", {
     get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:9]),
                    m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
                    signif = 0.05),
-    "m1 and m2 must have the same dimensions")
+    "matrices m1 and m2 must have the same number of columns")
   expect_error(
     get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                    m2 = as.matrix(dip1[dip1$type == "T", 3:9]),
                    signif = 0.05),
-    "m1 and m2 must have the same dimensions")
+    "matrices m1 and m2 must have the same number of columns")
   expect_error(
     get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                    m2 = as.matrix(dip1[dip1$type == "T", 3:10]),

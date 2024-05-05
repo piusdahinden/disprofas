@@ -22,23 +22,25 @@ res1$Parameters
 #  1.543820e+00
 
 # Comparison with T2-test for equivalence for dissolution data from the 'T2EQ'
-# package:
-if (requireNamespace("T2EQ")) {
-  library(T2EQ)
-  data(ex_data_JoBS)
+# package
+\dontrun{
+  if (requireNamespace("T2EQ")) {
+    library(T2EQ)
+    data(ex_data_JoBS)
 
-  T2EQ.dissolution.profiles.hoffelder(
-    X = as.matrix(dip3[dip3$type == "ref", c("x.15", "x.20", "x.25")]),
-    Y = as.matrix(dip3[dip3$type == "test", c("x.15", "x.20", "x.25")]))
+    T2EQ.dissolution.profiles.hoffelder(
+      X = as.matrix(dip3[dip3$type == "ref", c("x.15", "x.20", "x.25")]),
+      Y = as.matrix(dip3[dip3$type == "test", c("x.15", "x.20", "x.25")]))
+  }
+
+  # Excerpt of output:
+  # Hotelling's T2: 			                      0.3410141
+  # Noncentrality parameter:                    30.32296
+  # Significance level: 		                    0.05
+  # Teststatistic: 			                        0.1033376
+  # Quantile of noncent. F-distribution:        4.899274
+  # p-value of the T2-test for equivalence: p = 2.890827e-08
 }
-
-# Excerpt of output:
-# Hotelling's T2: 			                      0.3410141
-# Noncentrality parameter:                    30.32296
-# Significance level: 		                    0.05
-# Teststatistic: 			                        0.1033376
-# Quantile of noncent. F-distribution:        4.899274
-# p-value of the T2-test for equivalence: p = 2.890827e-08
 
 # Use of 'bounds = c(1, 85)'
 res2 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", bounds = c(1, 85))
@@ -54,7 +56,7 @@ res2[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 # t.5 t.10 t.15 t.20 t.30 t.60 t.90
 #   5   10   15   20   30   60   90
 
-# Expected results in
+# Expected results in res2$Parameters
 # res2[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 # p.F.Hoffelder     Sim.Limit         Obs.U
 #      0.740219     11.328041     31.679020
@@ -69,7 +71,7 @@ res3[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 #        Tsong    Hoffelder
 # "Dissimilar" "Dissimilar"
 
-# Expected results in
+# Expected results in res3$Parameters
 # res3[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 # p.F.Hoffelder     Sim.Limit         Obs.U
 #     0.3559019    16.9920622    31.6790198
@@ -82,15 +84,15 @@ res4$Similarity
 res4$Profile.TP
 res4[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 
-# Expected results in res3$Similarity
+# Expected results in res4$Similarity
 #        Tsong    Hoffelder
 # "Dissimilar" "Dissimilar"
 
-# Expected results in res2$Profile.TP
+# Expected results in res4$Profile.TP
 # t.5  t.10  t.15  t.20  t.30  t.60  t.90 t.120
 #   5    10    15    20    30    60    90   120
 
-# Expected results in
+# Expected results in res4$Parameters
 # res2[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 # p.F.Hoffelder     Sim.Limit         Obs.U
 #     0.1449045    19.4271898    33.3180044

@@ -1,20 +1,72 @@
 context("Get Hotelling's T2 statistics for one (small) sample")
 
-test_that("get_t2_one", {
-  res <-
-    get_t2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800, 75),
-               signif = 0.05)
+test_that("get_t2_one_succeeds", {
+  # Test with data set from Tsong (1996)
+  l_res1 <- get_t2_one(m = as.matrix(dip1[dip1$type == "R", c(5, 9)]),
+                       mu = round(colMeans(
+                         as.matrix(dip1[dip1$type == "T", c(5, 9)])), 0),
+                       signif = 0.1)
+
+  # Test with data set from Tsong (1997)
+  l_res2 <- get_t2_one(m = as.matrix(dip7[dip7$type == "ref", 4:5]),
+                       mu = colMeans(as.matrix(dip7[dip7$type == "test", 4:5])),
+                       signif = 0.05)
+
+  # Test with data set from Sathe (1996)
+  l_res3_min <-
+    get_t2_one(m = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
+               mu = log(colMeans(as.matrix(dip8[dip8$type == "minor", 3:4]))),
+               signif = 0.1)
+
+  l_res3_maj <-
+    get_t2_one(m = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
+               mu = log(colMeans(as.matrix(dip8[dip8$type == "major", 3:4]))),
+               signif = 0.1)
 
   # <-><-><-><->
 
-  expect_equal(round(res[["Parameters"]][["df1"]], 0), 5)
-  expect_equal(round(res[["Parameters"]][["df2"]], 0), 732)
-  expect_equal(signif(res[["Parameters"]][["T2"]], 7), 1758.541)
-  expect_equal(signif(res[["Parameters"]][["F"]], 7), 349.7968)
-  expect_equal(signif(res[["Parameters"]][["p.F"]], 7), 0.0000000)
+  expect_equal(signif(l_res1$Parameters[["dm"]], 7), 9.729112)
+  expect_equal(round(l_res1$Parameters[["df1"]], 0), 2)
+  expect_equal(round(l_res1$Parameters[["df2"]], 0), 4)
+  expect_equal(signif(l_res1$Parameters[["K"]], 7), 2.400000)
+  expect_equal(round(l_res1$Parameters[["k"]], 0), 6)
+  expect_equal(signif(l_res1$Parameters[["T2"]], 7), 567.9337)
+  expect_equal(signif(l_res1$Parameters[["F"]], 7), 227.1735)
+  expect_equal(signif(l_res1$Parameters[["F.crit"]], 7), 4.324555)
+  expect_equal(signif(l_res1$Parameters[["p.F"]], 7), 7.616076e-05)
+
+  expect_equal(signif(l_res2$Parameters[["dm"]], 7), 3.027907)
+  expect_equal(round(l_res2$Parameters[["df1"]], 0), 2)
+  expect_equal(round(l_res2$Parameters[["df2"]], 0), 34)
+  expect_equal(signif(l_res2$Parameters[["K"]], 7), 17.48571)
+  expect_equal(round(l_res2$Parameters[["k"]], 0), 36)
+  expect_equal(signif(l_res2$Parameters[["T2"]], 7), 330.0560)
+  expect_equal(signif(l_res2$Parameters[["F"]], 7), 160.3129)
+  expect_equal(signif(l_res2$Parameters[["F.crit"]], 7), 3.275898)
+  expect_equal(signif(l_res2$Parameters[["p.F"]], 7), 0.0)
+
+  expect_equal(signif(l_res3_min$Parameters[["dm"]], 7), 1.295649)
+  expect_equal(round(l_res3_min$Parameters[["df1"]], 0), 2)
+  expect_equal(round(l_res3_min$Parameters[["df2"]], 0), 10)
+  expect_equal(signif(l_res3_min$Parameters[["K"]], 7), 5.454545)
+  expect_equal(round(l_res3_min$Parameters[["k"]], 0), 12)
+  expect_equal(signif(l_res3_min$Parameters[["T2"]], 7), 20.14446)
+  expect_equal(signif(l_res3_min$Parameters[["F"]], 7), 9.156574)
+  expect_equal(signif(l_res3_min$Parameters[["F.crit"]], 7), 2.924466)
+  expect_equal(signif(l_res3_min$Parameters[["p.F"]], 7), 0.005496158)
+
+  expect_equal(signif(l_res3_maj$Parameters[["dm"]], 7), 4.325388)
+  expect_equal(round(l_res3_maj$Parameters[["df1"]], 0), 2)
+  expect_equal(round(l_res3_maj$Parameters[["df2"]], 0), 10)
+  expect_equal(signif(l_res3_maj$Parameters[["K"]], 7), 5.454545)
+  expect_equal(round(l_res3_maj$Parameters[["k"]], 0), 12)
+  expect_equal(signif(l_res3_maj$Parameters[["T2"]], 7), 224.5078)
+  expect_equal(signif(l_res3_maj$Parameters[["F"]], 7), 102.0490)
+  expect_equal(signif(l_res3_maj$Parameters[["F.crit"]], 7), 2.924466)
+  expect_equal(signif(l_res3_maj$Parameters[["p.F"]], 7), 2.222987e-07)
 })
 
-test_that("get_hotelling_successfully_calculates_CIs", {
+test_that("get_t2_one_successfully_calculates_CIs", {
   l_res <-
     get_t2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800, 75),
                           signif = 0.05)
@@ -44,7 +96,7 @@ test_that("get_hotelling_successfully_calculates_CIs", {
                c(661.8417, 11.69917, 68.71207, 995.0316, 85.92946))
 })
 
-test_that("get_hotellings_fails", {
+test_that("get_t2_one_fails", {
   expect_error(
     get_t2_one(m = dip12, mu = c(1000, 15, 60, 800, 75),
                           signif = 0.05),

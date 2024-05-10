@@ -28,12 +28,12 @@ data(dip7)
 \description{
 A data set containing the Weibull parameter estimates obtained from fitting
   Weibull curves to the cumulative dissolution profiles of individual
-  tablets of three reference batches and batches and one test batch,
-  \eqn{n = 12} tablets each. The Weibull curve is fitted according to the
-  formula \eqn{x(t) = x_{max} ( 1 - exp(- \alpha t^{\beta}))}, where
-  \eqn{x(t)} is the percent released at time \eqn{t} divided by \eqn{100},
-  \eqn{x_{max}} is the maximal release (set to be \eqn{100}, i.e. assumed
-  to be a constant).
+  tablets of three reference batches and one test batch, \eqn{n = 12}
+  tablets each. The Weibull curve is fitted according to the formula
+  \eqn{x(t) = x_{max} ( 1 - exp(- \alpha t^{\beta}))}, where \eqn{x(t)} is
+  the percent released at time \eqn{t} divided by \eqn{100}, \eqn{x_{max}}
+  is the maximal release (set to be \eqn{100}, i.e. assumed to be a
+  constant).
 }
 \examples{
 str(dip7)

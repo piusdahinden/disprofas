@@ -328,7 +328,7 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
     stop("The parameter max_trial must be a positive integer of length 1.")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
-    stop("The paramter bounds must be a numeric vector of length 2.")
+    stop("The parameter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")

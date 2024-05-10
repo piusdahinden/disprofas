@@ -193,7 +193,7 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
     stop("Please specify use_ema either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
-    stop("The paramter bounds must be a numeric vector of length 2.")
+    stop("The parameter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")

@@ -70,6 +70,10 @@
 #' guideline-investigation-bioequivalence-rev1_en.pdf}{
 #' CPMP/EWP/QWP/1401/98 Rev. 1}.
 #'
+#' @seealso \code{\link{f1}}, \code{\link{f2}}, \code{\link{bootstrap_f2}}.
+#'
+#' @example man/examples/examples_get_profile_portion.R
+#'
 #' @keywords internal
 
 get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
@@ -100,7 +104,7 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
     stop("Please specify use_ema either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
-    stop("The paramter bounds must be a numeric vector of length 2.")
+    stop("The parameter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
@@ -195,6 +199,7 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
     ok <- m_tests[, 1] & m_tests[, 2]
   }, "ignore" = {
     ok <- rep(TRUE, n)
+    names(ok) <- colnames(data)[tcol]
   })
 
   return(ok)

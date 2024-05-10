@@ -27,7 +27,7 @@ data(dip8)
 A data set containing the Weibull parameter estimates obtained from fitting
   Weibull curves to the cumulative dissolution profiles of individual
   tablets of one reference batch and one test or post-change batch with a
-  minor modification and a secont test or post-change batch with a major
+  minor modification and a second test or post-change batch with a major
   modification, \eqn{n = 12} tablets each.
 }
 \examples{

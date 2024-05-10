@@ -154,7 +154,7 @@ get_t2_one <- function(m, mu, signif) {
   # Calculation of various parameters
 
   # Number of profile time points (equal to sum(diag(solve(m_vc) %*% m_vc)))
-  # or model paramters and number of observations of the reference group
+  # or model parameters and number of observations of the reference group
   n_tp <- ncol(m)
   n_r <- nrow(m)
 
@@ -720,7 +720,7 @@ f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
     stop("Please specify use_ema either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
-    stop("The paramter bounds must be a numeric vector of length 2.")
+    stop("The parameter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
@@ -995,7 +995,7 @@ f2 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
     stop("Please specify use_ema either as \"yes\" or \"no\" or \"ignore\".")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
-    stop("The paramter bounds must be a numeric vector of length 2.")
+    stop("The parameter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")

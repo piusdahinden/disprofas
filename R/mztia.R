@@ -160,7 +160,7 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
     stop("Please specify shape either as \"long\" or \"wide\".")
   }
   if (!is.numeric(tcol)) {
-    stop("The paramter tcol must be an integer (vector).")
+    stop("The parameter tcol must be an integer (vector).")
   }
   if (!isTRUE(all.equal(tcol, as.integer(tcol)))) {
     stop("The parameter tcol must be an integer (vector).")
@@ -222,13 +222,13 @@ mztia <- function(data, shape, tcol, grouping, reference, response = NULL,
     stop("The parameter cap must be a logical.")
   }
   if (!is.numeric(bounds) || length(bounds) != 2) {
-    stop("The paramter bounds must be a numeric vector of length 2.")
+    stop("The parameter bounds must be a numeric vector of length 2.")
   }
   if (bounds[1] > bounds[2]) {
     stop("Please specify bounds in the form c(lower limit, upper limit).")
   }
   if (!is.numeric(qs) || length(qs) != 2) {
-    stop("The paramter qs must be a numeric vector of length 2.")
+    stop("The parameter qs must be a numeric vector of length 2.")
   }
   if (sum(qs < 0) > 0 || sum(qs > 100) > 0) {
     stop("Please specify qs in the range [0, 100].")

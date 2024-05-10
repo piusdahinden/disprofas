@@ -185,7 +185,7 @@ res1$Parameters
 # set) under paragraph "DATA2 data (Comparing all eight time points), the
 # following results are obtained.
 res2 <-
-  get_t2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
+  get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                  m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
                  signif = 0.1)
 res2$Parameters

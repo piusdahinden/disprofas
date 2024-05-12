@@ -244,8 +244,7 @@
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/
-#' guideline-investigation-bioequivalence-rev1_en.pdf}{
+#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/guideline-investigation-bioequivalence-rev1_en.pdf}{
 #' CPMP/EWP/QWP/1401/98 Rev. 1}.
 #'
 #' Tsong, Y., Hammerstrom, T., Sathe, P.M., and Shah, V.P. Statistical
@@ -268,8 +267,8 @@
 #' 2016; \strong{78}(4): 587-592.\cr
 #' \url{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
-#' @seealso \code{\link{gep_by_nera}}, \code{\link{get_hotellings}},
-#' \code{\link{get_t2_one}}, \code{\link{bootstrap_f2}}, \code{\link{mztia}}.
+#' @seealso \code{\link{gep_by_nera}}, \code{\link{get_T2_two}},
+#' \code{\link{get_T2_one}}, \code{\link{bootstrap_f2}}, \code{\link{mztia}}.
 #'
 #' @example man/examples/examples_mimcr.R
 #'
@@ -406,9 +405,9 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   # Determination of MSD and similarity assessment
 
   # Hotelling's T2 statistics
-  l_hs <- get_hotellings(m1 = as.matrix(data[b1, tcol[ok]]),
-                         m2 = as.matrix(data[!b1, tcol[ok]]),
-                         signif = signif)
+  l_hs <- get_T2_two(m1 = as.matrix(data[b1, tcol[ok]]),
+                     m2 = as.matrix(data[!b1, tcol[ok]]),
+                     signif = signif)
 
   # Similarity limit and critical F values
   t_sl <- get_sim_lim(mtad, l_hs)

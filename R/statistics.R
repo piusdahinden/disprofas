@@ -1,6 +1,6 @@
 #' Hotelling's statistics (for one (small) sample)
 #'
-#' The function \code{get_t2_one()} estimates the parameters for Hotelling's
+#' The function \code{get_T2_one()} estimates the parameters for Hotelling's
 #' one-sample \eqn{T^2} statistic for small samples.
 #'
 #' @param m A matrix with the data of the reference group, e.g. a matrix
@@ -21,7 +21,7 @@
 #' sample group, e.g. the vector of the average dissolution per time point or
 #' of the average model parameters, \eqn{n} is the numbers of observations of
 #' the sample group (i.e. the number of rows in matrix \code{m} handed over
-#' to the \code{get_t2_one()} function, and \eqn{\bm{S}} is variance-covariance
+#' to the \code{get_T2_one()} function, and \eqn{\bm{S}} is variance-covariance
 #' matrix. The matrix \eqn{\bm{S}^{-1}}{S^{-1}} is the inverted
 #' variance-covariance matrix. The term
 #'
@@ -125,9 +125,9 @@
 #' W.A., Eds., Techniques of Statistical Analysis, McGraw Hill, New York,
 #' 111-184.
 #'
-#' @seealso \code{\link{get_hotellings}}, \code{\link{get_sim_lim}}.
+#' @seealso \code{\link{get_T2_two}}, \code{\link{get_sim_lim}}.
 #'
-#' @example man/examples/examples_get_t2_one.R
+#' @example man/examples/examples_get_T2_one.R
 #'
 #' @importFrom stats cov
 #' @importFrom stats pf
@@ -136,7 +136,7 @@
 #'
 #' @export
 
-get_t2_one <- function(m, mu, signif) {
+get_T2_one <- function(m, mu, signif) {
   if (!is.matrix(m)) {
     stop("The parameter m must be a matrix.")
   }
@@ -228,6 +228,27 @@ get_t2_one <- function(m, mu, signif) {
 #' Hotelling's statistics (for two independent (small) samples)
 #'
 #' The function \code{get_hotellings()} estimates the parameters for Hotelling's
+#' two-sample \eqn{T^2} statistic for small samples. \strong{Note that the
+#' function \code{get_hotellings()} is deprecated}. Upon the introduction of
+#' the new function \code{get_T2_one()} it was renamed to \code{get_T2_two()}.
+#' Please use the new function \code{get_T2_two()} instead of the obsolete
+#' function \code{get_hotellings()}.
+#'
+#' @inherit get_T2_two params details return references seealso examples
+#'
+#' @importFrom lifecycle deprecate_soft
+#'
+#' @export
+
+get_hotellings <- function(m1, m2, signif) {
+  deprecate_soft("0.1.4", "get_hotellings()", "get_T2_two()")
+
+  get_T2_two(m1 = m1, m2 = m2, signif = signif)
+}
+
+#' Hotelling's statistics (for two independent (small) samples)
+#'
+#' The function \code{get_T2_two()} estimates the parameters for Hotelling's
 #' two-sample \eqn{T^2} statistic for small samples.
 #'
 #' @param m1 A matrix with the data of the reference group, e.g. a matrix
@@ -251,7 +272,7 @@ get_t2_one <- function(m, mu, signif) {
 #' vectors of the average dissolution per time point or of the average model
 #' parameters, \eqn{n_T} and \eqn{n_R} are the numbers of observations of the
 #' reference and the test group, respectively (i.e. the number of rows in
-#' matrices \code{m1} and \code{m2} handed over to the \code{get_hotellings()}
+#' matrices \code{m1} and \code{m2} handed over to the \code{get_T2_two()}
 #' function), and \eqn{\bm{S}_{pooled}}{S_{pooled}} is the pooled
 #' variance-covariance matrix which is calculated by
 #'
@@ -378,10 +399,10 @@ get_t2_one <- function(m, mu, signif) {
 #' W.A., Eds., Techniques of Statistical Analysis, McGraw Hill, New York,
 #' 111-184.
 #'
-#' @seealso \code{\link{get_t2_one}}, \code{\link{get_sim_lim}},
+#' @seealso \code{\link{get_T2_one}}, \code{\link{get_sim_lim}},
 #' \code{\link{mimcr}}.
 #'
-#' @example man/examples/examples_get_hotellings.R
+#' @example man/examples/examples_get_T2_two.R
 #'
 #' @importFrom stats cov
 #' @importFrom stats pf
@@ -390,7 +411,7 @@ get_t2_one <- function(m, mu, signif) {
 #'
 #' @export
 
-get_hotellings <- function(m1, m2, signif) {
+get_T2_two <- function(m1, m2, signif) {
   if (!is.matrix(m1)) {
     stop("The sample m1 must be provided as matrix.")
   }
@@ -494,7 +515,7 @@ get_hotellings <- function(m1, m2, signif) {
 #'
 #' @param lhs A list of the estimates of Hotelling's two-sample \eqn{T^2}
 #'   statistic for small samples as returned by the function
-#'   \code{\link{get_hotellings}()}.
+#'   \code{\link{get_T2_two}()}.
 #' @inheritParams mimcr
 #'
 #' @details Details about the estimation of similarity limits in terms of
@@ -543,7 +564,7 @@ get_hotellings <- function(m1, m2, signif) {
 #' 2016; \strong{78}(4): 587-592.\cr
 #' \url{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 #'
-#' @seealso \code{\link{mimcr}}, \code{\link{get_hotellings}}.
+#' @seealso \code{\link{mimcr}}, \code{\link{get_T2_two}}.
 #'
 #' @example man/examples/examples_get_sim_lim.R
 #'
@@ -554,10 +575,10 @@ get_hotellings <- function(m1, m2, signif) {
 
 get_sim_lim <- function(mtad, lhs) {
   if (!inherits(lhs, "list")) {
-    stop("The parameter lhs must be a list returned by get_hotellings().")
+    stop("The parameter lhs must be a list returned by get_T2_two().")
   } else {
     if (sum(names(lhs) %in% c("Parameters", "S.pool", "covs", "means")) != 4) {
-      stop("The parameter lhs must be a list returned by get_hotellings().")
+      stop("The parameter lhs must be a list returned by get_T2_two().")
     }
   }
   if (mtad <= 0 || mtad > 50) {
@@ -677,8 +698,7 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/
-#' guideline-investigation-bioequivalence-rev1_en.pdf}{
+#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/guideline-investigation-bioequivalence-rev1_en.pdf}{
 #' CPMP/EWP/QWP/1401/98 Rev. 1}.
 #'
 #' @seealso \code{\link{f2}}.
@@ -952,8 +972,7 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/
-#' guideline-investigation-bioequivalence-rev1_en.pdf}{
+#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/guideline-investigation-bioequivalence-rev1_en.pdf}{
 #' CPMP/EWP/QWP/1401/98 Rev. 1}.
 #'
 #' @seealso \code{\link{f1}}.

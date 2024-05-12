@@ -1,25 +1,25 @@
 context("Get Hotelling's T2 statistics for one (small) sample")
 
-test_that("get_t2_one_succeeds", {
+test_that("get_T2_one_succeeds", {
   # Test with data set from Tsong (1996)
-  l_res1 <- get_t2_one(m = as.matrix(dip1[dip1$type == "R", c(5, 9)]),
+  l_res1 <- get_T2_one(m = as.matrix(dip1[dip1$type == "R", c(5, 9)]),
                        mu = round(colMeans(
                          as.matrix(dip1[dip1$type == "T", c(5, 9)])), 0),
                        signif = 0.1)
 
   # Test with data set from Tsong (1997)
-  l_res2 <- get_t2_one(m = as.matrix(dip7[dip7$type == "ref", 4:5]),
+  l_res2 <- get_T2_one(m = as.matrix(dip7[dip7$type == "ref", 4:5]),
                        mu = colMeans(as.matrix(dip7[dip7$type == "test", 4:5])),
                        signif = 0.05)
 
   # Test with data set from Sathe (1996)
   l_res3_min <-
-    get_t2_one(m = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
+    get_T2_one(m = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
                mu = log(colMeans(as.matrix(dip8[dip8$type == "minor", 3:4]))),
                signif = 0.1)
 
   l_res3_maj <-
-    get_t2_one(m = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
+    get_T2_one(m = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
                mu = log(colMeans(as.matrix(dip8[dip8$type == "major", 3:4]))),
                signif = 0.1)
 
@@ -66,9 +66,9 @@ test_that("get_t2_one_succeeds", {
   expect_equal(signif(l_res3_maj$Parameters[["p.F"]], 7), 2.222987e-07)
 })
 
-test_that("get_t2_one_successfully_calculates_CIs", {
+test_that("get_T2_one_successfully_calculates_CIs", {
   l_res <-
-    get_t2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800, 75),
+    get_T2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800, 75),
                           signif = 0.05)
 
   # <-><-><-><->
@@ -96,26 +96,26 @@ test_that("get_t2_one_successfully_calculates_CIs", {
                c(661.8417, 11.69917, 68.71207, 995.0316, 85.92946))
 })
 
-test_that("get_t2_one_fails", {
+test_that("get_T2_one_fails", {
   expect_error(
-    get_t2_one(m = dip12, mu = c(1000, 15, 60, 800, 75),
+    get_T2_one(m = dip12, mu = c(1000, 15, 60, 800, 75),
                           signif = 0.05),
     "m must be a matrix")
   expect_error(
-    get_t2_one(m = as.matrix(dip12),
+    get_T2_one(m = as.matrix(dip12),
                           mu = as.character(c(1000, 15, 60, 800, 75)),
                           signif = 0.05),
     "mu must be a numeric vector")
   expect_error(
-    get_t2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800),
+    get_T2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800),
                           signif = 0.05),
     "number of columns in m")
   expect_error(
-    get_t2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800, 75),
+    get_T2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800, 75),
                           signif = -1),
     "specify signif")
   expect_error(
-    get_t2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800, 75),
+    get_T2_one(m = as.matrix(dip12), mu = c(1000, 15, 60, 800, 75),
                           signif = 9),
     "specify signif")
 })

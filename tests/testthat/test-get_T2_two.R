@@ -1,28 +1,26 @@
 context("Get Hotelling's T2 statistics for two independent (small) samples")
 
-test_that("get_hotellings_succeeds", {
+test_that("get_T2_two_succeeds", {
   # Test with data set from Tsong (1996)
-  l_res1 <- suppressWarnings(
-    get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
-                   m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-                   signif = 0.1))
+  l_res1 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
+                       m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
+                       signif = 0.1)
 
   # Test with data set from Tsong (1997)
-  l_res2 <- suppressWarnings(
-    get_hotellings(m1 = as.matrix(dip7[dip7$type == "ref", 4:5]),
-                   m2 = as.matrix(dip7[dip7$type == "test", 4:5]),
-                   signif = 0.05))
+  l_res2 <- get_T2_two(m1 = as.matrix(dip7[dip7$type == "ref", 4:5]),
+                       m2 = as.matrix(dip7[dip7$type == "test", 4:5]),
+                       signif = 0.05)
 
   # Test with data set from Sathe (1996)
-  l_res3_min <- suppressWarnings(
-    get_hotellings(m1 = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
-                   m2 = log(as.matrix(dip8[dip8$type == "minor", 3:4])),
-                   signif = 0.1))
+  l_res3_min <-
+    get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
+               m2 = log(as.matrix(dip8[dip8$type == "minor", 3:4])),
+               signif = 0.1)
 
-  l_res3_maj <- suppressWarnings(
-    get_hotellings(m1 = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
-                   m2 = log(as.matrix(dip8[dip8$type == "major", 3:4])),
-                   signif = 0.1))
+  l_res3_maj <-
+    get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
+               m2 = log(as.matrix(dip8[dip8$type == "major", 3:4])),
+               signif = 0.1)
 
   # <-><-><-><->
 
@@ -68,11 +66,10 @@ test_that("get_hotellings_succeeds", {
 })
 
 test_that("get_hotelling_successfully_calculates_CIs", {
-  l_res <- suppressWarnings(
-    get_hotellings(
-      m1 = as.matrix(dip11[dip11$Status == "counterfeit", 2:7]),
-      m2 = as.matrix(dip11[dip11$Status == "genuine", 2:7]),
-      signif = 0.05))
+  l_res <- get_T2_two(
+    m1 = as.matrix(dip11[dip11$Status == "counterfeit", 2:7]),
+    m2 = as.matrix(dip11[dip11$Status == "genuine", 2:7]),
+    signif = 0.05)
 
   # <-><-><-><->
 
@@ -103,35 +100,35 @@ test_that("get_hotelling_successfully_calculates_CIs", {
                  -1.878084, -0.7228426, 2.257511))
 })
 
-test_that("get_hotellings_fails", {
-  expect_error(suppressWarnings(
-    get_hotellings(m1 = dip1[dip1$type == "R", 3:10],
-                   m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-                   signif = 0.05)),
+test_that("get_T2_two_fails", {
+  expect_error(
+    get_T2_two(m1 = dip1[dip1$type == "R", 3:10],
+               m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
+               signif = 0.05),
     "m1 must be provided as matrix")
-  expect_error(suppressWarnings(
-    get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
-                   m2 = dip1[dip1$type == "T", 3:10],
-                   signif = 0.05)),
+  expect_error(
+    get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
+               m2 = dip1[dip1$type == "T", 3:10],
+               signif = 0.05),
     "m2 must be provided as matrix")
-  expect_error(suppressWarnings(
-    get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:9]),
-                   m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-                   signif = 0.05)),
+  expect_error(
+    get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:9]),
+               m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
+               signif = 0.05),
     "matrices m1 and m2 must have the same number of columns")
-  expect_error(suppressWarnings(
-    get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
-                   m2 = as.matrix(dip1[dip1$type == "T", 3:9]),
-                   signif = 0.05)),
+  expect_error(
+    get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
+               m2 = as.matrix(dip1[dip1$type == "T", 3:9]),
+               signif = 0.05),
     "matrices m1 and m2 must have the same number of columns")
-  expect_error(suppressWarnings(
-    get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
-                   m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-                   signif = -1)),
+  expect_error(
+    get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
+               m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
+               signif = -1),
     "specify signif")
-  expect_error(suppressWarnings(
-    get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
-                   m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-                   signif = 9)),
+  expect_error(
+    get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
+               m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
+               signif = 9),
     "specify signif")
 })

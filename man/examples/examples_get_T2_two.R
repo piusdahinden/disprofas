@@ -1,9 +1,8 @@
 # Estimation of the parameters for Hotelling's two-sample T2 statistic
 # (for small samples)
-res1 <-
-  get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
-                 m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
-                 signif = 0.1)
+res1 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
+                   m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
+                   signif = 0.1)
 res1$S.pool
 res1$Parameters
 
@@ -27,10 +26,9 @@ res1$Parameters
 # For the second assessment shown in Tsong (1996) (see reference of dip1 data
 # set) under paragraph "DATA2 data (Comparing all eight time points), the
 # following results are obtained.
-res2 <-
-  get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
-                 m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-                 signif = 0.1)
+res2 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
+                   m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
+                   signif = 0.1)
 res2$Parameters
 
 # Results in res2$Parameters
@@ -46,9 +44,9 @@ res2$Parameters
 # by fitting the Weibull curve function to a data set of dissolution profiles
 # of three reference batches and one new batch (12 profiles per batch).
 res3 <-
-  get_hotellings(m1 = as.matrix(dip7[dip7$type == "ref", c("alpha", "beta")]),
-                 m2 = as.matrix(dip7[dip7$type == "test", c("alpha", "beta")]),
-                 signif = 0.05)
+  get_T2_two(m1 = as.matrix(dip7[dip7$type == "ref", c("alpha", "beta")]),
+             m2 = as.matrix(dip7[dip7$type == "test", c("alpha", "beta")]),
+             signif = 0.05)
 res3$Parameters
 
 # Results in res3$Parameters
@@ -65,18 +63,16 @@ res3$Parameters
 # of one reference batch and one new batch with minor modifications and another
 # new batch with major modifications (12 profiles per batch). Note that the
 # assessment is performed on the (natural) logarithm scale.
-res4.minor <-
-  get_hotellings(m1 = log(as.matrix(dip8[dip8$type == "ref",
-                                         c("alpha", "beta")])),
-                 m2 = log(as.matrix(dip8[dip8$type == "minor",
-                                         c("alpha", "beta")])),
-                 signif = 0.1)
-res4.major <-
-  get_hotellings(m1 = log(as.matrix(dip8[dip8$type == "ref",
-                                         c("alpha", "beta")])),
-                 m2 = log(as.matrix(dip8[dip8$type == "major",
-                                         c("alpha", "beta")])),
-                 signif = 0.1)
+res4.minor <- get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref",
+                                                 c("alpha", "beta")])),
+                         m2 = log(as.matrix(dip8[dip8$type == "minor",
+                                                 c("alpha", "beta")])),
+                         signif = 0.1)
+res4.major <- get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref",
+                                                 c("alpha", "beta")])),
+                         m2 = log(as.matrix(dip8[dip8$type == "major",
+                                                 c("alpha", "beta")])),
+                         signif = 0.1)
 res4.minor$Parameters
 res4.minor$CI$Hotelling
 res4.major$Parameters

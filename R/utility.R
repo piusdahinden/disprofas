@@ -66,13 +66,10 @@
 #' @references
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/
-#' guideline-investigation-bioequivalence-rev1_en.pdf}{
+#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/guideline-investigation-bioequivalence-rev1_en.pdf}{
 #' CPMP/EWP/QWP/1401/98 Rev. 1}.
 #'
 #' @seealso \code{\link{f1}}, \code{\link{f2}}, \code{\link{bootstrap_f2}}.
-#'
-#' @example man/examples/examples_get_profile_portion.R
 #'
 #' @keywords internal
 
@@ -512,9 +509,8 @@ rand_indiv_points <- function(data, mle) {
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/
-#' guideline-investigation-bioequivalence-rev1_en.pdf}{
-#' CPMP/EWP/QWP/1401/98 Rev. 1}.
+#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/guideline-investigation-bioequivalence-rev1_en.pdf}{
+#' CPMP/EWP/QWP/1401/98 Rev. 1}..
 #'
 #' Moore, J.W., and Flanner, H.H. Mathematical comparison of curves with an
 #' emphasis on \emph{in-vitro} dissolution profiles. \emph{Pharm Tech}. 1996;
@@ -649,7 +645,7 @@ gep_by_nera <- function(n_p, kk, mean_diff, m_vc, ff_crit, y, max_trial, tol) {
 #' @param lpt A list returned by the \code{\link{gep_by_nera}()} function.
 #' @param lhs A list of the estimates of Hotelling's two-sample \eqn{T^2}
 #'   statistic for small samples as returned by the function
-#'   \code{\link{get_hotellings}()}.
+#'   \code{\link{get_T2_two}()}.
 #'
 #' @details The function \code{check_point_location()} checks if points that
 #' were found by the \code{\link{gep_by_nera}()} function sit on specified
@@ -695,20 +691,16 @@ check_point_location <- function(lpt, lhs) {
     }
   }
   if (!inherits(lhs, "list")) {
-    stop("The parameter lhs must be a list returned by get_hotellings().")
+    stop("The parameter lhs must be a list returned by get_T2_two().")
   } else {
     if (sum(names(lhs) %in% c("Parameters", "S.pool", "covs", "means")) != 4) {
-      stop("The parameter lhs must be a list returned by get_hotellings().")
+      stop("The parameter lhs must be a list returned by get_T2_two().")
     }
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   y_b1 <- lpt[["points"]]
-
-  # The points at the ellipse's opposite side are obtained by subtraction.
-  y_b2 <- lhs[["means"]][["mean.diff"]] +
-    (lhs[["means"]][["mean.diff"]] - y_b1[1:lhs[["Parameters"]]["df1"]])
 
   kdvd <-
     lhs[["Parameters"]]["K"] *

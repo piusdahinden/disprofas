@@ -1,8 +1,8 @@
 # Estimation of the parameters for Hotelling's two-sample T2 statistic
 # (for small samples)
-hs <- get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
-                    m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
-                    signif = 0.1)
+hs <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
+                 m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
+                 signif = 0.1)
 
 # Estimation of the similarity limit in terms of the "Multivariate Statistical
 # Distance" (MSD)for a "maximum tolerable average difference" (mtad) of 10

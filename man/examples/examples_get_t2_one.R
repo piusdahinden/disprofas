@@ -5,7 +5,7 @@
 # Since p.F in res1$Parameters is smaller than 0.1, it is concluded that the
 # new batch differs from the reference batch.
 res1 <-
-  get_t2_one(m = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
+  get_T2_one(m = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
              mu = colMeans(dip1[dip1$type == "R", c("t.15", "t.90")]),
              signif = 0.1)
 res1$Parameters
@@ -27,7 +27,7 @@ res1$Parameters
 # Since p.F in res2$Parameters is smaller than 0.05, it is concluded that the
 # test batch differs from the reference batches.
 res2 <-
-  get_t2_one(m = as.matrix(dip7[dip7$type == "test", c("alpha", "beta")]),
+  get_T2_one(m = as.matrix(dip7[dip7$type == "test", c("alpha", "beta")]),
              mu = colMeans(dip7[dip7$type == "ref", c("alpha", "beta")]),
              signif = 0.05)
 res2$Parameters
@@ -51,13 +51,13 @@ res2$Parameters
 # than 0.1, it is concluded that the minor and the major modification batch
 # differs from the reference batch.
 res3.minor <-
-  get_t2_one(m = log(as.matrix(dip8[dip8$type == "minor",
+  get_T2_one(m = log(as.matrix(dip8[dip8$type == "minor",
                                     c("alpha", "beta")])),
              mu = log(colMeans(dip8[dip8$type == "ref",
                                      c("alpha", "beta")])),
              signif = 0.1)
 res3.major <-
-  get_t2_one(m = log(as.matrix(dip8[dip8$type == "major",
+  get_T2_one(m = log(as.matrix(dip8[dip8$type == "major",
                                     c("alpha", "beta")])),
              mu = log(colMeans(dip8[dip8$type == "ref",
                                      c("alpha", "beta")])),

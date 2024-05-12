@@ -5,9 +5,9 @@ test_that("check_point_location_succeeds", {
   b1 <- dip1$type == "R"
 
   # Hotelling's T2 statistics
-  l_hs <- get_hotellings(m1 = as.matrix(dip1[b1, tico]),
-                         m2 = as.matrix(dip1[!b1, tico]),
-                         signif = 0.05)
+  l_hs <- get_T2_two(m1 = as.matrix(dip1[b1, tico]),
+                     m2 = as.matrix(dip1[!b1, tico]),
+                     signif = 0.05)
 
   # Get points by aid of the Method of Lagrange Multipliers (MLM) and by
   # Newton-Raphson (nera) optimisation
@@ -34,9 +34,9 @@ test_that("check_point_location_fails", {
   b1 <- dip1$type == "R"
 
   # Hotelling's T2 statistics
-  l_hs <- get_hotellings(m1 = as.matrix(dip1[b1, tico]),
-                         m2 = as.matrix(dip1[!b1, tico]),
-                         signif = 0.05)
+  l_hs <- get_T2_two(m1 = as.matrix(dip1[b1, tico]),
+                     m2 = as.matrix(dip1[!b1, tico]),
+                     signif = 0.05)
 
   # Get points by aid of the Method of Lagrange Multipliers (MLM) and by
   # Newton-Raphson (nera) optimisation

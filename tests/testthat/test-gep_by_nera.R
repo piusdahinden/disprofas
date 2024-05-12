@@ -5,9 +5,9 @@ test_that("gep_by_nera_succeeds", {
   b1 <- dip1$type == "R"
 
   # Hotelling's T2 statistics
-  l_hs <- get_hotellings(m1 = as.matrix(dip1[b1, tico]),
-                         m2 = as.matrix(dip1[!b1, tico]),
-                         signif = 0.05)
+  l_hs <- get_T2_two(m1 = as.matrix(dip1[b1, tico]),
+                     m2 = as.matrix(dip1[!b1, tico]),
+                     signif = 0.05)
 
   # <-><-><-><->
 
@@ -166,9 +166,9 @@ test_that("gep_by_nera_does_not_converge", {
   dip1m$t.90 <- c(tmp2, tmp1)
 
   # Hotelling's T2 statistics
-  l_hs <- get_hotellings(m1 = as.matrix(dip1m[b1, tico]),
-                         m2 = as.matrix(dip1m[!b1, tico]),
-                         signif = 0.05)
+  l_hs <- get_T2_two(m1 = as.matrix(dip1m[b1, tico]),
+                     m2 = as.matrix(dip1m[!b1, tico]),
+                     signif = 0.05)
 
   # <-><-><-><->
 

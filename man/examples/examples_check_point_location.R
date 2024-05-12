@@ -6,9 +6,9 @@ b1 <- dip1$type == "R"
 tol <- 1e-9
 
 # Hotelling's T2 statistics
-l_hs <- get_hotellings(m1 = as.matrix(dip1[b1, tcol]),
-                       m2 = as.matrix(dip1[!b1, tcol]),
-                       signif = 0.05)
+l_hs <- get_T2_two(m1 = as.matrix(dip1[b1, tcol]),
+                   m2 = as.matrix(dip1[!b1, tcol]),
+                   signif = 0.05)
 
 # Calling gep_by_nera()
 res <- gep_by_nera(n_p = as.numeric(l_hs[["Parameters"]]["df1"]),

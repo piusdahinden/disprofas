@@ -11,7 +11,7 @@ check_point_location(lpt, lhs)
 
 \item{lhs}{A list of the estimates of Hotelling's two-sample \eqn{T^2}
 statistic for small samples as returned by the function
-\code{\link{get_hotellings}()}.}
+\code{\link{get_T2_two}()}.}
 }
 \value{
 The function returns the list that was passed in via the \code{lpt}
@@ -49,9 +49,9 @@ b1 <- dip1$type == "R"
 tol <- 1e-9
 
 # Hotelling's T2 statistics
-l_hs <- get_hotellings(m1 = as.matrix(dip1[b1, tcol]),
-                       m2 = as.matrix(dip1[!b1, tcol]),
-                       signif = 0.05)
+l_hs <- get_T2_two(m1 = as.matrix(dip1[b1, tcol]),
+                   m2 = as.matrix(dip1[!b1, tcol]),
+                   signif = 0.05)
 
 # Calling gep_by_nera()
 res <- gep_by_nera(n_p = as.numeric(l_hs[["Parameters"]]["df1"]),

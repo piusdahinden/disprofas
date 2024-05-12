@@ -112,8 +112,7 @@
 #'
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
 #' Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/
-#' guideline-investigation-bioequivalence-rev1_en.pdf}{
+#' \href{https://www.ema.europa.eu/en/documents/scientific-guideline/guideline-investigation-bioequivalence-rev1_en.pdf}{
 #' CPMP/EWP/QWP/1401/98 Rev. 1}.
 #'
 #' Stevens, R. E., Gray, V., Dorantes, A., Gold, L., and Pham, L. Scientific

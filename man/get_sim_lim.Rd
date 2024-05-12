@@ -15,7 +15,7 @@ information).}
 
 \item{lhs}{A list of the estimates of Hotelling's two-sample \eqn{T^2}
 statistic for small samples as returned by the function
-\code{\link{get_hotellings}()}.}
+\code{\link{get_T2_two}()}.}
 }
 \value{
 A vector containing the following information is returned:
@@ -160,9 +160,9 @@ the maximum tolerable difference at all time points.
 \examples{
 # Estimation of the parameters for Hotelling's two-sample T2 statistic
 # (for small samples)
-hs <- get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
-                    m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
-                    signif = 0.1)
+hs <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
+                 m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
+                 signif = 0.1)
 
 # Estimation of the similarity limit in terms of the "Multivariate Statistical
 # Distance" (MSD)for a "maximum tolerable average difference" (mtad) of 10
@@ -194,5 +194,5 @@ Hoffelder, T. Highly variable dissolution profiles. Comparison of
 \url{https://www.ecv.de/suse_item.php?suseId=Z|pi|8430}
 }
 \seealso{
-\code{\link{mimcr}}, \code{\link{get_hotellings}}.
+\code{\link{mimcr}}, \code{\link{get_T2_two}}.
 }

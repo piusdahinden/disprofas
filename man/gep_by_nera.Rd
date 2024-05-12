@@ -178,9 +178,9 @@ tcol <- which(!is.na(time_points))
 b1 <- dip1$type == "R"
 
 # Hotelling's T2 statistics
-l_hs <- get_hotellings(m1 = as.matrix(dip1[b1, tcol]),
-                       m2 = as.matrix(dip1[!b1, tcol]),
-                       signif = 0.05)
+l_hs <- get_T2_two(m1 = as.matrix(dip1[b1, tcol]),
+                   m2 = as.matrix(dip1[!b1, tcol]),
+                   signif = 0.05)
 
 # Calling gep_by_nera()
 res <- gep_by_nera(n_p = as.numeric(l_hs[["Parameters"]]["df1"]),
@@ -233,9 +233,8 @@ testing, and \emph{in vivo} bioequivalence documentation (SUPAC-IR). 1995.\cr
 
 European Medicines Agency (EMA), Committee for Medicinal Products for
 Human Use (CHMP). Guideline on the Investigation of Bioequivalence. 2010;
-\href{https://www.ema.europa.eu/en/documents/scientific-guideline/
-guideline-investigation-bioequivalence-rev1_en.pdf}{
-CPMP/EWP/QWP/1401/98 Rev. 1}.
+\href{https://www.ema.europa.eu/en/documents/scientific-guideline/guideline-investigation-bioequivalence-rev1_en.pdf}{
+CPMP/EWP/QWP/1401/98 Rev. 1}..
 
 Moore, J.W., and Flanner, H.H. Mathematical comparison of curves with an
 emphasis on \emph{in-vitro} dissolution profiles. \emph{Pharm Tech}. 1996;

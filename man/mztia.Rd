@@ -11,6 +11,7 @@ mztia(
   grouping,
   reference,
   response = NULL,
+  na_rm = FALSE,
   alpha = 0.05,
   pp = 0.99,
   cap = TRUE,
@@ -29,41 +30,46 @@ information, e.g., \code{(t_0, t_5, t_10)}. If the data frame is in long
 format, it must have a column of time points (column specified via the
 \code{tcol} parameter).}
 
-\item{shape}{A character string specifying if the data frame is in long or
-in wide format.}
+\item{shape}{A character string that indicates whether the data frame is
+in long or in wide format.}
 
 \item{tcol}{If \code{shape} is \code{"wide"} an integer vector of indices,
-if \code{shape} is \code{"long"} an integer, specifying the column(s)
+if \code{shape} is \code{"long"} an integer that specifies the column(s)
 containing the profile time points. If the data frame is in \code{wide}
 format it is reshaped using the function \code{\link[stats]{reshape}()}
 from the \sQuote{\code{stats}} package.}
 
-\item{grouping}{A character string specifying the column in \code{data}
+\item{grouping}{A character string that specifies the column in \code{data}
 that contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 
-\item{reference}{A character string specifying the name of the reference
+\item{reference}{A character string that specifies the name of the reference
 group from the \code{grouping} variable.}
 
 \item{response}{A character string that is expected if \code{data} is
-provided in long format in order to specify the column with the \% drug
-release values. The default is \code{NULL}.}
+provided in long format to specify the column with the \% drug release
+values. The default is \code{NULL}.}
 
-\item{alpha}{A numeric value between 0 and 1 specifying the probability
+\item{na_rm}{A logical value that indicates whether observations containing
+\code{NA} (or \code{NaN}) values should be removed (\code{na_rm = TRUE})
+or not (\code{na_rm = FALSE}). The default is \code{na_rm = FALSE}.}
+
+\item{alpha}{A numeric value between 0 and 1 that specifies the probability
 level. The default is \code{0.05}.}
 
-\item{pp}{A numeric value between 0 and 1 specifying the proportion of the
-population being enclosed by the tolerance interval boundaries. The
+\item{pp}{A numeric value between 0 and 1 that specifies the proportion of
+the population being enclosed by the tolerance interval boundaries. The
 default is \code{0.99}.}
 
-\item{cap}{A logical variable specifying if the calculated tolerance limits
-should be limited (i.e. \emph{cap}ped). The default is \code{TRUE}.}
+\item{cap}{A logical variable that indicates whether the calculated
+tolerance limits should be limited (i.e. \emph{cap}ped). The default is
+\code{TRUE}.}
 
-\item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
-the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
-drug release at which the calculated tolerance interval limits should
-be capped (see parameter \eqn{cap}. This parameter is only relevant if
-\code{cap = TRUE}. The default is \code{c(0, 100)}.}
+\item{bounds}{A numeric vector of the form \code{c(lower, upper)} that
+specifies the \dQuote{lower} and \dQuote{upper} limits, respectively, for
+the \% drug release at which the calculated tolerance interval limits
+should be capped (see parameter \eqn{cap}. This parameter is only relevant
+if \code{cap = TRUE}. The default is \code{c(0, 100)}.}
 
 \item{qs}{A numeric vector of the form \code{c(Q S1, Q S2)} that specifies
 the allowable deviations from the specifications in percent according to
@@ -82,11 +88,11 @@ following elements:
   the calculated tolerance interval results.}
 \item{Profile.TP}{If \code{shape} is \code{"wide"} a named numeric vector
   of the columns in \code{data} specified by \code{tcol}. Given that the
-  column names contain extractable numeric information, e.g., specifying
-  the testing time points of the dissolution profile, it contains the
-  corresponding values. Elements where no numeric information could be
-  extracted are \code{NA}. If \code{shape} is \code{"long"} it is a numeric
-  value, specifying the column containing the \% release values.}
+  column names contain extractable numeric information, e.g., the testing
+  time points of the dissolution profile, it contains the corresponding
+  numeric values. Elements where no numeric information could be extracted
+  are \code{NA}. If \code{shape} is \code{"long"} it is a numeric value that
+  specifies the column containing the \% release values.}
 }
 \description{
 The \emph{Martinez & Zhao Tolerance Interval Approach} (\code{mztia}) is a
@@ -156,13 +162,13 @@ m_alpha_P <- matrix(c(rep(c(0.01, 0.05, 0.1), each = 3),
 ll <-
   apply(m_alpha_P, MARGIN = 1, FUN = function(x)
     mztia(data = dip5, shape = "long", tcol = 1, grouping = "type",
-          reference = "reference", response = "weight", alpha = x[1],
-          P = x[2], cap = FALSE)[["Data"]][102, "weight"])
+          reference = "reference", response = "weight", na_rm = FALSE,
+          alpha = x[1], P = x[2], cap = FALSE)[["Data"]][102, "weight"])
 ul <-
   apply(m_alpha_P, MARGIN = 1, FUN = function(x)
     mztia(data = dip5, shape = "long", tcol = 1, grouping = "type",
-          reference = "reference", response = "weight", alpha = x[1],
-          P = x[2], cap = FALSE)[["Data"]][103, "weight"])
+          reference = "reference", response = "weight", na_rm = FALSE,
+          alpha = x[1], P = x[2], cap = FALSE)[["Data"]][103, "weight"])
 
 # Expected results in ll and ul
 rbind(ll, ul)
@@ -225,11 +231,11 @@ isTRUE(all.equal(res2$Limits, res3$Limits))
 \references{
 Martinez, M.N., and Zhao, X. A simple approach for comparing the
 \emph{in vitro} dissolution profiles of highly variable drug products: a
-proposal. \emph{AAPS Journal}. (2018); \strong{20}: 78.\cr
+proposal. \emph{AAPS Journal}. 2018; \strong{20}: 78.\cr
 \doi{10.1208/s12248-018-0238-1}
 
 Howe, W.G. Two-sided tolerance limits for normal populations - some
-improvements. \emph{J Am Stat Assoc}. (1969); \strong{64}: 610-620.\cr
+improvements. \emph{J Am Stat Assoc}. 1969; \strong{64}: 610-620.\cr
 \doi{10.1080/01621459.1969.10500999}
 
 Hahn, G.J., and Meeker, W. Q. Statistical intervals: A guide for

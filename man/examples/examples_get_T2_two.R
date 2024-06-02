@@ -2,7 +2,7 @@
 # (for small samples)
 res1 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
                    m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
-                   signif = 0.1)
+                   signif = 0.1, na_rm = FALSE)
 res1$S.pool
 res1$Parameters
 
@@ -28,7 +28,7 @@ res1$Parameters
 # following results are obtained.
 res2 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                    m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-                   signif = 0.1)
+                   signif = 0.1, na_rm = FALSE)
 res2$Parameters
 
 # Results in res2$Parameters
@@ -46,7 +46,7 @@ res2$Parameters
 res3 <-
   get_T2_two(m1 = as.matrix(dip7[dip7$type == "ref", c("alpha", "beta")]),
              m2 = as.matrix(dip7[dip7$type == "test", c("alpha", "beta")]),
-             signif = 0.05)
+             signif = 0.05, na_rm = FALSE)
 res3$Parameters
 
 # Results in res3$Parameters
@@ -67,12 +67,12 @@ res4.minor <- get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref",
                                                  c("alpha", "beta")])),
                          m2 = log(as.matrix(dip8[dip8$type == "minor",
                                                  c("alpha", "beta")])),
-                         signif = 0.1)
+                         signif = 0.1, na_rm = FALSE)
 res4.major <- get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref",
                                                  c("alpha", "beta")])),
                          m2 = log(as.matrix(dip8[dip8$type == "major",
                                                  c("alpha", "beta")])),
-                         signif = 0.1)
+                         signif = 0.1, na_rm = FALSE)
 res4.minor$Parameters
 res4.minor$CI$Hotelling
 res4.major$Parameters

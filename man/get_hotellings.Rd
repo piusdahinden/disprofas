@@ -17,7 +17,7 @@ data of the test group having the characteristics as the data of matrix
 \code{m1}.}
 
 \item{signif}{A positive numeric value between \code{0} and \code{1}
-specifying the significance level. The default value is \code{0.05}.}
+that specifies the significance level. The default value is \code{0.05}.}
 }
 \value{
 A list with the following elements is returned:
@@ -116,8 +116,8 @@ With this transformation, the following test statistic can be applied:
 Under the null hypothesis, \eqn{H_0: \bm{\mu}_T = \bm{\mu}_R}{%
 H_0: \mu_T = \mu_R}, this \eqn{F}-statistic is \eqn{F}-distributed with
 \eqn{p} and \eqn{n_T + n_R - p - 1} degrees of freedom. \eqn{H_0} is
-rejected at significance level \eqn{\alpha} if the \eqn{F}-value exceeds the
-critical value from the \eqn{F}-table evaluated at \eqn{\alpha}, i.e.
+rejected at significance level \eqn{\alpha} if the \eqn{F}-value exceeds
+the critical value from the \eqn{F}-table evaluated at \eqn{\alpha}, i.e.
 \eqn{F > F_{p, n_T + n_R - p - 1, \alpha}}. The null hypothesis is satisfied
 if, and only if, the population means are identical for all variables. The
 alternative is that at least one pair of these means is different. \cr
@@ -163,7 +163,7 @@ are given by the expression
 # (for small samples)
 res1 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
                    m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
-                   signif = 0.1)
+                   signif = 0.1, na_rm = FALSE)
 res1$S.pool
 res1$Parameters
 
@@ -189,7 +189,7 @@ res1$Parameters
 # following results are obtained.
 res2 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                    m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-                   signif = 0.1)
+                   signif = 0.1, na_rm = FALSE)
 res2$Parameters
 
 # Results in res2$Parameters
@@ -207,7 +207,7 @@ res2$Parameters
 res3 <-
   get_T2_two(m1 = as.matrix(dip7[dip7$type == "ref", c("alpha", "beta")]),
              m2 = as.matrix(dip7[dip7$type == "test", c("alpha", "beta")]),
-             signif = 0.05)
+             signif = 0.05, na_rm = FALSE)
 res3$Parameters
 
 # Results in res3$Parameters
@@ -228,12 +228,12 @@ res4.minor <- get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref",
                                                  c("alpha", "beta")])),
                          m2 = log(as.matrix(dip8[dip8$type == "minor",
                                                  c("alpha", "beta")])),
-                         signif = 0.1)
+                         signif = 0.1, na_rm = FALSE)
 res4.major <- get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref",
                                                  c("alpha", "beta")])),
                          m2 = log(as.matrix(dip8[dip8$type == "major",
                                                  c("alpha", "beta")])),
-                         signif = 0.1)
+                         signif = 0.1, na_rm = FALSE)
 res4.minor$Parameters
 res4.minor$CI$Hotelling
 res4.major$Parameters

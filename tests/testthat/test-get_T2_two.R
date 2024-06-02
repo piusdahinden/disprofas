@@ -4,23 +4,23 @@ test_that("get_T2_two_succeeds", {
   # Test with data set from Tsong (1996)
   l_res1 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                        m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-                       signif = 0.1)
+                       signif = 0.1, na_rm = FALSE)
 
   # Test with data set from Tsong (1997)
   l_res2 <- get_T2_two(m1 = as.matrix(dip7[dip7$type == "ref", 4:5]),
                        m2 = as.matrix(dip7[dip7$type == "test", 4:5]),
-                       signif = 0.05)
+                       signif = 0.05, na_rm = FALSE)
 
   # Test with data set from Sathe (1996)
   l_res3_min <-
     get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
                m2 = log(as.matrix(dip8[dip8$type == "minor", 3:4])),
-               signif = 0.1)
+               signif = 0.1, na_rm = FALSE)
 
   l_res3_maj <-
     get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref", 3:4])),
                m2 = log(as.matrix(dip8[dip8$type == "major", 3:4])),
-               signif = 0.1)
+               signif = 0.1, na_rm = FALSE)
 
   # <-><-><-><->
 
@@ -69,7 +69,7 @@ test_that("get_hotelling_successfully_calculates_CIs", {
   l_res <- get_T2_two(
     m1 = as.matrix(dip11[dip11$Status == "counterfeit", 2:7]),
     m2 = as.matrix(dip11[dip11$Status == "genuine", 2:7]),
-    signif = 0.05)
+    signif = 0.05, na_rm = FALSE)
 
   # <-><-><-><->
 
@@ -100,35 +100,101 @@ test_that("get_hotelling_successfully_calculates_CIs", {
                  -1.878084, -0.7228426, 2.257511))
 })
 
+test_that("get_T2_two_copes_with_NAs", {
+  m_ref <- as.matrix(dip7[dip7$type == "ref", 4:5])
+  m_ref[1, "alpha"] <- NA
+  m_ref[25, "alpha"] <- NA
+  m_ref[13, "beta"] <- NaN
+
+  m_test <- as.matrix(dip7[dip7$type == "test", 4:5])
+  m_test[1, "alpha"] <- NA
+  m_test[12, "beta"] <- NA
+  m_test[6, "beta"] <- NaN
+
+  l_res <- get_T2_two(m1 = m_ref, m2 = m_test, signif = 0.05, na_rm = TRUE)
+
+  # <-><-><-><->
+
+  expect_equal(signif(l_res$Parameters[["dm"]], 7), 3.025984)
+  expect_equal(round(l_res$Parameters[["df1"]], 0), 2)
+  expect_equal(round(l_res$Parameters[["df2"]], 0), 39)
+  expect_equal(signif(l_res$Parameters[["K"]], 7), 3.447321)
+  expect_equal(signif(l_res$Parameters[["k"]], 7), 7.071429)
+  expect_equal(signif(l_res$Parameters[["T2"]], 7), 64.75008)
+  expect_equal(signif(l_res$Parameters[["F"]], 7), 31.56567)
+  expect_equal(signif(l_res$Parameters[["F.crit"]], 7), 3.238096)
+  expect_equal(signif(l_res$Parameters[["p.F"]], 7), 7.033306e-09 )
+
+  expect_equal(signif(l_res[["CI"]][["Hotelling"]][, "LCL"], 7),
+               c(-0.1650917, 0.1459970))
+  expect_equal(signif(l_res[["CI"]][["Hotelling"]][, "UCL"], 7),
+               c(-0.0648782, 0.2843664))
+  expect_equal(signif(l_res[["CI"]][["Bonferroni"]][, "LCL"], 7),
+               c(-0.1602639, 0.1526630))
+  expect_equal(signif(l_res[["CI"]][["Bonferroni"]][, "UCL"], 7),
+               c(-0.06970603, 0.2777004))
+})
+
+test_that("get_T2_two_sends_message", {
+  m_ref <- as.matrix(dip7[dip7$type == "ref", 4:5])
+  m_ref[1, "alpha"] <- NA
+  m_ref[25, "alpha"] <- NA
+  m_ref[13, "beta"] <- NaN
+
+  m_test <- as.matrix(dip7[dip7$type == "test", 4:5])
+  m_test[1, "alpha"] <- NA
+  m_test[12, "beta"] <- NA
+  m_test[6, "beta"] <- NaN
+
+  # <-><-><-><->
+
+  expect_message(get_T2_two(m1 = m_ref, m2 = m_test, signif = 0.05,
+                            na_rm = FALSE),
+                 "m1 contains NA/NaN values")
+  expect_message(get_T2_two(m1 = m_ref, m2 = m_test, signif = 0.05,
+                            na_rm = FALSE),
+                 "m2 contains NA/NaN values")
+})
+
 test_that("get_T2_two_fails", {
   expect_error(
     get_T2_two(m1 = dip1[dip1$type == "R", 3:10],
                m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-               signif = 0.05),
+               signif = 0.05, na_rm = FALSE),
     "m1 must be provided as matrix")
   expect_error(
     get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                m2 = dip1[dip1$type == "T", 3:10],
-               signif = 0.05),
+               signif = 0.05, na_rm = FALSE),
     "m2 must be provided as matrix")
   expect_error(
     get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:9]),
                m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-               signif = 0.05),
+               signif = 0.05, na_rm = FALSE),
     "matrices m1 and m2 must have the same number of columns")
   expect_error(
     get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                m2 = as.matrix(dip1[dip1$type == "T", 3:9]),
-               signif = 0.05),
+               signif = 0.05, na_rm = FALSE),
     "matrices m1 and m2 must have the same number of columns")
   expect_error(
     get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-               signif = -1),
+               signif = -1, na_rm = FALSE),
     "specify signif")
   expect_error(
     get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
-               signif = 9),
+               signif = 9, na_rm = FALSE),
     "specify signif")
+  expect_error(
+    get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
+               m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
+               signif = 0.05, na_rm = 1),
+    "na_rm must be a logical")
+  expect_error(
+    get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
+               m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
+               signif = 0.05, na_rm = c(TRUE, FALSE)),
+    "na_rm must be a logical")
 })

@@ -4,11 +4,11 @@
 #' of \code{use_ema}, which part of the profile will be used for the similarity
 #' assessment (EMA: European Medicines Agency).
 #'
-#' @param data A data frame with the dissolution profile data in wide format.
-#' @param tcol A vector of indices specifying the columns in \code{data} that
-#'   contain the \% release values. The length of \code{tcol} must be two or
-#'   longer.
-#' @param groups A logical vector specifying different groups.
+#' @param tcol A vector of indices that specifies the columns in \code{data}
+#'   that contain the \% release values. The length of \code{tcol} must be
+#'   two or longer.
+#' @param groups A logical vector that specifies the elements of the two
+#'   groups to be compared.
 #' @inheritParams f2
 #'
 #' @details The function \code{get_profile_portion()} determines which part of
@@ -61,7 +61,11 @@
 #' profiles are similar.
 #'
 #' @return The function returns a logical vector defining the appropriate
-#' profile portion.
+#' profile portion. Note that if any value in a data column is \eqn{NA},
+#' \eqn{NaN} or \eqn{\pm Inf} and \code{use_ema} is either \code{"yes"} or
+#' \code{"no"}, then the corresponding column gets lost. Therefore, if there
+#' are any missing values in the data set, imputation of missing values should
+#' be considered.
 #'
 #' @references
 #' European Medicines Agency (EMA), Committee for Medicinal Products for
@@ -72,6 +76,7 @@
 #' @seealso \code{\link{f1}}, \code{\link{f2}}, \code{\link{bootstrap_f2}}.
 #'
 #' @keywords internal
+#' @noRd
 
 get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
                                 bounds = c(1, 85)) {
@@ -110,6 +115,8 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
     stop("Please specify bounds in the range [0, 100].")
   }
 
+  # <-><-><-><->
+
   n <- length(tcol)
   b1 <- groups
 
@@ -137,8 +144,8 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
     # 2c) Stores the result in column 2.
     # 3) Tests for points with CV bigger than 20% (column 3).
     # 4) Tests for points with CV bigger than 10% (column 4).
-    # 5) Set NA entries (division through 0) to FALSE (column 3).
-    # 6) Set NA entries (division through 0) to FALSE (column 4).
+    # 5) Set NA or +-Inf entries (division through 0) to FALSE (column 3).
+    # 6) Set NA or +-Inf entries (division through 0) to FALSE (column 4).
     # 7a) Copies the result from column 3 to column 5.
     # 7b) Makes sure that no more than one point preceding the first
     #     "< 10% point" is < 20%.
@@ -149,8 +156,8 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
     m_tests[, 2] <- !tmp
     m_tests[, 3] <- m_results[, 5] < 20 & m_results[, 6] < 20
     m_tests[, 4] <- m_results[, 5] < 10 & m_results[, 6] < 10
-    m_tests[is.na(m_tests[, 3]), 2] <- FALSE
-    m_tests[is.na(m_tests[, 4]), 3] <- FALSE
+    m_tests[is.na(m_tests[, 3]) | is.infinite(m_tests[, 3]), 2] <- FALSE
+    m_tests[is.na(m_tests[, 4]) | is.infinite(m_tests[, 4]), 3] <- FALSE
     m_tests[, 5] <- m_tests[, 3]
 
     if (which(m_tests[, 4])[1] > 2) {
@@ -185,13 +192,17 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
     # Tests and Settings
     # 1a) Tests for points bigger than bounds[2]
     # 1b) Includes the first point > 85%.
-    # 1c) Stores the result of 1a) in column 1.
+    # 1c) Stores the result of 1b) in column 1.
     # 2) Tests for points smaller than bounds[1] to exclude them (column 2).
-    # 3) Combines tests 1) and 2) into the final result.
+    # 3) Set NA or +-Inf entries (division through 0) to FALSE (column 3).
+    # 4) Set NA or +-Inf entries (division through 0) to FALSE (column 4).
+    # 5) Combines tests 1) and 2) into the final result.
     tmp <- m_results[, 1] > bounds[2] | m_results[, 2] > bounds[2]
     tmp[as.numeric(which(tmp)[1])] <- FALSE
     m_tests[, 1] <- !tmp
     m_tests[, 2] <- m_results[, 1] > bounds[1] & m_results[, 2] > bounds[1]
+    m_tests[is.na(m_tests[, 1]) | is.infinite(m_tests[, 1]), 1] <- FALSE
+    m_tests[is.na(m_tests[, 2]) | is.infinite(m_tests[, 2]), 2] <- FALSE
 
     ok <- m_tests[, 1] & m_tests[, 2]
   }, "ignore" = {
@@ -221,11 +232,14 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
 #' numbers as numeric values.
 #'
 #' @keywords internal
+#' @noRd
 
 get_time_points <- function(svec) {
   if (!is.character(svec)) {
     stop("The parameter svec must be string or string vector.")
   }
+
+  # <-><-><-><->
 
   pattern <- "(?>-)*[[:digit:]]+\\.{0,1}[[:digit:]]{0,1}"
 
@@ -249,7 +263,7 @@ get_time_points <- function(svec) {
 #'
 #' @param data A data frame with the dissolution profile data in wide format
 #'   and a column for the distinction of the groups to be compared.
-#' @inheritParams f2
+#' @inheritParams mimcr
 #'
 #' @details If one of the two levels of the \code{grouping} column is named
 #' \dQuote{references} or \dQuote{References} or some abbreviation thereof
@@ -262,6 +276,7 @@ get_time_points <- function(svec) {
 #' represents the reference and \code{FALSE} represents the test group.
 #'
 #' @keywords internal
+#' @noRd
 
 make_grouping <- function(data, grouping) {
   if (!is.data.frame(data)) {
@@ -293,8 +308,8 @@ make_grouping <- function(data, grouping) {
 #' The function \code{balance_observations()} balances the number of
 #' observations of two groups.
 #'
-#' @param n_obs An integer specifying the minimal number of observations each
-#'   group should have.
+#' @param n_obs An integer that specifies the minimal number of observations
+#'   which each group should have.
 #' @inheritParams get_profile_portion
 #'
 #' @details First, the largest common value between \code{n_obs} and the number
@@ -312,6 +327,7 @@ make_grouping <- function(data, grouping) {
 #' have a balanced number of observations between the two groups.
 #'
 #' @keywords internal
+#' @noRd
 
 balance_observations <- function(data, groups, n_obs) {
   if (!is.data.frame(data)) {
@@ -323,6 +339,8 @@ balance_observations <- function(data, groups, n_obs) {
   if (!isTRUE(all.equal(n_obs, as.integer(n_obs)))) {
     stop("The parameter n_obs must be an integer.")
   }
+
+  # <-><-><-><->
 
   b1 <- groups
   lcv <- max(n_obs, sum(b1), sum(!b1))
@@ -362,11 +380,11 @@ balance_observations <- function(data, groups, n_obs) {
 #' The function \code{rand_indiv_points()} samples individual data points of
 #' each profile.
 #'
-#' @param data A data frame with the dissolution profile data in wide format.
-#' @param mle A list of further arguments required for the generation of a
+#' @param mle A list of elements that are required for the generation of a
 #'   randomised data frame. The first element of \code{mle} is a numeric value
 #'   of the number of profiles per batch and the second element is a vector of
 #'   indices of the columns containing the profile data.
+#' @inheritParams mimcr
 #'
 #' @details The function \code{rand_indiv_points()} samples individual data
 #' points of each profile. The first element of \code{mle} specifies the
@@ -382,6 +400,7 @@ balance_observations <- function(data, groups, n_obs) {
 #' @seealso \code{\link{bootstrap_f2}}.
 #'
 #' @keywords internal
+#' @noRd
 
 rand_indiv_points <- function(data, mle) {
   if (!is.data.frame(data)) {
@@ -443,14 +462,14 @@ rand_indiv_points <- function(data, mle) {
 #' interval for profiles with four time points, e.g., is an \dQuote{ellipse}
 #' in four dimensions.
 #'
-#' @param n_p A positive integer specifying the number of (time) points
+#' @param n_p A positive integer that specifies the number of (time) points
 #'   \eqn{n_p}.
-#' @param kk A non-negative numeric value specifying the scaling factor
+#' @param kk A non-negative numeric value that specifies the scaling factor
 #'   \eqn{kk} for the calculation of the Hotelling's \eqn{T^2} statistic.
 #' @param mean_diff A vector of the mean differences between the dissolution
 #'   profiles or model parameters of the reference and the test batch(es) or
 #'   the averages of the model parameters of a specific group of batch(es)
-#'   (reference or  test). It must have the length specified by the parameter
+#'   (reference or test). It must have the length specified by the parameter
 #'   \eqn{n_p}.
 #' @param m_vc The pooled variance-covariance matrix of the dissolution
 #'   profiles or model parameters of the reference and the test batch(es) or
@@ -485,16 +504,17 @@ rand_indiv_points <- function(data, mle) {
 #'   \eqn{\lambda} parameter of the MLM, also known as \emph{lambda multiplier
 #'   method}, that is used to optimise under constraint(s). The variable
 #'   \eqn{\lambda} is thus called the \emph{Lagrange multiplier}.}
-#' \item{converged}{A logical stating if the NR algorithm converged or not.}
-#' \item{points.on.crb}{A logical stating if the points found by the NR
+#' \item{converged}{A logical indicating whether the NR algorithm converged
+#'   or not.}
+#' \item{points.on.crb}{A logical indicating whether the points found by the NR
 #'   algorithm sit on the sit on the confidence region bounds (\code{TRUE}) or
 #'   not (\code{FALSE}). Since it is not know a priori it is \code{NA} by
 #'   default. The parameter is set by the \code{\link{check_point_location}()}
 #'   function.}
 #' \item{n.trial}{Number of trials until convergence.}
 #' \item{max.trial}{Maximal number of trials.}
-#' \item{tol}{A non-negative numeric specifying the accepted minimal difference
-#'   between two consecutive search rounds, i.e. the tolerance.}
+#' \item{tol}{A non-negative numeric value that specifies the accepted minimal
+#'   difference between two consecutive search rounds, i.e. the tolerance.}
 #'
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:

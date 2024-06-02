@@ -7,16 +7,16 @@
 gep_by_nera(n_p, kk, mean_diff, m_vc, ff_crit, y, max_trial, tol)
 }
 \arguments{
-\item{n_p}{A positive integer specifying the number of (time) points
+\item{n_p}{A positive integer that specifies the number of (time) points
 \eqn{n_p}.}
 
-\item{kk}{A non-negative numeric value specifying the scaling factor
+\item{kk}{A non-negative numeric value that specifies the scaling factor
 \eqn{kk} for the calculation of the Hotelling's \eqn{T^2} statistic.}
 
 \item{mean_diff}{A vector of the mean differences between the dissolution
 profiles or model parameters of the reference and the test batch(es) or
 the averages of the model parameters of a specific group of batch(es)
-(reference or  test). It must have the length specified by the parameter
+(reference or test). It must have the length specified by the parameter
 \eqn{n_p}.}
 
 \item{m_vc}{The pooled variance-covariance matrix of the dissolution
@@ -31,10 +31,10 @@ group of batch(es) (reference or test). It must have the dimension
 for the Newton-Raphson search, i.e. values supposed to lie on or close to
 the confidence interval bounds. It must have a length of \eqn{n_p + 1}.}
 
-\item{max_trial}{A positive integer specifying the maximum number of
+\item{max_trial}{A positive integer that specifies the maximum number of
 Newton-Raphson search rounds to be performed.}
 
-\item{tol}{A non-negative numeric specifying the accepted minimal
+\item{tol}{A non-negative numeric that specifies the accepted minimal
 difference between two consecutive search rounds.}
 }
 \value{
@@ -47,16 +47,17 @@ A list with the following elements is returned:
   \eqn{\lambda} parameter of the MLM, also known as \emph{lambda multiplier
   method}, that is used to optimise under constraint(s). The variable
   \eqn{\lambda} is thus called the \emph{Lagrange multiplier}.}
-\item{converged}{A logical stating if the NR algorithm converged or not.}
-\item{points.on.crb}{A logical stating if the points found by the NR
+\item{converged}{A logical indicating whether the NR algorithm converged
+  or not.}
+\item{points.on.crb}{A logical indicating whether the points found by the NR
   algorithm sit on the sit on the confidence region bounds (\code{TRUE}) or
   not (\code{FALSE}). Since it is not know a priori it is \code{NA} by
   default. The parameter is set by the \code{\link{check_point_location}()}
   function.}
 \item{n.trial}{Number of trials until convergence.}
 \item{max.trial}{Maximal number of trials.}
-\item{tol}{A non-negative numeric specifying the accepted minimal difference
-  between two consecutive search rounds, i.e. the tolerance.}
+\item{tol}{A non-negative numeric value that specifies the accepted minimal
+  difference between two consecutive search rounds, i.e. the tolerance.}
 }
 \description{
 The function \code{gep_by_nera()} is a function for finding points that

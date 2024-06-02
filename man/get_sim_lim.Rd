@@ -7,10 +7,10 @@
 get_sim_lim(mtad, lhs)
 }
 \arguments{
-\item{mtad}{A numeric value specifying the \dQuote{maximum tolerable average
-difference} (MTAD) of the profiles of two formulations at all time points
-(in \%). The default value is \code{10}. It determines the size of the
-similarity limit \eqn{\bm{d}_g}{d_g} (see the details section for more
+\item{mtad}{A numeric value that specifies the \dQuote{maximum tolerable
+average difference} (MTAD) of the profiles of two formulations at all time
+points (in \%). The default value is \code{10}. It determines the size of
+the similarity limit \eqn{\bm{d}_g}{d_g} (see the details section for more
 information).}
 
 \item{lhs}{A list of the estimates of Hotelling's two-sample \eqn{T^2}

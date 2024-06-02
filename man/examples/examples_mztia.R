@@ -6,13 +6,13 @@ m_alpha_P <- matrix(c(rep(c(0.01, 0.05, 0.1), each = 3),
 ll <-
   apply(m_alpha_P, MARGIN = 1, FUN = function(x)
     mztia(data = dip5, shape = "long", tcol = 1, grouping = "type",
-          reference = "reference", response = "weight", alpha = x[1],
-          P = x[2], cap = FALSE)[["Data"]][102, "weight"])
+          reference = "reference", response = "weight", na_rm = FALSE,
+          alpha = x[1], P = x[2], cap = FALSE)[["Data"]][102, "weight"])
 ul <-
   apply(m_alpha_P, MARGIN = 1, FUN = function(x)
     mztia(data = dip5, shape = "long", tcol = 1, grouping = "type",
-          reference = "reference", response = "weight", alpha = x[1],
-          P = x[2], cap = FALSE)[["Data"]][103, "weight"])
+          reference = "reference", response = "weight", na_rm = FALSE,
+          alpha = x[1], P = x[2], cap = FALSE)[["Data"]][103, "weight"])
 
 # Expected results in ll and ul
 rbind(ll, ul)

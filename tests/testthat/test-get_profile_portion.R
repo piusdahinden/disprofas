@@ -30,6 +30,26 @@ test_that("get_profile_portion_succeeds", {
   expect_equal(res4, c(rep(FALSE, 8), rep(TRUE, 12), rep(FALSE, 9)))
 })
 
+test_that("get_profile_portion_copes_with_NAs", {
+  t_dat <- dip1
+  t_dat[1, "t.30"] <- NA
+  t_dat[2, "t.60"] <- Inf
+  t_dat[3, "t.90"] <- NaN
+
+  res1 <- unname(get_profile_portion(
+    data = t_dat, tcol = 3:10, groups = (t_dat$type == "R"), use_ema = "yes",
+    bounds = c(1, 80)))
+
+  res2 <- unname(get_profile_portion(
+    data = t_dat, tcol = 3:10, groups = (t_dat$type == "R"), use_ema = "no",
+    bounds = c(1, 90)))
+
+  # <-><-><-><->
+
+  expect_equal(res1, c(rep(TRUE, 4), rep(FALSE, 4)))
+  expect_equal(res2, c(rep(TRUE, 4), FALSE, TRUE, FALSE, FALSE))
+})
+
 test_that("get_profile_portion_fails", {
   tmp0 <- dip1
   tmp0$t.5 <- as.factor(tmp0$t.5)

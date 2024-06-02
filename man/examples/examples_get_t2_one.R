@@ -7,7 +7,7 @@
 res1 <-
   get_T2_one(m = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
              mu = colMeans(dip1[dip1$type == "R", c("t.15", "t.90")]),
-             signif = 0.1)
+             signif = 0.1, na_rm = FALSE)
 res1$Parameters
 
 # Expected results in res1$Parameters
@@ -29,7 +29,7 @@ res1$Parameters
 res2 <-
   get_T2_one(m = as.matrix(dip7[dip7$type == "test", c("alpha", "beta")]),
              mu = colMeans(dip7[dip7$type == "ref", c("alpha", "beta")]),
-             signif = 0.05)
+             signif = 0.05, na_rm = FALSE)
 res2$Parameters
 
 # Expected results in res2$Parameters
@@ -55,13 +55,13 @@ res3.minor <-
                                     c("alpha", "beta")])),
              mu = log(colMeans(dip8[dip8$type == "ref",
                                      c("alpha", "beta")])),
-             signif = 0.1)
+             signif = 0.1, na_rm = FALSE)
 res3.major <-
   get_T2_one(m = log(as.matrix(dip8[dip8$type == "major",
                                     c("alpha", "beta")])),
              mu = log(colMeans(dip8[dip8$type == "ref",
                                      c("alpha", "beta")])),
-             signif = 0.1)
+             signif = 0.1, na_rm = FALSE)
 res3.minor$Parameters
 res3.major$Parameters
 

@@ -9,7 +9,10 @@
 #' @param mu A numeric vector of, e.g. the hypothetical model parameter
 #'   mean values.
 #' @param signif A positive numeric value between \code{0} and \code{1}
-#'   specifying the significance level. The default value is \code{0.05}.
+#'   that specifies the significance level. The default value is \code{0.05}.
+#' @param na_rm A logical value that indicates whether observations containing
+#'   \code{NA} (or \code{NaN}) values should be removed (\code{na_rm = TRUE})
+#'   or not (\code{na_rm = FALSE}). The default is \code{na_rm = FALSE}.
 #'
 #' @details The one-sample Hotelling's \eqn{T^2} test statistic is given by
 #'
@@ -52,8 +55,8 @@
 #' Under the null hypothesis, \eqn{H_0: \bm{\mu} = \bm{\mu}_0}{%
 #' H_0: \mu = \mu_0}, this \eqn{F}-statistic is \eqn{F}-distributed with
 #' \eqn{p} and \eqn{n - p} degrees of freedom. \eqn{H_0} is rejected at a
-#' significance level of \eqn{\alpha} if the test statistic \eqn{F} exceeds the
-#' critical value from the \eqn{F}-table evaluated at \eqn{\alpha}, i.e.
+#' significance level of \eqn{\alpha} if the test statistic \eqn{F} exceeds
+#' the critical value from the \eqn{F}-table evaluated at \eqn{\alpha}, i.e.
 #' \eqn{F > F_{p, n - p, \alpha}}. \cr
 #'
 #' The following assumptions concerning the data are made:
@@ -136,7 +139,7 @@
 #'
 #' @export
 
-get_T2_one <- function(m, mu, signif) {
+get_T2_one <- function(m, mu, signif, na_rm = FALSE) {
   if (!is.matrix(m)) {
     stop("The parameter m must be a matrix.")
   }
@@ -146,8 +149,27 @@ get_T2_one <- function(m, mu, signif) {
   if (ncol(m) != length(mu)) {
     stop("The number of columns in m must be the number of items in mu.")
   }
+  if (!all(is.finite(mu))) {
+    stop("Since mu contains NA/NaN/Inf values the assessment is not possible.")
+  }
   if (signif <= 0 || signif > 1) {
     stop("Please specify signif as (0, 1]")
+  }
+  if (!is.logical(na_rm) || length(na_rm) > 1) {
+    stop("The parameter na_rm must be a logical of length 1.")
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Preparation of data
+
+  if (na_rm == TRUE) {
+    m <- m[apply(m, 1, function(x) all(!is.na(x))), ]
+  } else {
+    if (any(is.na(m))) {
+      message("Note that m contains NA/NaN values.\n",
+              "  Please consider using the option na_rm = TRUE or\n",
+              "  imputing missing values.")
+    }
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,7 +185,7 @@ get_T2_one <- function(m, mu, signif) {
 
   # Average dissolution at a given time point or average model parameter
   # of the reference group
-  mean_r <- apply(X = m, MARGIN = 2, FUN = mean, na.rm = TRUE)
+  mean_r <- apply(X = m, MARGIN = 2, FUN = mean, na.rm = na_rm)
   mean_diff <- mean_r - mu
 
   # Mahalanobis distance (dm)
@@ -243,7 +265,9 @@ get_T2_one <- function(m, mu, signif) {
 get_hotellings <- function(m1, m2, signif) {
   deprecate_soft("0.1.4", "get_hotellings()", "get_T2_two()")
 
-  get_T2_two(m1 = m1, m2 = m2, signif = signif)
+  res <- get_T2_two(m1 = m1, m2 = m2, signif = signif)
+
+  return(res)
 }
 
 #' Hotelling's statistics (for two independent (small) samples)
@@ -258,8 +282,7 @@ get_hotellings <- function(m1, m2, signif) {
 #' @param m2 A matrix with the same dimensions as matrix \code{m1} with the
 #'   data of the test group having the characteristics as the data of matrix
 #'   \code{m1}.
-#' @param signif A positive numeric value between \code{0} and \code{1}
-#'   specifying the significance level. The default value is \code{0.05}.
+#' @inheritParams get_T2_one
 #'
 #' @details The two-sample Hotelling's \eqn{T^2} test statistic is given by
 #'
@@ -317,8 +340,8 @@ get_hotellings <- function(m1, m2, signif) {
 #' Under the null hypothesis, \eqn{H_0: \bm{\mu}_T = \bm{\mu}_R}{%
 #' H_0: \mu_T = \mu_R}, this \eqn{F}-statistic is \eqn{F}-distributed with
 #' \eqn{p} and \eqn{n_T + n_R - p - 1} degrees of freedom. \eqn{H_0} is
-#' rejected at significance level \eqn{\alpha} if the \eqn{F}-value exceeds the
-#' critical value from the \eqn{F}-table evaluated at \eqn{\alpha}, i.e.
+#' rejected at significance level \eqn{\alpha} if the \eqn{F}-value exceeds
+#' the critical value from the \eqn{F}-table evaluated at \eqn{\alpha}, i.e.
 #' \eqn{F > F_{p, n_T + n_R - p - 1, \alpha}}. The null hypothesis is satisfied
 #' if, and only if, the population means are identical for all variables. The
 #' alternative is that at least one pair of these means is different. \cr
@@ -411,7 +434,7 @@ get_hotellings <- function(m1, m2, signif) {
 #'
 #' @export
 
-get_T2_two <- function(m1, m2, signif) {
+get_T2_two <- function(m1, m2, signif, na_rm = FALSE) {
   if (!is.matrix(m1)) {
     stop("The sample m1 must be provided as matrix.")
   }
@@ -423,6 +446,28 @@ get_T2_two <- function(m1, m2, signif) {
   }
   if (signif <= 0 || signif > 1) {
     stop("Please specify signif as (0, 1]")
+  }
+  if (!is.logical(na_rm) || length(na_rm) > 1) {
+    stop("The parameter na_rm must be a logical of length 1.")
+  }
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Preparation of data
+
+  if (na_rm == TRUE) {
+    m1 <- m1[apply(m1, 1, function(x) all(!is.na(x))), ]
+    m2 <- m2[apply(m2, 1, function(x) all(!is.na(x))), ]
+  } else {
+    if (any(is.na(m1))) {
+      message("Note that m1 contains NA/NaN values.\n",
+              "  Please consider using the option na_rm = TRUE or\n",
+              "  imputing missing values.")
+    }
+    if (any(is.na(m2))) {
+      message("Note that m2 contains NA/NaN values.\n",
+              "  Please consider using the option na_rm = TRUE or\n",
+              "  imputing missing values.")
+    }
   }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -627,15 +672,15 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' The function \code{f1()} calculates the dissimilarity factor \eqn{f_1}.
 #'
-#' @param use_ema A character string indicating if the dissimilarity factor
-#'   \eqn{f_1} should be calculated following the EMA guideline \dQuote{On
-#'   the investigation of bioequivalence} (\code{"yes"}, the default) or not
-#'   (\code{"no"}), i.e. the recommendations concerning the similarity factor
-#'   \eqn{f_2}. A third option is \code{"ignore"}. If \code{use_ema} is
-#'   \code{"yes"} or \code{"no"} the appropriate profile portion is determined
-#'   on the basis of the values of the parameter \code{bounds}. If it is
-#'   \code{"ignore"}, the complete profiles are used as specified by the
-#'   parameter \code{tcol}.
+#' @param use_ema A character string indicating whether the dissimilarity
+#'   factor \eqn{f_1} should be calculated following the EMA guideline
+#'   \dQuote{On the investigation of bioequivalence} (\code{"yes"}, the
+#'   default) or not (\code{"no"}), i.e. the recommendations concerning the
+#'   similarity factor \eqn{f_2}. A third option is \code{"ignore"}. If
+#'   \code{use_ema} is \code{"yes"} or \code{"no"} the appropriate profile
+#'   portion is determined on the basis of the values of the parameter
+#'   \code{bounds}. If it is \code{"ignore"}, the complete profiles are used
+#'   as specified by the parameter \code{tcol}.
 #' @inheritParams bootstrap_f2
 #'
 #' @details Similarity of dissolution profiles is often assessed using the
@@ -680,10 +725,10 @@ get_sim_lim <- function(mtad, lhs) {
 #' \item{f1}{A numeric value representing the similarity factor \eqn{f_1}.}
 #' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
 #'   specified by \code{tcol} and depending on the selection of \code{use_ema}.
-#'   Given that the column names contain extractable numeric information,
-#'   e.g., specifying the testing time points of the dissolution profile, it
-#'   contains the corresponding values. Elements where no numeric information
-#'   could be extracted are \code{NA}.}
+#'   Given that the column names contain extractable numeric information, e.g.,
+#'   the testing time points of the dissolution profile, it contains the
+#'   corresponding numeric values. Elements where no numeric information could
+#'   be extracted are \code{NA}.}
 #'
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
@@ -776,10 +821,10 @@ f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
          "observations.")
   }
   if (use_ema %in% c("no", "ignore") && sum(b1) != sum(!b1)) {
-    warning("The two groups to be compared do not have the same number of ",
-            "observations. Thus, the number of rows is adjusted according ",
-            "to the largest common value between the number of observations ",
-            "per group.")
+    warning("The two groups to be compared do not have the same number of\n",
+            "  observations. Thus, the number of rows is adjusted according\n",
+            "  to the largest common value between the number of\n",
+            "  observations per group.")
 
     data <- balance_observations(data = data, groups = b1,
                                  n_obs = max(sum(b1), sum(!b1)))
@@ -800,12 +845,12 @@ f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
                             use_ema = use_ema, bounds = bounds)
 
   if (use_ema == "yes" && sum(ok) < 3) {
-    stop("According to EMA the profiles must comprise a minimum of 3 time ",
-         "points. The actual profiles comprise ", sum(ok), " points only.")
+    stop("According to EMA the profiles must comprise a minimum of 3 time\n",
+         "  points. The actual profiles comprise ", sum(ok), " points only.")
   }
   if (sum(ok) < 3) {
-    warning("The profiles should comprise a minimum of 3 time points. ",
-            "The actual profiles comprise ", sum(ok), " points only.")
+    warning("The profiles should comprise a minimum of 3 time points.\n",
+            "  The actual profiles comprise ", sum(ok), " points only.")
   }
 
   # <-><-><-><->
@@ -831,8 +876,8 @@ f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
 #' The function \code{get_f1()} calculates the dissimilarity factor \eqn{f_1}
 #' for the assessment of dissolution profiles.
 #'
-#' @param data A data frame with the dissolution profile data in wide format.
-#' @param ins A vector of indices generated regarding the grouping.
+#' @param ins A vector of indices that specifies the rows in \code{data}
+#'   which should be used for the assessment.
 #' @inheritParams bootstrap_f2
 #'
 #' @inherit f1 details references
@@ -842,6 +887,7 @@ f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
 #' @seealso \code{\link{get_f2}}.
 #'
 #' @keywords internal
+#' @noRd
 
 get_f1 <- function(data, ins, tcol, grouping) {
   if (!is.data.frame(data)) {
@@ -889,6 +935,11 @@ get_f1 <- function(data, ins, tcol, grouping) {
     stop("The number of levels in column ", grouping, " differs from 2.")
   }
 
+  if (any(is.na(data[, tcol]))) {
+    message("Note that data contains NA/NaN values.\n",
+            "  Please consider imputing missing values.")
+  }
+
   # <-><-><-><->
 
   b1 <- make_grouping(data = data[ins, ], grouping = grouping)
@@ -906,15 +957,7 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' The function \code{f2()} calculates the similarity factor \eqn{f_2}.
 #'
-#' @param use_ema A character string indicating if the similarity factor
-#'   \eqn{f_2} should be calculated following the EMA guideline \dQuote{On the
-#'   investigation of bioequivalence} (\code{"yes"}, the default) or not
-#'   (\code{"no"}). A third option is \code{"ignore"}. If \code{use_ema} is
-#'   \code{"yes"} or \code{"no"} the appropriate profile portion is determined
-#'   on the basis of the values of the parameter \code{bounds}. If it is
-#'   \code{"ignore"}, the complete profiles are used as specified by the
-#'   parameter \code{tcol}.
-#' @inheritParams bootstrap_f2
+#' @inheritParams f1
 #'
 #' @details Similarity of dissolution profiles is assessed using the similarity
 #' factor \eqn{f_2} according to the EMA guideline (European Medicines Agency
@@ -954,10 +997,10 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #' \item{f2}{A numeric value representing the similarity factor \eqn{f_2}.}
 #' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
 #'   specified by \code{tcol} and depending on the selection of \code{use_ema}.
-#'   Given that the column names contain extractable numeric information,
-#'   e.g., specifying the testing time points of the dissolution profile, it
-#'   contains the corresponding values. Elements where no numeric information
-#'   could be extracted are \code{NA}.}
+#'   Given that the column names contain extractable numeric information, e.g.,
+#'   the testing time points of the dissolution profile, it contains the
+#'   corresponding numeric values. Elements where no numeric information could
+#'   be extracted are \code{NA}.}
 #'
 #' @references
 #' United States Food and Drug Administration (FDA). Guidance for industry:
@@ -1050,10 +1093,10 @@ f2 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
          "observations.")
   }
   if (use_ema %in% c("no", "ignore") && sum(b1) != sum(!b1)) {
-    warning("The two groups to be compared do not have the same number of ",
-            "observations. Thus, the number of rows is adjusted according ",
-            "to the largest common value between the number of observations ",
-            "per group.")
+    warning("The two groups to be compared do not have the same number of\n",
+            "  observations. Thus, the number of rows is adjusted according\n",
+            "  to the largest common value between the number of\n",
+            "  observations per group.")
 
     data <- balance_observations(data = data, groups = b1,
                                  n_obs = max(sum(b1), sum(!b1)))
@@ -1074,12 +1117,12 @@ f2 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
                             use_ema = use_ema, bounds = bounds)
 
   if (use_ema == "yes" && sum(ok) < 3) {
-    stop("According to EMA the profiles must comprise a minimum of 3 time ",
-         "points. The actual profiles comprise ", sum(ok), " points only.")
+    stop("According to EMA the profiles must comprise a minimum of 3 time\n",
+         "  points. The actual profiles comprise ", sum(ok), " points only.")
   }
   if (sum(ok) < 3) {
-    warning("The profiles should comprise a minimum of 3 time points. ",
-            "The actual profiles comprise ", sum(ok), " points only.")
+    warning("The profiles should comprise a minimum of 3 time points.\n",
+            "  The actual profiles comprise ", sum(ok), " points only.")
   }
 
   # <-><-><-><->
@@ -1105,9 +1148,7 @@ f2 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
 #' The function \code{get_f2()} calculates the similarity factor \eqn{f_2} for
 #' the assessment of dissolution profiles.
 #'
-#' @param data A data frame with the dissolution profile data in wide format.
-#' @param ins A vector of indices generated regarding the grouping.
-#' @inheritParams bootstrap_f2
+#' @inheritParams get_f1
 #'
 #' @inherit f2 details references
 #'
@@ -1116,6 +1157,7 @@ f2 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
 #' @seealso \code{\link{get_f1}}.
 #'
 #' @keywords internal
+#' @noRd
 
 get_f2 <- function(data, ins, tcol, grouping) {
   if (!is.data.frame(data)) {
@@ -1161,6 +1203,11 @@ get_f2 <- function(data, ins, tcol, grouping) {
 
   if (nlevels(data[, grouping]) != 2) {
     stop("The number of levels in column ", grouping, " differs from 2.")
+  }
+
+  if (any(is.na(data[, tcol]))) {
+    message("Note that data contains NA/NaN values.\n",
+            "  Please consider imputing missing values.")
   }
 
   # <-><-><-><->

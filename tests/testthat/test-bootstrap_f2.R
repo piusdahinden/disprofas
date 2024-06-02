@@ -58,6 +58,12 @@ test_that("bootstrap_f2_fails", {
   tmp1 <- dip2
   tmp1$batch <- as.character(tmp1$batch)
 
+  tmp2 <- dip2[dip2$batch %in% c("b0", "b4"), ]
+  tmp2[1, "t.30"] <- NA
+  tmp2[12, "t.60"] <- NA
+  tmp2[13, "t.90"] <- NaN
+  tmp2[24, "t.180"] <- NaN
+
   # <-><-><-><->
 
   expect_error(
@@ -96,6 +102,11 @@ test_that("bootstrap_f2_fails", {
                  rr = 200, each = 12, new_seed = 421, confid = 0.9,
                  use_ema = "no", bounds = c(1, 85)),
     "Some columns specified by tcol are not numeric")
+  expect_error(
+    bootstrap_f2(data = tmp2, tcol = 5:8, grouping = "batch",
+                 rand_mode = "complete", rr = 200, each = 12, new_seed = 421,
+                 confid = 0.9, use_ema = "no", bounds = c(1, 85)),
+    "data contains NA/NaN values")
   expect_error(
     bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
                  tcol = 5:8, grouping = 5, rand_mode = "complete",

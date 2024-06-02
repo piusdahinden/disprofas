@@ -9,42 +9,44 @@ f2(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85))
 \arguments{
 \item{data}{A data frame with the dissolution profile data in wide format.}
 
-\item{tcol}{A vector of indices specifying the columns in \code{data} that
-contain the \% release values. The length of \code{tcol} must be three or
-longer.}
+\item{tcol}{A vector of indices that specifies the columns in \code{data}
+that contain the \% release values. The length of \code{tcol} must be
+three or longer.}
 
-\item{grouping}{A character string specifying the column in \code{data} that
-contains the group names (i.e. a factorial variable, e.g., for the
+\item{grouping}{A character string that specifies the column in \code{data}
+that contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 
-\item{use_ema}{A character string indicating if the similarity factor
-\eqn{f_2} should be calculated following the EMA guideline \dQuote{On the
-investigation of bioequivalence} (\code{"yes"}, the default) or not
-(\code{"no"}). A third option is \code{"ignore"}. If \code{use_ema} is
-\code{"yes"} or \code{"no"} the appropriate profile portion is determined
-on the basis of the values of the parameter \code{bounds}. If it is
-\code{"ignore"}, the complete profiles are used as specified by the
-parameter \code{tcol}.}
+\item{use_ema}{A character string indicating whether the dissimilarity
+factor \eqn{f_1} should be calculated following the EMA guideline
+\dQuote{On the investigation of bioequivalence} (\code{"yes"}, the
+default) or not (\code{"no"}), i.e. the recommendations concerning the
+similarity factor \eqn{f_2}. A third option is \code{"ignore"}. If
+\code{use_ema} is \code{"yes"} or \code{"no"} the appropriate profile
+portion is determined on the basis of the values of the parameter
+\code{bounds}. If it is \code{"ignore"}, the complete profiles are used
+as specified by the parameter \code{tcol}.}
 
-\item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
-the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
-drug release given that \code{use_ema} is \code{"no"}. The default is
-\code{c(1, 85)}. Mean \% release values of any of the two groups being
+\item{bounds}{A numeric vector of the form \code{c(lower, upper)} that
+specifies the \dQuote{lower} and \dQuote{upper} limits, respectively, for
+the \% drug release given that \code{use_ema} is \code{"no"}. The default
+is \code{c(1, 85)}. Mean \% release values of any of the two groups being
 compared that are smaller than or equal to the lower bound are ignored and
 only the first mean \% release value that is greater than or equal to the
 upper bound is included while all the subsequent values are ignored. If
-\code{use_ema} is \code{"yes"} the \code{bounds} are \code{c(1, 85)} per
-definition.}
+\code{use_ema} is \code{"yes"} the \code{bounds} are \code{c(0, 85)} per
+definition. If \code{use_ema} is \code{"ignore"} the \code{bounds} are
+disregarded.}
 }
 \value{
 A list with the following elements is returned:
 \item{f2}{A numeric value representing the similarity factor \eqn{f_2}.}
 \item{Profile.TP}{A named numeric vector of the columns in \code{data}
   specified by \code{tcol} and depending on the selection of \code{use_ema}.
-  Given that the column names contain extractable numeric information,
-  e.g., specifying the testing time points of the dissolution profile, it
-  contains the corresponding values. Elements where no numeric information
-  could be extracted are \code{NA}.}
+  Given that the column names contain extractable numeric information, e.g.,
+  the testing time points of the dissolution profile, it contains the
+  corresponding numeric values. Elements where no numeric information could
+  be extracted are \code{NA}.}
 }
 \description{
 The function \code{f2()} calculates the similarity factor \eqn{f_2}.

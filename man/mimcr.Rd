@@ -19,46 +19,46 @@ mimcr(
 \arguments{
 \item{data}{A data frame with the dissolution profile data in wide format.}
 
-\item{tcol}{A vector of indices specifying the columns in \code{data} that
-contain the \% release values. The length of \code{tcol} must be three or
-longer.}
+\item{tcol}{A vector of indices that specifies the columns in \code{data}
+which contain the \% release values. The length of \code{tcol} must be
+two or longer.}
 
-\item{grouping}{A character string specifying the column in \code{data} that
-contains the group names (i.e. a factorial variable, e.g., for the
+\item{grouping}{A character string that specifies the column in \code{data}
+that contains the group names (i.e. a factorial variable, e.g., for the
 differentiation of batches or formulations of a drug product).}
 
-\item{fit_n_obs}{A logical value specifying if the number of rows per level
-in the column specified by the \code{grouping} parameter should be adjusted
-to be equal given that they are not equal. The default is \code{FALSE}
-because each group should have the same number of observations. If
-\code{fit_n_obs} is \code{TRUE}, redundant observations from the level
-with more observations are dropped, i.e. only the observations \code{1}
-to the number of observations of the level with the fewer observations
-will be used for the comparison of the two groups.}
+\item{fit_n_obs}{A logical value that indicates whether the number of rows
+per level in the column specified by the \code{grouping} parameter should
+be adjusted to be equal given that they are not equal. The default is
+\code{FALSE} because for this type of analysis each group should have the
+same number of observations. If \code{fit_n_obs} is \code{TRUE}, redundant
+observations from the level with more observations are dropped, i.e. only
+the observations \code{1:n} (n: number of observations of the level with
+the fewer observations) will be used for the comparison of the two groups.}
 
-\item{mtad}{A numeric value specifying the \dQuote{maximum tolerable average
-difference} (MTAD) of the profiles of two formulations at all time points
-(in \%). The default value is \code{10}. It determines the size of the
-similarity limit \eqn{\bm{d}_g}{d_g} (see the details section for more
+\item{mtad}{A numeric value that specifies the \dQuote{maximum tolerable
+average difference} (MTAD) of the profiles of two formulations at all time
+points (in \%). The default value is \code{10}. It determines the size of
+the similarity limit \eqn{\bm{d}_g}{d_g} (see the details section for more
 information).}
 
-\item{signif}{A positive numeric value between \code{0} and \code{1}
-specifying the significance level for the calculation of the
+\item{signif}{A positive numeric value between \code{0} and \code{1} that
+specifies the significance level for the calculation of the
 \dQuote{Confidence Region} (CR). The coverage of CR is
 \eqn{(1 - signif) 100}\%. The default value is \code{0.05}.}
 
-\item{max_trial}{A positive integer specifying the maximum number of
+\item{max_trial}{A positive integer that specifies the maximum number of
 Newton-Raphson search rounds to be performed.}
 
-\item{bounds}{A numeric vector of the form \code{c(lower, upper)} specifying
-the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
-drug release. The default is \code{c(1, 85)}. Mean \% release values of
-any of the two groups being compared that are smaller than or equal to the
-lower bound are ignored and only the first mean \% release value that is
-greater than or equal to the upper bound is included while all the
+\item{bounds}{A numeric vector of the form \code{c(lower, upper)} that
+specifies the \dQuote{lower} and \dQuote{upper} limits, respectively, for
+the \% drug release. The default is \code{c(1, 85)}. Mean \% release values
+of any of the two groups being compared that are smaller than or equal to
+the lower bound are ignored and only the first mean \% release value that
+is greater than or equal to the upper bound is included while all the
 subsequent values are ignored.}
 
-\item{tol}{A non-negative numeric specifying the accepted minimal
+\item{tol}{A non-negative numeric that specifies the accepted minimal
 difference between two consecutive search rounds.}
 }
 \value{
@@ -69,9 +69,9 @@ the following list elements:
 \item{NR.CI}{List with results from the Newton-Raphson (NR) search.}
 \item{Profile.TP}{A named numeric vector of the columns in \code{data}
   specified by \code{tcol}. Given that the column names contain extractable
-  numeric information, e.g., specifying the testing time points of the
-  dissolution profile, it contains the corresponding values. Elements
-  where no numeric information could be extracted are \code{NA}.}
+  numeric information, e.g., the testing time points of the dissolution
+  profile, it contains the corresponding numeric values. Elements where no
+  numeric information could be extracted are \code{NA}.}
 
 The \code{Parameters} element contains the following information:
 \item{dm}{The Mahalanobis distance of the samples.}
@@ -101,11 +101,12 @@ The \code{Parameters} element contains the following information:
 The \code{NR.CI} element contains the following information:
 \item{CI}{A matrix of the points on the \eqn{\textit{CR}} bounds for each
   time point.}
-\item{converged}{A logical specifying if the NR algorithm converged or not.}
-\item{points.on.crb}{A logical specifying if the points that were found by
-  the NR algorithm sit on the confidence region boundary or not, i.e. if
-  the \eqn{T^2} statistic of the found data points, in relation to the mean
-  difference, is equal to the critical \eqn{F} value.}
+\item{converged}{A logical that indicates whether the NR algorithm converged
+  or not.}
+\item{points.on.crb}{A logical that indicates whether the points that were
+  found by the NR algorithm sit on the confidence region boundary or not,
+  i.e. whether the \eqn{T^2} statistic of the found data points, in relation
+  to the mean difference, is equal to the critical \eqn{F} value.}
 \item{n.trial}{Number of trials until convergence.}
 \item{max.trial}{Maximal number of trials.}
 \item{Warning}{A warning message, if applicable, or otherwise NULL.}

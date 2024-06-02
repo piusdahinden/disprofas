@@ -7,39 +7,39 @@
 #' test for equivalence} of dissolution data as proposed by Hoffelder (2016).
 #'
 #' @param data A data frame with the dissolution profile data in wide format.
-#' @param tcol A vector of indices specifying the columns in \code{data} that
-#'   contain the \% release values. The length of \code{tcol} must be three or
-#'   longer.
-#' @param grouping A character string specifying the column in \code{data} that
-#'   contains the group names (i.e. a factorial variable, e.g., for the
+#' @param tcol A vector of indices that specifies the columns in \code{data}
+#'   which contain the \% release values. The length of \code{tcol} must be
+#'   two or longer.
+#' @param grouping A character string that specifies the column in \code{data}
+#'   that contains the group names (i.e. a factorial variable, e.g., for the
 #'   differentiation of batches or formulations of a drug product).
-#' @param fit_n_obs A logical value specifying if the number of rows per level
-#'   in the column specified by the \code{grouping} parameter should be adjusted
-#'   to be equal given that they are not equal. The default is \code{FALSE}
-#'   because each group should have the same number of observations. If
-#'   \code{fit_n_obs} is \code{TRUE}, redundant observations from the level
-#'   with more observations are dropped, i.e. only the observations \code{1}
-#'   to the number of observations of the level with the fewer observations
-#'   will be used for the comparison of the two groups.
-#' @param mtad A numeric value specifying the \dQuote{maximum tolerable average
-#'   difference} (MTAD) of the profiles of two formulations at all time points
-#'   (in \%). The default value is \code{10}. It determines the size of the
-#'   similarity limit \eqn{\bm{d}_g}{d_g} (see the details section for more
+#' @param fit_n_obs A logical value that indicates whether the number of rows
+#'   per level in the column specified by the \code{grouping} parameter should
+#'   be adjusted to be equal given that they are not equal. The default is
+#'   \code{FALSE} because for this type of analysis each group should have the
+#'   same number of observations. If \code{fit_n_obs} is \code{TRUE}, redundant
+#'   observations from the level with more observations are dropped, i.e. only
+#'   the observations \code{1:n} (n: number of observations of the level with
+#'   the fewer observations) will be used for the comparison of the two groups.
+#' @param mtad A numeric value that specifies the \dQuote{maximum tolerable
+#'   average difference} (MTAD) of the profiles of two formulations at all time
+#'   points (in \%). The default value is \code{10}. It determines the size of
+#'   the similarity limit \eqn{\bm{d}_g}{d_g} (see the details section for more
 #'   information).
-#' @param signif A positive numeric value between \code{0} and \code{1}
-#'   specifying the significance level for the calculation of the
+#' @param signif A positive numeric value between \code{0} and \code{1} that
+#'   specifies the significance level for the calculation of the
 #'   \dQuote{Confidence Region} (CR). The coverage of CR is
 #'   \eqn{(1 - signif) 100}\%. The default value is \code{0.05}.
-#' @param max_trial A positive integer specifying the maximum number of
+#' @param max_trial A positive integer that specifies the maximum number of
 #'   Newton-Raphson search rounds to be performed.
-#' @param bounds A numeric vector of the form \code{c(lower, upper)} specifying
-#'   the \dQuote{lower} and \dQuote{upper} limits, respectively, for the \%
-#'   drug release. The default is \code{c(1, 85)}. Mean \% release values of
-#'   any of the two groups being compared that are smaller than or equal to the
-#'   lower bound are ignored and only the first mean \% release value that is
-#'   greater than or equal to the upper bound is included while all the
+#' @param bounds A numeric vector of the form \code{c(lower, upper)} that
+#'   specifies the \dQuote{lower} and \dQuote{upper} limits, respectively, for
+#'   the \% drug release. The default is \code{c(1, 85)}. Mean \% release values
+#'   of any of the two groups being compared that are smaller than or equal to
+#'   the lower bound are ignored and only the first mean \% release value that
+#'   is greater than or equal to the upper bound is included while all the
 #'   subsequent values are ignored.
-#' @param tol A non-negative numeric specifying the accepted minimal
+#' @param tol A non-negative numeric that specifies the accepted minimal
 #'   difference between two consecutive search rounds.
 #'
 #' @details The function \code{mimcr()} assesses the equivalence of highly
@@ -189,9 +189,9 @@
 #' \item{NR.CI}{List with results from the Newton-Raphson (NR) search.}
 #' \item{Profile.TP}{A named numeric vector of the columns in \code{data}
 #'   specified by \code{tcol}. Given that the column names contain extractable
-#'   numeric information, e.g., specifying the testing time points of the
-#'   dissolution profile, it contains the corresponding values. Elements
-#'   where no numeric information could be extracted are \code{NA}.}
+#'   numeric information, e.g., the testing time points of the dissolution
+#'   profile, it contains the corresponding numeric values. Elements where no
+#'   numeric information could be extracted are \code{NA}.}
 #'
 #' The \code{Parameters} element contains the following information:
 #' \item{dm}{The Mahalanobis distance of the samples.}
@@ -221,11 +221,12 @@
 #' The \code{NR.CI} element contains the following information:
 #' \item{CI}{A matrix of the points on the \eqn{\textit{CR}} bounds for each
 #'   time point.}
-#' \item{converged}{A logical specifying if the NR algorithm converged or not.}
-#' \item{points.on.crb}{A logical specifying if the points that were found by
-#'   the NR algorithm sit on the confidence region boundary or not, i.e. if
-#'   the \eqn{T^2} statistic of the found data points, in relation to the mean
-#'   difference, is equal to the critical \eqn{F} value.}
+#' \item{converged}{A logical that indicates whether the NR algorithm converged
+#'   or not.}
+#' \item{points.on.crb}{A logical that indicates whether the points that were
+#'   found by the NR algorithm sit on the confidence region boundary or not,
+#'   i.e. whether the \eqn{T^2} statistic of the found data points, in relation
+#'   to the mean difference, is equal to the critical \eqn{F} value.}
 #' \item{n.trial}{Number of trials until convergence.}
 #' \item{max.trial}{Maximal number of trials.}
 #' \item{Warning}{A warning message, if applicable, or otherwise NULL.}
@@ -298,6 +299,10 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   }
   if (sum(vapply(data[, tcol], is.numeric, logical(1))) != length(tcol)) {
     stop("Some columns specified by tcol are not numeric.")
+  }
+  if (any(is.na(data[, tcol]))) {
+    stop("Note that data contains NA/NaN values.\n",
+         "  Please consider imputing missing values.")
   }
   if (!is.character(grouping)) {
     stop("The parameter grouping must be string.")
@@ -393,8 +398,8 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
                             use_ema = "no", bounds = bounds)
 
   if (sum(ok) < 3) {
-    warning("The profiles should comprise a minimum of 3 time points. ",
-            "The actual profiles comprise ", sum(ok), " points only.")
+    warning("The profiles should comprise a minimum of 3 time points.\n",
+            "  The actual profiles comprise ", sum(ok), " points only.")
   }
 
   # <-><-><->
@@ -458,8 +463,8 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
                        UCL = rep(NA, times = t_sl["df1"]))
         rownames(nr_ci) <- colnames(data[, tcol[ok]])
 
-        warning("The points found by the Newton-Raphson search are not ",
-                "located on the confidence region boundary (CRB).")
+        warning("The points found by the Newton-Raphson search are not\n",
+                "  located on the confidence region boundary (CRB).")
 
         # Similarity conclusion based on Tsong's D_crit
         conclusion_tsong <- NA

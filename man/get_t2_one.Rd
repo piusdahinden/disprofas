@@ -4,7 +4,7 @@
 \alias{get_T2_one}
 \title{Hotelling's statistics (for one (small) sample)}
 \usage{
-get_T2_one(m, mu, signif)
+get_T2_one(m, mu, signif, na_rm = FALSE)
 }
 \arguments{
 \item{m}{A matrix with the data of the reference group, e.g. a matrix
@@ -15,7 +15,11 @@ for the different model parameters (columns) of different dosage unit
 mean values.}
 
 \item{signif}{A positive numeric value between \code{0} and \code{1}
-specifying the significance level. The default value is \code{0.05}.}
+that specifies the significance level. The default value is \code{0.05}.}
+
+\item{na_rm}{A logical value that indicates whether observations containing
+\code{NA} (or \code{NaN}) values should be removed (\code{na_rm = TRUE})
+or not (\code{na_rm = FALSE}). The default is \code{na_rm = FALSE}.}
 }
 \value{
 A list with the following elements is returned:
@@ -92,8 +96,8 @@ With this transformation, the following test statistic can be applied:
 Under the null hypothesis, \eqn{H_0: \bm{\mu} = \bm{\mu}_0}{%
 H_0: \mu = \mu_0}, this \eqn{F}-statistic is \eqn{F}-distributed with
 \eqn{p} and \eqn{n - p} degrees of freedom. \eqn{H_0} is rejected at a
-significance level of \eqn{\alpha} if the test statistic \eqn{F} exceeds the
-critical value from the \eqn{F}-table evaluated at \eqn{\alpha}, i.e.
+significance level of \eqn{\alpha} if the test statistic \eqn{F} exceeds
+the critical value from the \eqn{F}-table evaluated at \eqn{\alpha}, i.e.
 \eqn{F > F_{p, n - p, \alpha}}. \cr
 
 The following assumptions concerning the data are made:
@@ -138,7 +142,7 @@ should be used instead which are given by the expression
 res1 <-
   get_T2_one(m = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
              mu = colMeans(dip1[dip1$type == "R", c("t.15", "t.90")]),
-             signif = 0.1)
+             signif = 0.1, na_rm = FALSE)
 res1$Parameters
 
 # Expected results in res1$Parameters
@@ -160,7 +164,7 @@ res1$Parameters
 res2 <-
   get_T2_one(m = as.matrix(dip7[dip7$type == "test", c("alpha", "beta")]),
              mu = colMeans(dip7[dip7$type == "ref", c("alpha", "beta")]),
-             signif = 0.05)
+             signif = 0.05, na_rm = FALSE)
 res2$Parameters
 
 # Expected results in res2$Parameters
@@ -186,13 +190,13 @@ res3.minor <-
                                     c("alpha", "beta")])),
              mu = log(colMeans(dip8[dip8$type == "ref",
                                      c("alpha", "beta")])),
-             signif = 0.1)
+             signif = 0.1, na_rm = FALSE)
 res3.major <-
   get_T2_one(m = log(as.matrix(dip8[dip8$type == "major",
                                     c("alpha", "beta")])),
              mu = log(colMeans(dip8[dip8$type == "ref",
                                      c("alpha", "beta")])),
-             signif = 0.1)
+             signif = 0.1, na_rm = FALSE)
 res3.minor$Parameters
 res3.major$Parameters
 

@@ -1,6 +1,14 @@
 context("f1")
 
 test_that("f1_results_match", {
+  t_dat <- dip6
+  t_dat[1, "t.40"] <- NA
+  t_dat[12, "t.45"] <- NA
+  t_dat[13, "t.90"] <- NaN
+  t_dat[24, "t.95"] <- NaN
+
+  # <-><-><-><->
+
   l_res1 <- f1(data = dip2[dip2$batch %in% c("b0", "b1"), ],
                tcol = 5:8, grouping = "batch", use_ema = "no",
                bounds = c(1, 100))
@@ -17,6 +25,11 @@ test_that("f1_results_match", {
                tcol = 5:8, grouping = "batch", use_ema = "no",
                bounds = c(1, 100))
 
+  # No message is sent because the columns drop out when the profile
+  # portion is determined by aid of the function get_profile_portion()
+  l_res6 <- f1(data = t_dat, tcol = 3:31, grouping = "type",
+               use_ema = "yes", bounds = c(1, 85))
+
   # <-><-><-><->
 
   expect_equal(signif(l_res1$f1, 7), 8.729032)
@@ -24,6 +37,21 @@ test_that("f1_results_match", {
   expect_equal(signif(l_res3$f1, 7), 13.67089)
   expect_equal(signif(l_res4$f1, 7), 7.379616)
   expect_equal(signif(l_res5$f1, 7), 13.94996)
+  expect_equal(signif(l_res6$f1, 7), 1.204992)
+})
+
+test_that("f1_sends_message", {
+  t_dat <- dip2[dip2$batch %in% c("b0", "b1"), ]
+  t_dat[1, "t.30"] <- NA
+  t_dat[12, "t.60"] <- NA
+  t_dat[13, "t.90"] <- NaN
+  t_dat[24, "t.180"] <- NaN
+
+  # <-><-><-><->
+
+  res <- expect_message(f1(data = t_dat, tcol = 5:8, grouping = "batch",
+                            use_ema = "ignore", bounds = c(1, 100)))
+  expect_equal(res[["f1"]], NA_real_)
 })
 
 test_that("f1_fails", {

@@ -156,10 +156,16 @@ test_that("mimcr_fails", {
   tmp0 <- dip1
   tmp0$t.5 <- as.factor(tmp0$t.5)
 
-  tmp1 <- dip1
-  tmp1$type <-  as.character(tmp1$type)
+  tmp1 <- dip2[dip2$batch %in% c("b0", "b4"), ]
+  tmp1[1, "t.30"] <- NA
+  tmp1[12, "t.60"] <- NA
+  tmp1[13, "t.90"] <- NaN
+  tmp1[24, "t.180"] <- NaN
 
-  tmp2 <- dip1[1:11, ]
+  tmp2 <- dip1
+  tmp2$type <-  as.character(tmp2$type)
+
+  tmp3 <- dip1[1:11, ]
 
   # <-><-><->
 
@@ -199,6 +205,11 @@ test_that("mimcr_fails", {
           tol = 1e-9),
     "Some columns specified by tcol are not numeric")
   expect_error(
+    mimcr(data = tmp1, tcol = 5:8, grouping = "batch", fit_n_obs = FALSE,
+          mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
+          tol = 1e-9),
+    "data contains NA/NaN values")
+  expect_error(
     mimcr(data = dip1, tcol = 3:10, grouping = 5, fit_n_obs = FALSE, mtad = 10,
           signif = 0.05, max_trial = 50, bounds = c(1, 85), tol = 1e-9),
     "grouping must be string")
@@ -208,7 +219,7 @@ test_that("mimcr_fails", {
           tol = 1e-9),
     "grouping variable was not found")
   expect_error(
-    mimcr(data = tmp1, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
+    mimcr(data = tmp2, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
           mtad = 10, signif = 0.05, max_trial = 50, bounds = c(1, 85),
           tol = 1e-9),
     "grouping variable's column in data")
@@ -309,7 +320,7 @@ test_that("mimcr_fails", {
           tol = -1e-9),
     "tol must be a non-negative numeric")
   expect_error(
-    mimcr(data = tmp2, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
+    mimcr(data = tmp3, tcol = 3:10, grouping = "type", fit_n_obs = FALSE,
           mtad = 10, signif = 0.05, max_trial = 50,  bounds = c(1, 85),
           tol = 1e-9),
     "The treatments to be tested")

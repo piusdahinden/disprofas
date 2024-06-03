@@ -163,7 +163,11 @@ are given by the expression
 # (for small samples)
 res1 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
                    m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
+<<<<<<< HEAD
                    signif = 0.1, na_rm = FALSE)
+=======
+                   signif = 0.1)
+>>>>>>> 76716acb8b6268403d057c57ffc5d4e46295fb1a
 res1$S.pool
 res1$Parameters
 
@@ -189,7 +193,11 @@ res1$Parameters
 # following results are obtained.
 res2 <- get_T2_two(m1 = as.matrix(dip1[dip1$type == "R", 3:10]),
                    m2 = as.matrix(dip1[dip1$type == "T", 3:10]),
+<<<<<<< HEAD
                    signif = 0.1, na_rm = FALSE)
+=======
+                   signif = 0.1)
+>>>>>>> 76716acb8b6268403d057c57ffc5d4e46295fb1a
 res2$Parameters
 
 # Results in res2$Parameters
@@ -207,7 +215,11 @@ res2$Parameters
 res3 <-
   get_T2_two(m1 = as.matrix(dip7[dip7$type == "ref", c("alpha", "beta")]),
              m2 = as.matrix(dip7[dip7$type == "test", c("alpha", "beta")]),
+<<<<<<< HEAD
              signif = 0.05, na_rm = FALSE)
+=======
+             signif = 0.05)
+>>>>>>> 76716acb8b6268403d057c57ffc5d4e46295fb1a
 res3$Parameters
 
 # Results in res3$Parameters
@@ -228,12 +240,20 @@ res4.minor <- get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref",
                                                  c("alpha", "beta")])),
                          m2 = log(as.matrix(dip8[dip8$type == "minor",
                                                  c("alpha", "beta")])),
+<<<<<<< HEAD
                          signif = 0.1, na_rm = FALSE)
+=======
+                         signif = 0.1)
+>>>>>>> 76716acb8b6268403d057c57ffc5d4e46295fb1a
 res4.major <- get_T2_two(m1 = log(as.matrix(dip8[dip8$type == "ref",
                                                  c("alpha", "beta")])),
                          m2 = log(as.matrix(dip8[dip8$type == "major",
                                                  c("alpha", "beta")])),
+<<<<<<< HEAD
                          signif = 0.1, na_rm = FALSE)
+=======
+                         signif = 0.1)
+>>>>>>> 76716acb8b6268403d057c57ffc5d4e46295fb1a
 res4.minor$Parameters
 res4.minor$CI$Hotelling
 res4.major$Parameters

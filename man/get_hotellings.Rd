@@ -161,12 +161,14 @@ are given by the expression
 \examples{
 # Estimation of the parameters for Hotelling's two-sample T2 statistic
 # (for small samples)
-res <-
-  get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
-                 m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
-                 signif = 0.1)
-res$S.pool
-res$Parameters
+\dontrun{
+  res <-
+    get_hotellings(m1 = as.matrix(dip1[dip1$type == "R", c("t.15", "t.90")]),
+                   m2 = as.matrix(dip1[dip1$type == "T", c("t.15", "t.90")]),
+                   signif = 0.1)
+  res$S.pool
+  res$Parameters
+}
 
 # Expected results in res$S.pool
 #          t.15     t.90

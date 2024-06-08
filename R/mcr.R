@@ -41,6 +41,7 @@
 #'   subsequent values are ignored.
 #' @param tol A non-negative numeric that specifies the accepted minimal
 #'   difference between two consecutive search rounds.
+#' @inheritParams bootstrap_f2
 #'
 #' @details The function \code{mimcr()} assesses the equivalence of highly
 #' variable dissolution profiles by aid of a \dQuote{Model-Independent
@@ -280,7 +281,7 @@
 
 mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
                   signif = 0.05, max_trial = 50, bounds = c(1, 85),
-                  tol = 1e-9) {
+                  nsf = c(1, 2), tol = 1e-9) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -340,6 +341,18 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   if (bounds[1] < 0 || bounds[2] > 100) {
     stop("Please specify bounds in the range [0, 100].")
   }
+  if (!is.numeric(nsf) && any(!is.na(nsf))) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (any(nsf < 0)) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (length(nsf) != length(bounds)) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (!isTRUE(all.equal(nsf, as.integer(nsf)))) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
   if (!is.numeric(tol) || length(tol) > 1) {
     stop("The parameter tol must be a non-negative numeric value of length 1.")
   }
@@ -395,7 +408,7 @@ mimcr <- function(data, tcol, grouping, fit_n_obs = FALSE, mtad = 10,
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_ema = "no", bounds = bounds)
+                            use_ema = "no", bounds = bounds, nsf = nsf)
 
   if (sum(ok) < 3) {
     warning("The profiles should comprise a minimum of 3 time points.\n",

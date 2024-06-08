@@ -13,6 +13,7 @@ mimcr(
   signif = 0.05,
   max_trial = 50,
   bounds = c(1, 85),
+  nsf = c(1, 2),
   tol = 1e-09
 )
 }
@@ -57,6 +58,14 @@ of any of the two groups being compared that are smaller than or equal to
 the lower bound are ignored and only the first mean \% release value that
 is greater than or equal to the upper bound is included while all the
 subsequent values are ignored.}
+
+\item{nsf}{A vector of positive integers that specify the \dQuote{number
+of significant figures} (nsf) of the corresponding values of the
+\code{bounds} parameter. It must thus have the same length as the
+\code{bounds} parameter. Before the \% release values are compared with
+the limits that are specified by the \code{bounds} parameter, they are
+rounded to the corresponding number of significant figures as specified
+by the \code{nsf} parameter.}
 
 \item{tol}{A non-negative numeric that specifies the accepted minimal
 difference between two consecutive search rounds.}
@@ -312,7 +321,8 @@ res1$Parameters
 }
 
 # Use of 'bounds = c(1, 85)'
-res2 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", bounds = c(1, 85))
+res2 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", bounds = c(1, 85),
+              nsf = c(1, 2))
 res2$Similarity
 res2$Profile.TP
 res2[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
@@ -332,7 +342,7 @@ res2[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 
 # Allow for a larger maximum tolerable average difference (MTAD), e.g., 15.
 res3 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", mtad = 15,
-              bounds = c(1, 85))
+              bounds = c(1, 85), nsf = c(1, 2))
 res3$Similarity
 res3[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 
@@ -348,7 +358,7 @@ res3[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 # Use default 'mtad' but set 'signif = 0.1' and use 'bounds = c(1, 95)' so that
 # the complete profiles are taken into account.
 res4 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", mtad = 10,
-              signif = 0.1, bounds = c(1, 95))
+              signif = 0.1, bounds = c(1, 95), nsf = c(1, 2))
 res4$Similarity
 res4$Profile.TP
 res4[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]

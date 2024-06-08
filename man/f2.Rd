@@ -4,7 +4,7 @@
 \alias{f2}
 \title{Similarity factor f2 for dissolution data}
 \usage{
-f2(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85))
+f2(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85), nsf = c(1, 2))
 }
 \arguments{
 \item{data}{A data frame with the dissolution profile data in wide format.}
@@ -37,6 +37,14 @@ upper bound is included while all the subsequent values are ignored. If
 \code{use_ema} is \code{"yes"} the \code{bounds} are \code{c(0, 85)} per
 definition. If \code{use_ema} is \code{"ignore"} the \code{bounds} are
 disregarded.}
+
+\item{nsf}{A vector of positive integers that specify the \dQuote{number
+of significant figures} (nsf) of the corresponding values of the
+\code{bounds} parameter. It must thus have the same length as the
+\code{bounds} parameter. Before the \% release values are compared with
+the limits that are specified by the \code{bounds} parameter, they are
+rounded to the corresponding number of significant figures as specified
+by the \code{nsf} parameter.}
 }
 \value{
 A list with the following elements is returned:
@@ -100,7 +108,7 @@ f2(data = dip1, tcol = 3:10, grouping = "type")
 
 # Use of 'use_ema = "no"', 'bounds = c(5, 80)'
 f2(data = dip1, tcol = 3:10, grouping = "type", use_ema = "no",
-   bounds = c(5, 80))
+   bounds = c(5, 80), nsf = c(1, 2))
 
 # $f2
 # [1] 39.24385
@@ -111,7 +119,7 @@ f2(data = dip1, tcol = 3:10, grouping = "type", use_ema = "no",
 
 # Use of 'use_ema = "no"', 'bounds = c(1, 95)'
 f2(data = dip1, tcol = 3:10, grouping = "type", use_ema = "no",
-   bounds = c(1, 95))
+   bounds = c(1, 95), nsf = c(1, 2))
 
 # $f2
 # [1] 42.11197

@@ -15,6 +15,7 @@ bootstrap_f2(
   confid = 0.9,
   use_ema = "no",
   bounds = c(1, 85),
+  nsf = c(1, 2),
   ...
 )
 }
@@ -69,6 +70,14 @@ upper bound is included while all the subsequent values are ignored. If
 \code{use_ema} is \code{"yes"} the \code{bounds} are \code{c(0, 85)} per
 definition. If \code{use_ema} is \code{"ignore"} the \code{bounds} are
 disregarded.}
+
+\item{nsf}{A vector of positive integers that specify the \dQuote{number
+of significant figures} (nsf) of the corresponding values of the
+\code{bounds} parameter. It must thus have the same length as the
+\code{bounds} parameter. Before the \% release values are compared with
+the limits that are specified by the \code{bounds} parameter, they are
+rounded to the corresponding number of significant figures as specified
+by the \code{nsf} parameter.}
 
 \item{...}{Named parameters of the functions \code{stat.fun()},
 \code{ran.fun()} and \code{boot()}.}

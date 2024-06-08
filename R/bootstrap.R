@@ -44,6 +44,13 @@
 #'   \code{use_ema} is \code{"yes"} the \code{bounds} are \code{c(0, 85)} per
 #'   definition. If \code{use_ema} is \code{"ignore"} the \code{bounds} are
 #'   disregarded.
+#' @param nsf A vector of positive integers that specify the \dQuote{number
+#'   of significant figures} (nsf) of the corresponding values of the
+#'   \code{bounds} parameter. It must thus have the same length as the
+#'   \code{bounds} parameter. Before the \% release values are compared with
+#'   the limits that are specified by the \code{bounds} parameter, they are
+#'   rounded to the corresponding number of significant figures as specified
+#'   by the \code{nsf} parameter.
 #' @param ... Named parameters of the functions \code{stat.fun()},
 #'   \code{ran.fun()} and \code{boot()}.
 #' @inheritParams mimcr
@@ -138,7 +145,7 @@
 
 bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
                    rr = 999, each = 12, new_seed = 100, confid = 0.9,
-                   use_ema = "no", bounds = c(1, 85), ...) {
+                   use_ema = "no", bounds = c(1, 85), nsf = c(1, 2), ...) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -203,6 +210,18 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   if (bounds[1] < 0 || bounds[2] > 100) {
     stop("Please specify bounds in the range [0, 100].")
   }
+  if (!is.numeric(nsf) && any(!is.na(nsf))) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (any(nsf < 0)) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (length(nsf) != length(bounds)) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (!isTRUE(all.equal(nsf, as.integer(nsf)))) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Data preparation
@@ -246,7 +265,7 @@ bootstrap_f2 <- function(data, tcol, grouping, rand_mode = "complete",
   # <-><-><-><->
   # Determination of dissolution profile ranges to be compared
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_ema = use_ema, bounds = bounds)
+                            use_ema = use_ema, bounds = bounds, nsf = nsf)
   time_points <- time_points[ok]
 
   if (use_ema == "yes" && sum(ok) < 3) {

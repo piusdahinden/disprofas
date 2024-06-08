@@ -11,7 +11,7 @@ f2(data = dip1, tcol = 3:10, grouping = "type")
 
 # Use of 'use_ema = "no"', 'bounds = c(5, 80)'
 f2(data = dip1, tcol = 3:10, grouping = "type", use_ema = "no",
-   bounds = c(5, 80))
+   bounds = c(5, 80), nsf = c(1, 2))
 
 # $f2
 # [1] 39.24385
@@ -22,7 +22,7 @@ f2(data = dip1, tcol = 3:10, grouping = "type", use_ema = "no",
 
 # Use of 'use_ema = "no"', 'bounds = c(1, 95)'
 f2(data = dip1, tcol = 3:10, grouping = "type", use_ema = "no",
-   bounds = c(1, 95))
+   bounds = c(1, 95), nsf = c(1, 2))
 
 # $f2
 # [1] 42.11197

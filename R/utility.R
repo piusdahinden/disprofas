@@ -79,7 +79,7 @@
 #' @noRd
 
 get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
-                                bounds = c(1, 85)) {
+                                bounds = c(1, 85), nsf = c(1, 2)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -114,6 +114,18 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
   if (bounds[1] < 0 || bounds[2] > 100) {
     stop("Please specify bounds in the range [0, 100].")
   }
+  if (!is.numeric(nsf) && any(!is.na(nsf))) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (any(nsf < 0)) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (length(nsf) != length(bounds)) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (!isTRUE(all.equal(nsf, as.integer(nsf)))) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
 
   # <-><-><-><->
 
@@ -139,25 +151,31 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
 
     # Tests and Settings
     # 1) Tests for points equal to 0% to exclude them (column 1).
-    # 2a) Tests for points bigger than 85%.
+    # 1a) Sets NA entries to FALSE (column 1).
+    # 2) Tests for points > 85%.
+    # 2a) Sets NA entries to FALSE.
     # 2b) Includes the first point > 85%.
     # 2c) Stores the result in column 2.
     # 3) Tests for points with CV bigger than 20% (column 3).
+    # 3a) Sets NA entries (division through 0) to FALSE (column 3).
     # 4) Tests for points with CV bigger than 10% (column 4).
-    # 5) Set NA or +-Inf entries (division through 0) to FALSE (column 3).
-    # 6) Set NA or +-Inf entries (division through 0) to FALSE (column 4).
-    # 7a) Copies the result from column 3 to column 5.
-    # 7b) Makes sure that no more than one point preceding the first
+    # 4a) Set NA entries (division through 0) to FALSE (column 4).
+    # 5) Copies the result from column 3 to column 5.
+    # 5a) Makes sure that no more than one point preceding the first
     #     "< 10% point" is < 20%.
-    # 8) Combines all the test into the final result.
-    m_tests[, 1] <- m_results[, 1] > 0 & m_results[, 2] > 0
-    tmp <- m_results[, 1] > 85 | m_results[, 2] > 85
+    # 6) Combines all the test into the final result.
+    m_tests[, 1] <- signif(m_results[, 1], nsf[1]) > 0 &
+      signif(m_results[, 2], nsf[1]) > 0
+    m_tests[is.na(m_tests[, 1]), 1] <- FALSE
+    tmp <- signif(m_results[, 1], nsf[2]) > 85 |
+      signif(m_results[, 2], nsf[2]) > 85
+    tmp[is.na(tmp)] <- FALSE
     tmp[as.numeric(which(tmp)[1])] <- FALSE
     m_tests[, 2] <- !tmp
     m_tests[, 3] <- m_results[, 5] < 20 & m_results[, 6] < 20
+    m_tests[is.na(m_tests[, 3]) | is.infinite(m_tests[, 3]), 3] <- FALSE
     m_tests[, 4] <- m_results[, 5] < 10 & m_results[, 6] < 10
-    m_tests[is.na(m_tests[, 3]) | is.infinite(m_tests[, 3]), 2] <- FALSE
-    m_tests[is.na(m_tests[, 4]) | is.infinite(m_tests[, 4]), 3] <- FALSE
+    m_tests[is.na(m_tests[, 4]) | is.infinite(m_tests[, 4]), 4] <- FALSE
     m_tests[, 5] <- m_tests[, 3]
 
     if (which(m_tests[, 4])[1] > 2) {
@@ -190,21 +208,35 @@ get_profile_portion <- function(data, tcol, groups, use_ema = "yes",
     rownames(m_tests) <- colnames(data)[tcol]
 
     # Tests and Settings
-    # 1a) Tests for points bigger than bounds[2]
+    # 1) Tests for points bigger than bounds[2]
+    # 1a) Sets NA entries to FALSE.
     # 1b) Includes the first point > 85%.
     # 1c) Stores the result of 1b) in column 1.
     # 2) Tests for points smaller than bounds[1] to exclude them (column 2).
-    # 3) Set NA or +-Inf entries (division through 0) to FALSE (column 3).
-    # 4) Set NA or +-Inf entries (division through 0) to FALSE (column 4).
-    # 5) Combines tests 1) and 2) into the final result.
-    tmp <- m_results[, 1] > bounds[2] | m_results[, 2] > bounds[2]
+    # 2a) Sets NA entries to FALSE (column 2).
+    # 3) Combines tests 1) and 2) into the final result.
+    tmp <- signif(m_results[, 1], nsf[2]) > bounds[2] |
+      signif(m_results[, 2], nsf[2]) > bounds[2]
+    tmp[is.na(tmp)] <- FALSE
     tmp[as.numeric(which(tmp)[1])] <- FALSE
     m_tests[, 1] <- !tmp
-    m_tests[, 2] <- m_results[, 1] > bounds[1] & m_results[, 2] > bounds[1]
-    m_tests[is.na(m_tests[, 1]) | is.infinite(m_tests[, 1]), 1] <- FALSE
-    m_tests[is.na(m_tests[, 2]) | is.infinite(m_tests[, 2]), 2] <- FALSE
+    m_tests[, 2] <- signif(m_results[, 1], nsf[1]) > bounds[1] &
+      signif(m_results[, 2], nsf[1]) > bounds[1]
+    m_tests[is.na(m_tests[, 2]), 2] <- FALSE
 
     ok <- m_tests[, 1] & m_tests[, 2]
+
+    # Check for time points regarded as TRUE in the part to the right of the
+    # first time point with failed acceptance criteria after the part of the
+    # profile that has been identified as acceptable.
+    tmp <- which(!ok[as.numeric(which(ok))[1]:length(ok)])
+    if (length(tmp) > 0) {
+      tmp2 <- as.numeric(tmp[1] + which(ok)[1])
+
+      if (tmp2 < length(ok)) {
+        ok[tmp2:length(ok)] <- FALSE
+      }
+    }
   }, "ignore" = {
     ok <- rep(TRUE, n)
     names(ok) <- colnames(data)[tcol]

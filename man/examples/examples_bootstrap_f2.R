@@ -12,7 +12,7 @@ bs1 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
 # $BCa_CI
 # [1] 48.69289 51.99121
 #
-# $ShahBCa_CI
+# $Shah_BCa_CI
 # [1] 48.64613 51.75292
 
 # Use of 'rand_mode = "individual"' (randomise per time point)
@@ -28,7 +28,7 @@ bs2 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
 # $BCa_CI
 # [1] 48.88233 52.02319
 #
-# $ShahBCa_CI
+# $Shah_BCa_CI
 # [1] 48.82488 51.85736
 
 # Passing in a data frame with a grouping variable with a number of levels that
@@ -49,7 +49,8 @@ bs2 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
 # Since we have only 6 tablets per formulation in 'dip1' the parameter 'each'
 # should be set accordingly.
 bs3.1 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
-                      rr = 200, each = 6, use_ema = "no", bounds = c(1, 85))
+                      rr = 200, each = 6, use_ema = "no", bounds = c(1, 85),
+                      nsf = c(1,))
 
 # Expected results in bs3.1[c("Boot", "BCa_CI", "ShahBCa_CI")]
 # Bootstrap Statistics :
@@ -59,7 +60,7 @@ bs3.1 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
 # $BCa_CI
 # [1] 39.44222 43.88160
 #
-# $ShahBCa_CI
+# $Shah_BCa_CI
 # [1] 39.49069 43.78105
 
 # Use of 'use_ema = "ignore"' so that the whole profiles are used (ignoring
@@ -77,5 +78,5 @@ bs3.2 <- bootstrap_f2(data = dip1, tcol = 3:10, grouping = "type",
 # $BCa_CI
 # [1] 40.76144 45.14164
 #
-# $ShahBCa_CI
+# $Shah_BCa_CI
 # [1] 40.82578 45.09703

@@ -43,7 +43,8 @@ res1$Parameters
 }
 
 # Use of 'bounds = c(1, 85)'
-res2 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", bounds = c(1, 85))
+res2 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", bounds = c(1, 85),
+              nsf = c(1, 2))
 res2$Similarity
 res2$Profile.TP
 res2[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
@@ -63,7 +64,7 @@ res2[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 
 # Allow for a larger maximum tolerable average difference (MTAD), e.g., 15.
 res3 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", mtad = 15,
-              bounds = c(1, 85))
+              bounds = c(1, 85), nsf = c(1, 2))
 res3$Similarity
 res3[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 
@@ -79,7 +80,7 @@ res3[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]
 # Use default 'mtad' but set 'signif = 0.1' and use 'bounds = c(1, 95)' so that
 # the complete profiles are taken into account.
 res4 <- mimcr(data = dip1, tcol = 3:10, grouping = "type", mtad = 10,
-              signif = 0.1, bounds = c(1, 95))
+              signif = 0.1, bounds = c(1, 95), nsf = c(1, 2))
 res4$Similarity
 res4$Profile.TP
 res4[["Parameters"]][c("p.F.Hoffelder", "Sim.Limit", "Obs.U")]

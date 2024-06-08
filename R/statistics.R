@@ -256,7 +256,9 @@ get_T2_one <- function(m, mu, signif, na_rm = FALSE) {
 #' Please use the new function \code{get_T2_two()} instead of the obsolete
 #' function \code{get_hotellings()}.
 #'
-#' @inherit get_T2_two params details return references seealso examples
+#' @inherit get_T2_two params details return references seealso
+#'
+#' @example man/examples/examples_get_hotellings.R
 #'
 #' @importFrom lifecycle deprecate_soft
 #'
@@ -752,7 +754,8 @@ get_sim_lim <- function(mtad, lhs) {
 #'
 #' @export
 
-f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
+f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85),
+               nsf = c(1, 2)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -792,6 +795,18 @@ f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
   }
   if (bounds[1] < 0 || bounds[2] > 100) {
     stop("Please specify bounds in the range [0, 100].")
+  }
+  if (!is.numeric(nsf) && any(!is.na(nsf))) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (any(nsf < 0)) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (length(nsf) != length(bounds)) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
+  }
+  if (!isTRUE(all.equal(nsf, as.integer(nsf)))) {
+    stop("The parameter nsf must be a positive integer of length bounds.")
   }
 
   # <-><-><-><->
@@ -842,7 +857,7 @@ f1 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_ema = use_ema, bounds = bounds)
+                            use_ema = use_ema, bounds = bounds, nsf = nsf)
 
   if (use_ema == "yes" && sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time\n",
@@ -1024,7 +1039,8 @@ get_f1 <- function(data, ins, tcol, grouping) {
 #'
 #' @export
 
-f2 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
+f2 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85),
+               nsf = c(1, 2)) {
   if (!is.data.frame(data)) {
     stop("The data must be provided as data frame.")
   }
@@ -1114,7 +1130,7 @@ f2 <- function(data, tcol, grouping, use_ema = "yes", bounds = c(1, 85)) {
   #   less than 10% from the second to the last time point.
 
   ok <- get_profile_portion(data = data, tcol = tcol, groups = b1,
-                            use_ema = use_ema, bounds = bounds)
+                            use_ema = use_ema, bounds = bounds, nsf = nsf)
 
   if (use_ema == "yes" && sum(ok) < 3) {
     stop("According to EMA the profiles must comprise a minimum of 3 time\n",

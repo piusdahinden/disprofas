@@ -486,7 +486,7 @@ plot_mztia <- function(x, ...) {
   # Reference group points: grey; test group points: red; lines: various colours
   t_colours <-
     c(c("red", "grey80")[as.numeric(levels(d_res$grouping) == reference) + 1],
-      c("royalblue", "cornsilk4", "darkorange1", "red1"))
+      c("royalblue", "olivedrab3", "darkorange1", "red1"))
 
   # Reference group: filled circles; test group: crosses; lines: .
   t_symbols <-

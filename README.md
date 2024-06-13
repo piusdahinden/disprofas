@@ -248,18 +248,11 @@ summary(res3)
 *Example 4* illustrates the tolerance interval approach proposed by
 Martinez & Zhao (2018) using the data set that was used in *Example 1*.
 In the graphical representation of the data, the data points of the
-reference batch are shown as <span style="color:#CCCCCC;">grey
-dots</span>
-(<span style="color:#CCCCCC;"><font size="4">●</font></span>), the data
-points of the test batch as <span style="color:#FF0000;">red
-crosses</span>
-(<span style="color:#FF0000;"><font size="2">✕</font></span>), the
-average time course is shown as <span style="color:#4169E1;">blue
-line</span> and the associated tolerance interval limits (*TL*) as
-<span style="color:#9ACD32;">green</span>,
-<span style="color:#FF7F00;">orange</span> and
-<span style="color:#FF0000;">red</span> lines that are drawn at *TL*,
-*TL* ± S1 (5%) and *TL* ± S2 (15%), respectively.
+reference batch are shown as grey dots, the data points of the test
+batch as red crosses, the average time course is shown as blue line and
+the associated tolerance interval limits (*TL*) as green, orange and red
+lines that are drawn at *TL*, *TL* ± S1 (5%) and *TL* ± S2 (15%),
+respectively.
 
 ``` r
 library(disprofas)
@@ -384,9 +377,9 @@ res2$Parameters
 
 Since in the current example we have a two-dimensional situation, the
 results can be illustrated graphically. Based on the reference batch
-parameter estimates, a (1 − *signif*)100% confidence region (*CR*) can
-be constructed. All points on this *CR* have the same Mahalanobis
-distance. This distance sets the upper confidence limit (*UCL*).
+parameter estimates, a (1−*signif*)100% confidence region (*CR*) can be
+constructed. All points on this *CR* have the same Mahalanobis distance.
+This distance sets the upper confidence limit (*UCL*).
 
 ``` r
 # Stretch factor
@@ -438,19 +431,11 @@ dip7[is_out, ]
 ```
 
 These results are displayed graphically in the following figure. The
-points of the reference batches are shown as
-<span style="color:#4169E1;">blue circles</span>
-(<span style="color:#4169E1;"><font size="2">**◯**</font></span>) and
-the points of the test batch as <span style="color:#FF0000;">red
-crosses</span>
-(<span style="color:#FF0000;"><font size="2">**✕**</font></span>). The
-*CR* boundary is shown as <span style="color:#4169E1;">blue
-ellipse</span>. The bold blue diamond
-(<span style="color:#4169E1;"><font size="4">**◇**</font></span>)
-represents the centre point of the ellipse. The points that have been
-identified to lie outside the *CR* are highlighted by
-<span style="color:#FFD700;">yellow greek crosses</span>
-(<span style="color:#FFD700;"><font size ="3">✛</font></span>).
+points of the reference batches are shown as blue circles and the points
+of the test batch as red crosses. The *CR* boundary is shown as blue
+ellipse. The bold blue diamond represents the centre point of the
+ellipse. The points that have been identified to lie outside the *CR*
+are highlighted by yellow greek crosses.
 
 ``` r
 op <- par(mar = c(2.5, 2.5, 1.2, 0.5), mgp = c(1.5, 0.5, 0), lwd = 1.5)
@@ -538,7 +523,7 @@ res1maj$Parameters
 
 Since in the current example we have a two-dimensional situation, the
 results can be illustrated graphically. Based on the reference batch
-parameter estimates, a (1 − *signif*)100% confidence region (*CR*) or
+parameter estimates, a (1−*signif*)100% confidence region (*CR*) or
 similarity region, as it is called in the article from Sathe, Tsong &
 Shah (1996), can be constructed. All points on this *CR* have the same
 Mahalanobis distance. The distance obtained with the *CR* of the
@@ -614,22 +599,14 @@ d_dat[is_out, ]
 Finally, the results collected above are displayed graphically for
 illustration. The black rectangle represents the *3 STD Similarity
 Region* as shown in Figure 4 in the article from Sathe, Tsong & Shah
-(1996). The points of the reference batch are shown as
-<span style="color:#4169E1;">blue circles</span>
-(<span style="color:#4169E1;"><font size="2">**◯**</font></span>), the
-points of the minor modification batch as
-<span style="color:#00FF00;">green crosses</span>
-(<span style="color:#00FF00;"><font size="2">✕</font></span>) and the
-points of the major modification batch as
-<span style="color:#EE00EE;">magenta crosses</span>
-(<span style="color:#EE00EE;"><font size="2">✕</font></span>). The *CR*
-boundaries are shown as ellipses that are coloured according to the
-corresponding data points. The bold diamonds
-(<font size="4">**◇**</font>) coloured according to the corresponding
+(1996). The points of the reference batch are shown as blue circles, the
+points of the minor modification batch as green crosses and the points
+of the major modification batch as magenta crosses. The *CR* boundaries
+are shown as ellipses that are coloured according to the corresponding
+data points. The bold diamonds coloured according to the corresponding
 data points represent the centre points of the ellipses. The points that
 have been identified to lie outside the *CR* of the reference batch are
-highlighted by <span style="color:#FFD700;">yellow greek crosses</span>
-(<span style="color:#FFD700;"><font size ="3">✛</font></span>).
+highlighted by yellow greek crosses.
 
 ``` r
 op <- par(mar = c(2.5, 2.5, 1.2, 0.5), mgp = c(1.5, 0.5, 0), lwd = 1.5)

@@ -3,8 +3,12 @@
 ^LICENSE\.md$
 ^cran-comments\.md$
 ^cran-comments\.Rmd$
+^README\.md$
 ^README\.Rmd$
 ^CRAN-RELEASE$
 ^revdep$
 ^\.github$
 ^CRAN-SUBMISSION$
+.gitignore
+.Rbuildignore
+.Rhistory

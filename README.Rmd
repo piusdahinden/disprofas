@@ -120,7 +120,7 @@ plot(ggres4)
 
 
 #### Example 5a
-In *Example 5a*, the data set shown in Table 4 of Tsong, Hammerstrom & Chen (1997) is used which contains the Weibull parameter estimates obtained from fitting of Weibull curves to the cumulative dissolution profiles of individual tablets of three reference batches and one test batch of *n* = 12 tablets each. First, a one-sample *T*^2^-test is performed with the Weibull parameters of the reference group only, followed by a two-sample *T*^2^-test to compare the Weibull parameters of the reference batches withe the Weibull parameters of the test batch.
+In *Example 5a*, the data set shown in Table 4 of Tsong, Hammerstrom & Chen (1997) is used which contains the Weibull parameter estimates obtained from fitting of Weibull curves to the cumulative dissolution profiles of individual tablets of three reference batches and one test batch of *n* = 12 tablets each. First, a one-sample *T*^2^-test is performed with the Weibull parameters of the reference group only, followed by a two-sample *T*^2^-test to compare the Weibull parameters of the reference batches with the Weibull parameters of the test batch.
 
 ``` {r example-5a-step-1, message = FALSE}
 library(disprofas)
@@ -203,7 +203,7 @@ op <- par(mar = c(2.5, 2.5, 1.2, 0.5), mgp = c(1.5, 0.5, 0), lwd = 1.5)
 
 
 #### Example 5b
-In *Example 5b*, the data set shown in Table III of Sathe, Tsong & Shah (1996) is used which contains the Weibull parameter estimates obtained from fitting of Weibull curves to the cumulative dissolution profiles of individual tablets of one reference batch and one test / post-change batch with a minor modification and a second test / post-change batch with a major modification, *n* = 12 tablets each. One-sample *T*^2^-tests are performed with the Weibull parameters of the reference and the two test groups separatley.
+In *Example 5b*, the data set shown in Table III of Sathe, Tsong & Shah (1996) is used which contains the Weibull parameter estimates obtained from fitting of Weibull curves to the cumulative dissolution profiles of individual tablets of one reference batch and one test / post-change batch with a minor modification and a second test / post-change batch with a major modification, *n* = 12 tablets each. One-sample *T*^2^-tests are performed with the Weibull parameters of the reference and the two test groups separately.
 
 ``` {r example-5b-step-1, message = FALSE}
 library(disprofas)

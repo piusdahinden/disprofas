@@ -42,6 +42,7 @@ Shah et al. (1998), Table 4).
 
 ``` r
 library(disprofas)
+#> Warning: Paket 'disprofas' wurde unter R Version 4.6.0 erstellt
 
 # Data frame
 str(dip2)
@@ -54,9 +55,6 @@ str(dip2)
 #>  $ t.60  : num  58.6 59.5 62.3 62.3 53.6 63.2 61.3 61.8 58 59.2 ...
 #>  $ t.90  : num  80 80.8 83 81.3 72.6 83 80 80.4 76.9 79.3 ...
 #>  $ t.180 : num  93.3 95.7 97.1 92.8 88.8 97.4 96.8 98.6 93.3 94 ...
-```
-
-``` r
 
 # Perform estimation and print a summary
 res1 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
@@ -65,9 +63,6 @@ res1 <- bootstrap_f2(data = dip2[dip2$batch %in% c("b0", "b4"), ],
 
 class(res1)
 #> [1] "bootstrap_f2"
-```
-
-``` r
 summary(res1)
 #> 
 #> STRATIFIED BOOTSTRAP
@@ -101,9 +96,6 @@ summary(res1)
 #> 
 #> Shah's lower 90% BCa confidence interval:
 #>  48.64613
-```
-
-``` r
 
 # Prepare a graphical representation
 plot(res1)
@@ -137,18 +129,12 @@ str(dip3)
 #>  $ x.15 : num  49 15 56 57 6 62 23 11 9 42 ...
 #>  $ x.20 : num  86 59 84 87 58 90 71 64 61 81 ...
 #>  $ x.25 : num  98 96 96 99 90 97 97 92 88 96 ...
-```
-
-``` r
 
 # Perform estimation and print a summary
 res2 <- mimcr(data = dip3, tcol = 4:6, grouping = "batch")
 
 class(res2)
 #> [1] "mimcr"
-```
-
-``` r
 summary(res2)
 #> 
 #> Results of Model-Independent Multivariate Confidence Region (MIMCR) 
@@ -204,9 +190,6 @@ str(dip4)
 #>  $ x.10: num  30 10 32 50 16 17 47 37 41 42 ...
 #>  $ x.20: num  76 59 77 90 64 77 87 83 82 78 ...
 #>  $ x.30: num  97 96 97 98 95 96 98 98 98 98 ...
-```
-
-``` r
 
 # Perform estimation and print a summary
 res3 <- mimcr(data = dip4, tcol = 2:4, grouping = "type")
@@ -270,9 +253,6 @@ str(dip1)
 #>  $ t.60  : num  85.7 83.3 83.9 85 86.9 ...
 #>  $ t.90  : num  93.1 88 86.8 88 89.7 ...
 #>  $ t.120 : num  94.2 89.6 90.1 93.4 90.8 ...
-```
-
-``` r
 
 # Perform estimation and print a summary
 res4 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
@@ -280,9 +260,6 @@ res4 <- mztia(data = dip1, shape = "wide", tcol = 3:10, grouping = "type",
 
 class(res4)
 #> [1] "mztia"
-```
-
-``` r
 summary(res4)
 #> 
 #> Results of Martinez & Zhao Tolerance Interval (TI) Approach
@@ -300,17 +277,11 @@ summary(res4)
 #> 
 #> Abbreviations:
 #> TL: Tolerance Interval Limit (TL); LTL: lower TL; UTL: upper TL; S1: level 1 boundary (LTL - ) or (UTL + ); S2: level 2 boundary (LTL - ) or (UTL + ).
-```
-
-``` r
 
 # Prepare a graphical representation
 ggres4 <- plot_mztia(res4)
 class(ggres4)
 #> [1] "plot_mztia"
-```
-
-``` r
 plot(ggres4)
 ```
 
@@ -331,7 +302,7 @@ profiles of individual tablets of three reference batches and one test
 batch of *n* = 12 tablets each. First, a one-sample *T*<sup>2</sup>-test
 is performed with the Weibull parameters of the reference group only,
 followed by a two-sample *T*<sup>2</sup>-test to compare the Weibull
-parameters of the reference batches withe the Weibull parameters of the
+parameters of the reference batches with the Weibull parameters of the
 test batch.
 
 ``` r
@@ -344,9 +315,6 @@ str(dip7)
 #>  $ type  : Factor w/ 2 levels "ref","test": 1 1 1 1 1 1 1 1 1 1 ...
 #>  $ alpha : num  0.583 0.496 0.571 0.579 0.593 ...
 #>  $ beta  : num  0.555 0.655 0.489 0.588 0.485 ...
-```
-
-``` r
 t_param <- c("alpha", "beta")
 
 # One-sample T2 test with only the reference data
@@ -365,9 +333,6 @@ res1$Parameters
 #>   3.027907   2.000000  34.000000   0.050000  17.485714  36.000000 330.055950 
 #>          F     F.crit     t.crit        p.F 
 #> 160.312890   3.275898   2.341969   0.000000
-```
-
-``` r
 res2$Parameters
 #>           dm          df1          df2       signif            K            k 
 #> 3.247275e+00 2.000000e+00 4.500000e+01 5.000000e-02 4.402174e+00 9.000000e+00 
@@ -465,7 +430,7 @@ individual tablets of one reference batch and one test / post-change
 batch with a minor modification and a second test / post-change batch
 with a major modification, *n* = 12 tablets each. One-sample
 *T*<sup>2</sup>-tests are performed with the Weibull parameters of the
-reference and the two test groups separatley.
+reference and the two test groups separately.
 
 ``` r
 library(disprofas)
@@ -476,9 +441,6 @@ str(dip8)
 #>  $ type  : Factor w/ 3 levels "major","minor",..: 3 3 3 3 3 3 3 3 3 3 ...
 #>  $ alpha : num  1.1 1.02 1.06 1.03 1.53 ...
 #>  $ beta  : num  1.27 1.19 1.09 1.09 1.12 ...
-```
-
-``` r
 
 d_dat <- dip8
 d_dat[, c("alpha", "beta")] <- log(d_dat[, c("alpha", "beta")])
@@ -503,17 +465,11 @@ res1ref$Parameters
 #>  0.000000  2.000000 10.000000  0.050000  5.454545 12.000000  0.000000  0.000000 
 #>    F.crit    t.crit       p.F 
 #>  4.102821  2.593093  1.000000
-```
-
-``` r
 res1min$Parameters
 #>        dm       df1       df2    signif         K         k        T2         F 
 #>  0.000000  2.000000 10.000000  0.050000  5.454545 12.000000  0.000000  0.000000 
 #>    F.crit    t.crit       p.F 
 #>  4.102821  2.593093  1.000000
-```
-
-``` r
 res1maj$Parameters
 #>        dm       df1       df2    signif         K         k        T2         F 
 #>  0.000000  2.000000 10.000000  0.050000  5.454545 12.000000  0.000000  0.000000 
